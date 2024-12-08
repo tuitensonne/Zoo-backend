@@ -10,7 +10,6 @@ export class PhieuNhapThucAnService {
 
   async create(createPhieuNhapThucAnDto: CreatePhieuNhapThucAnDto) {
     const connection = await this.pool.getConnection();
-
     try {
       const {
         cccd,
@@ -22,9 +21,9 @@ export class PhieuNhapThucAnService {
         so_luong,
         nguon_goc_xuat_xu,
       } = createPhieuNhapThucAnDto;
-
+      
       // Gọi procedure add_phieu_nhap_thuc_an
-      await connection.query(
+      const result =  connection.query(
         'CALL add_phieu_nhap_thuc_an(?, ?, ?, ?, ?, ?, ?, ?)',
         [
           cccd,
@@ -38,7 +37,8 @@ export class PhieuNhapThucAnService {
         ],
       );
 
-      return { message: 'Request Successfully!' };
+      await result;
+      return { message: 'Request Successfully!',  data: result };
     } catch (error) {
       throw new InternalServerErrorException({
         message: 'ERROR!!!!',
@@ -77,6 +77,26 @@ export class PhieuNhapThucAnService {
       // Gọi procedure get_phieu_nhap_thuc_an_theo_id
       const [rows] = await connection.query(
         'CALL get_phieu_nhap_thuc_an_theo_id(?)',
+        [id],
+      );
+
+      return { message: 'Request Successfully!', data: rows[0] };
+    } catch (error) {
+      throw new InternalServerErrorException({
+        message: 'ERROR!!!!',
+        details: error.message,
+      });
+    } finally {
+      connection.release();
+    }
+  }
+
+  async findOneTA(id: number) {
+    const connection = await this.pool.getConnection();
+
+    try {
+      const [rows] = await connection.query(
+        'CALL get_thuc_an_theo_id(?)',
         [id],
       );
 
