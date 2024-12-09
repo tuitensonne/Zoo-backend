@@ -8,6 +8,6 @@ export class CreatePhieuNhapThucAnDto {
 
     so_luong: number;
     nguon_goc_xuat_xu: string;
-    ngay_het_han: Date;
+    ngay_het_han: string;
     ngay_nhap: Date;
 }
