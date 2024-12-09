@@ -12,7 +12,7 @@ export class PhieuNhapThucAnService {
     const connection = await this.pool.getConnection();
     try {
       const {
-        cccd,
+        cccd, 
         ID_ben_cung_cap_thuc_an,
         ten_thuc_an,
         ham_luong_dinh_duong,
@@ -36,12 +36,13 @@ export class PhieuNhapThucAnService {
           nguon_goc_xuat_xu,
         ],
       );
-
       await result;
-      return { message: 'Request Successfully!',  data: result };
+      console.log(result)
+      return { message: 'Request Successfully!'};
     } catch (error) {
+      console.log(error.message)
       throw new InternalServerErrorException({
-        message: 'ERROR!!!!',
+        message: 'Oh no!!!!',
         details: error.message,
       });
     } finally {
@@ -49,14 +50,14 @@ export class PhieuNhapThucAnService {
     }
   }
 
-  async findPNByPage(offsetPage: number) {
+  async findPNByPage(id: number) {
     const connection = await this.pool.getConnection();
 
     try {
       // Gọi procedure get_cac_phieu_nhap_thuc_an
       const [rows] = await connection.query(
         'CALL get_cac_phieu_nhap_thuc_an(?)',
-        [offsetPage],
+        [id],
       );
 
       return { message: 'Request Successfully!', data: rows[0] };
