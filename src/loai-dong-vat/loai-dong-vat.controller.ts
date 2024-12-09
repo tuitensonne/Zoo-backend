@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { LoaiDongVatService } from './loai-dong-vat.service';
 import { CreateLoaiDongVatDto } from './dto/create-loai-dong-vat.dto';
 import { UpdateLoaiDongVatDto } from './dto/update-loai-dong-vat.dto';
@@ -13,7 +13,7 @@ export class LoaiDongVatController {
   }
 
   @Get()
-  findOne(@Param('ten_khoa_hoc') ten_khoa_hoc: string) {
+  findOne(@Query('ten_khoa_hoc') ten_khoa_hoc: string) {
     return this.LoaiDongVatService.findOne(ten_khoa_hoc);
   }
 
