@@ -8,7 +8,7 @@ dotenv.config({ path: 'sensitive.env' });
 @Global()
 @Module({
   providers: [
-    {
+    { 
       provide: 'DATABASE_POOL',
       useFactory: async () => {
         try {

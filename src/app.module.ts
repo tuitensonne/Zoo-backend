@@ -13,8 +13,17 @@ import { HoSoSucKhoeModule } from './ho-so-suc-khoe/ho-so-suc-khoe.module';
 import { LichSuDieuTriModule } from './lich-su-dieu-tri/lich-su-dieu-tri.module';
 import { LichSuTiemChungModule } from './lich-su-tiem-chung/lich-su-tiem-chung.module';
 @Module({
-  imports: [DatabaseModule, LoaiDongVatModule, PhieuNhapThucAnModule, NhanvienModule, KhuVucNuoiModule, PhieuNhapDongVatModule, PhieuXuatDongVatModule,TaoPhieuXuatDongVatModule],
-
-})
-
+  imports: [DatabaseModule, 
+            LoaiDongVatModule, 
+            PhieuNhapThucAnModule, 
+            NhanvienModule, 
+            KhuVucNuoiModule, 
+            PhieuNhapDongVatModule, 
+            PhieuXuatDongVatModule,
+            TaoPhieuXuatDongVatModule,
+            HoSoSucKhoeModule,
+            LichSuDieuTriModule,
+            LichSuTiemChungModule],
+}) 
+ 
 export class AppModule {} 
