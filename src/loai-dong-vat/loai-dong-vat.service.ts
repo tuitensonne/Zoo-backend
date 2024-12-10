@@ -49,9 +49,27 @@ export class LoaiDongVatService {
   findAll() {
     return `This action returns all loaiDongVat`;
   }
-
+  
   findOne(ten_khoa_hoc: string) {
     return `This action returns a #${ten_khoa_hoc} loaiDongVat`;
+  }
+
+  async getAllLDV() {
+    const connection = await this.pool.getConnection();
+
+    try {
+      const [rows] = await connection.query(
+        'CALL get_loai_dong_vat_list()'
+      );
+      return { message: 'Request Successfully!', data: rows[0] };
+    } catch (error) {
+      throw new InternalServerErrorException({
+        message: 'ERROR!!!!',
+        details: error.message,
+      });
+    } finally {
+      connection.release();
+    }
   }
 
   update(id: number, updateLoaiDongVatDto: UpdateLoaiDongVatDto) {

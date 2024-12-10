@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Query, Param, Delete } from '@nestjs/common';
 import { PhieuNhapThucAnService } from './phieu-nhap-thuc-an.service';
 import { CreatePhieuNhapThucAnDto } from './dto/create-phieu-nhap-thuc-an.dto';
 
@@ -13,12 +13,22 @@ export class PhieuNhapThucAnController {
   }
 
   @Get()
-  findPNByPage(@Body('offsetPage') offsetPage: number) {
-    return this.phieuNhapThucAnService.findPNByPage(offsetPage);
+  findAllPhieuNhapThucAn(
+    @Query('page') page: number = 0,
+    @Query('limit') limit: number = 10
+  ) {
+    return this.phieuNhapThucAnService.findPNByPage(page, limit);
   }
 
-  @Get('/id')
-  findOnePN(@Body('id') id: number) {
+  @Get('/total-pages')
+  findNumberOfPN(
+    @Query('limit') limit: number = 10
+  ) {
+    return this.phieuNhapThucAnService.findNumberOfPagePN(limit);
+  }
+
+  @Get(':id')
+  findOnePN(@Param('id') id: number) {
     return this.phieuNhapThucAnService.findOnePN(id);
   }
 

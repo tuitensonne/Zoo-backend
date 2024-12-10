@@ -9,7 +9,8 @@ import { PhieuNhapThucAnController } from './phieu-nhap-thuc-an.controller';
 export class PhieuNhapThucAnModule {
   configure(consumer: MiddlewareConsumer) {
     consumer
-      .apply(ValidateRequest )
-      .forRoutes('*');
-  }
+
+      .apply(ValidateRequest)
+      .forRoutes({ path: 'phieu-nhap-thuc-an/id', method: RequestMethod.POST });
+        }
 }

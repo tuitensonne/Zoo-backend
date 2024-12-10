@@ -1,48 +1,49 @@
-import { Pool } from 'mysql2/promise';
 import { Injectable, Inject, InternalServerErrorException } from '@nestjs/common';
-import { CreatePhieuNhapThucAnDto } from './dto/create-phieu-nhap-thuc-an.dto';
+import { Pool } from 'mysql2/promise';
+import { CreatePhieuNhapDongVatDto } from './dto/create-phieu_nhap_dong_vat.dto';
 
 @Injectable()
-export class PhieuNhapThucAnService {
+export class PhieuNhapDongVatService {
   constructor(
     @Inject('DATABASE_POOL') private readonly pool: Pool,
   ) {}
 
-  async create(createPhieuNhapThucAnDto: CreatePhieuNhapThucAnDto) {
+  async create(CreatePhieuNhapDongVatDto: CreatePhieuNhapDongVatDto) {
     const connection = await this.pool.getConnection();
     try {
       const {
         cccd,
-        ID_ben_cung_cap_thuc_an,
-        ten_thuc_an,
-        ham_luong_dinh_duong,
-        ngay_het_han,
-        ngay_nhap,
+        ID_so_thu,
+
+        ten_khoa_hoc,
+
         so_luong,
-        nguon_goc_xuat_xu,
-      } = createPhieuNhapThucAnDto;
+        ngay_nhap,
+
+        ly_do_nhap,
+      } = CreatePhieuNhapDongVatDto;
       
-      // Gọi procedure add_phieu_nhap_thuc_an
+      // Gọi procedure add_phieu_nhap_dong_vat
       const result =  connection.query(
-        'CALL add_phieu_nhap_thuc_an(?, ?, ?, ?, ?, ?, ?, ?)',
+        'CALL add_phieu_nhap_dong_vat(?, ?, ?, ?, ?, ?, ?, ?)',
         [
           cccd,
-          ID_ben_cung_cap_thuc_an,
-          ten_thuc_an,
-          ham_luong_dinh_duong,
-          ngay_het_han,
-          ngay_nhap,
+          ID_so_thu,
+  
+          ten_khoa_hoc,
+  
           so_luong,
-          nguon_goc_xuat_xu,
+          ngay_nhap,
+  
+          ly_do_nhap,
         ],
       );
-
       await result;
-
       return { message: 'Request Successfully!'};
     } catch (error) {
+      console.log(error.message)
       throw new InternalServerErrorException({
-        message: 'ERROR!!!!',
+        message: 'Oh no!!!!',
         details: error.message,
       });
     } finally {
@@ -56,8 +57,7 @@ export class PhieuNhapThucAnService {
  
     try {
       const [rows] = await connection.query(
-
-        'CALL get_all_phieu_nhap_thuc_an(?, ?)',
+        'CALL get_all_phieu_nhap_dong_vat(?, ?)',
         [offset, limit],
       );
 
@@ -76,9 +76,9 @@ export class PhieuNhapThucAnService {
     const connection = await this.pool.getConnection();
 
     try {
-      // Gọi procedure get_phieu_nhap_thuc_an_theo_id
+      // Gọi procedure get_phieu_nhap_dong_vat_theo_id
       const [rows] = await connection.query(
-        'CALL get_phieu_nhap_thuc_an_theo_id(?)',
+        'CALL get_phieu_nhap_dong_vat_theo_id(?)',
         [id],
       );
 
@@ -97,7 +97,7 @@ export class PhieuNhapThucAnService {
     const connection = await this.pool.getConnection();
     
     try {
-      const [rows] = await connection.query('SELECT get_number_of_phieu_nhap_thuc_an() AS recordCount');
+      const [rows] = await connection.query('SELECT get_number_of_phieu_nhap_dong_vat() AS recordCount');
       
       const totalRecords = rows[0].recordCount;
       const totalPages = Math.ceil(totalRecords / limit);
@@ -117,7 +117,7 @@ export class PhieuNhapThucAnService {
 
     try {
       const [rows] = await connection.query(
-        'CALL get_thuc_an_theo_id(?)',
+        'CALL get_dong_vat_theo_id(?)',
         [id],
       );
 
@@ -136,8 +136,8 @@ export class PhieuNhapThucAnService {
     const connection = await this.pool.getConnection();
 
     try {
-      // Gọi procedure delete_phieu_nhap_thuc_an_theo_id
-      await connection.query('CALL delete_phieu_nhap_thuc_an_theo_id(?)', [id]);
+      // Gọi procedure delete_phieu_nhap_dong_vat_theo_id
+      await connection.query('CALL delete_phieu_nhap_dong_vat_theo_id(?)', [id]);
 
       return { message: 'Request Successfully!' };
     } catch (error) {
@@ -149,5 +149,4 @@ export class PhieuNhapThucAnService {
       connection.release();
     }
   }
-  
 }
