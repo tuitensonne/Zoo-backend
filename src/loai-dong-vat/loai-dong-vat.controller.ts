@@ -17,6 +17,11 @@ export class LoaiDongVatController {
     return this.LoaiDongVatService.findOne(ten_khoa_hoc);
   }
 
+  @Get('/getallLDV')
+  getAllLDV() {
+    return this.LoaiDongVatService.getAllLDV();
+  }
+
   @Get('test')
   findAll() {
     return "hello";
