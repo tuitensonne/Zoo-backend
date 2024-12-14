@@ -1,24 +1,19 @@
 import { Pool } from 'mysql2/promise';
 import { Injectable, Inject, InternalServerErrorException } from '@nestjs/common';
-import { UpdateNhanvienDto } from './dto/update-nhanvien.dto';
 
 @Injectable()
-export class NhanvienService {
+export class DoiTacService {
   constructor(
     @Inject('DATABASE_POOL') private readonly pool: Pool,
   ) {}
 
-  findAll() {
-    return `This action returns all nhanvien`;
-  }
-
-  async findOneNV(cccd: string) {
+  async findAllSoThu() {
     const connection = await this.pool.getConnection();
-
+ 
     try {
       const [rows] = await connection.query(
-        'CALL get_nv_van_phong_theo_cccd(?)',
-        [cccd],
+
+        'CALL get_all_doi_tac_so_thu()'
       );
 
       return { message: 'Request Successfully!', data: rows[0] };
@@ -32,11 +27,23 @@ export class NhanvienService {
     }
   }
 
-  update(id: number, updateNhanvienDto: UpdateNhanvienDto) {
-    return `This action updates a #${id} nhanvien`;
-  }
+  async findAllDTThucAn() {
+    const connection = await this.pool.getConnection();
+ 
+    try {
+      const [rows] = await connection.query(
 
-  remove(id: number) {
-    return `This action removes a #${id} nhanvien`;
+        'CALL get_all_doi_tac_thuc_an()'
+      );
+
+      return { message: 'Request Successfully!', data: rows[0] };
+    } catch (error) {
+      throw new InternalServerErrorException({
+        message: 'ERROR!!!!',
+        details: error.message,
+      });
+    } finally {
+      connection.release();
+    }
   }
 }

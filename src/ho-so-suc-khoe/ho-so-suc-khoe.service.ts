@@ -23,14 +23,14 @@ export class HoSoSucKhoeService {
     try {
       // Tính toán offset và limit cho phân trang
       const offset = (page - 1) * pageSize;
-
+      
       // Thực hiện truy vấn với phân trang
       const [rows] = await connection.query(
         'CALL get_all_ho_so_suc_khoe(?, ?, ?, ?)',
         [offset, pageSize, searchId, searchName],
       );
       const rowsData = rows[0];
-
+      
       if (Array.isArray(rowsData)) {
         const result: GetHoSoSucKhoeDto[] = rowsData.map((row) => ({
           id_ho_so_suc_khoe: row.id_hssk,
@@ -41,14 +41,14 @@ export class HoSoSucKhoeService {
           chieu_cao: row.chieu_cao,
           can_nang: row.can_nang,
         }));
-
+        
         //Tinh tong so ban ghi
         // Thực hiện truy vấn với phân trang
         const [totalCountRows] = await connection.query(
           'SELECT get_total_ho_so_suc_khoe(?, ?) AS total_count',
           [searchId, searchName],
         );
-
+        
         const totalRecords = totalCountRows[0]
           ? totalCountRows[0].total_count
           : 0;
@@ -78,7 +78,7 @@ export class HoSoSucKhoeService {
   async findOne(ID_ho_so_suc_khoe: string) {
     const connection = await this.pool.getConnection();
 
-    try {
+    try { 
       const [rows] = await connection.query(
         'CALL get_ho_so_suc_khoe_chi_tiet(?)',
         [ID_ho_so_suc_khoe],

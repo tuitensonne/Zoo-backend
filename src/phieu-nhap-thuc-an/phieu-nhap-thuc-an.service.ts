@@ -38,7 +38,6 @@ export class PhieuNhapThucAnService {
       );
 
       await result;
-
       return { message: 'Request Successfully!'};
     } catch (error) {
       throw new InternalServerErrorException({

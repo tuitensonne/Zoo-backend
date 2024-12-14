@@ -27,23 +27,26 @@ export class KhuVucNuoiController {
     return this.khuVucNuoiService.findNumberOfPageKVN(limit);
   }
 
+  @Get('/list')
+  findKVNList() {
+    return this.khuVucNuoiService.findKVNList();
+  }
+
+  @Patch(':id')
+  updateTrangThai(
+    @Param('id') id_kv: number,
+    @Body('trang_thai_hoat_dong') trang_thai_hoat_dong: string,
+  ) {
+      return this.khuVucNuoiService.update(id_kv, trang_thai_hoat_dong);
+  }
+
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id') id: string) { 
     return this.khuVucNuoiService.findOne(+id);
   }
 
-
-
-
-
-
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateKhuVucNuoiDto: UpdateKhuVucNuoiDto) {
-    return this.khuVucNuoiService.update(+id, updateKhuVucNuoiDto);
-  }
-
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.khuVucNuoiService.remove(+id);
+  removeById(@Param('id') id: number) {
+    return this.khuVucNuoiService.remove(id);
   }
 }

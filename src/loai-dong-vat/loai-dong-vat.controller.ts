@@ -1,6 +1,6 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 import { LoaiDongVatService } from './loai-dong-vat.service';
-import { CreateLoaiDongVatDto } from './dto/create-loai-dong-vat.dto';
+import { CreateCaTheDto, CreateLoaiDongVatDto, CreateNhomDto } from './dto/create-loai-dong-vat.dto';
 import { UpdateLoaiDongVatDto } from './dto/update-loai-dong-vat.dto';
 
 @Controller('loai-dong-vat')
@@ -12,19 +12,32 @@ export class LoaiDongVatController {
     return this.LoaiDongVatService.create(createLoaiDongVatDto)
   }
 
+  @Post('create/cathe')
+  createCT(@Body() createCaTheDto: CreateCaTheDto) {
+    return this.LoaiDongVatService.createCT(createCaTheDto)
+  }
+
+  @Post('create/nhom')
+  createNhom(@Body() createNhomDto: CreateNhomDto) {
+    return this.LoaiDongVatService.createNhom(createNhomDto)
+  }
+
+  @Get('/cathe')
+  getAllCT(
+    @Query('ten_khoa_hoc') ten_khoa_hoc: string = "",
+    @Query('gioi_tinh') gioi_tinh: string ="0"
+  ) {
+    return this.LoaiDongVatService.getAllCT(ten_khoa_hoc, +gioi_tinh)
+  }
+
   @Get()
   findOne(@Query('ten_khoa_hoc') ten_khoa_hoc: string) {
     return this.LoaiDongVatService.findOne(ten_khoa_hoc);
   }
-
+  
   @Get('/getallLDV')
   getAllLDV() {
     return this.LoaiDongVatService.getAllLDV();
-  }
-
-  @Get('test')
-  findAll() {
-    return "hello";
   }
 
   @Patch(':id')

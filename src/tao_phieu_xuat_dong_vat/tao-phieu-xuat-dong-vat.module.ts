@@ -5,5 +5,5 @@ import { TaoPhieuXuatDongVatController } from './tao-phieu-xuat-dong-vat.control
 @Module({
   controllers: [TaoPhieuXuatDongVatController],
   providers: [TaoPhieuXuatDongVatService],
-})
-export class TaoPhieuXuatDongVatModule {}
+}) 
+export class TaoPhieuXuatDongVatModule {}  

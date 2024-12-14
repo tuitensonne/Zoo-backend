@@ -36,7 +36,6 @@ export class LichSuTiemChungService {
         ],
       );
 
-      //console.log('Rows from database:', result);
 
       // Kiểm tra affectedRows (nếu không tồn tại, throw error)
       if (!result || result.affectedRows === 0) {

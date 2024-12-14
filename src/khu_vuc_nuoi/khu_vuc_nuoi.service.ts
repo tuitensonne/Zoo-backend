@@ -11,7 +11,6 @@ export class KhuVucNuoiService {
   
   async create(createKhuVucNuoiDto: CreateKhuVucNuoiDto) {
     const connection = await this.pool.getConnection();
-    console.log(createKhuVucNuoiDto)
     try {
       const {
           vi_tri,
@@ -65,6 +64,24 @@ export class KhuVucNuoiService {
     }
   }
 
+  async findKVNList() {
+    const connection = await this.pool.getConnection();
+    try {
+      const [rows] = await connection.query(
+        'CALL get_list_khu_vuc_nuoi()'
+      );
+
+      return { message: 'Request Successfully!', data: rows[0] };
+    } catch (error) {
+      throw new InternalServerErrorException({
+        message: 'ERROR!!!!',
+        details: error.message,
+      });
+    } finally {
+      connection.release();
+    }
+  }
+
   async findOne(id: number) {
     const connection = await this.pool.getConnection();
     try {
@@ -105,11 +122,44 @@ export class KhuVucNuoiService {
     }
   }
 
-  update(id: number, updateKhuVucNuoiDto: UpdateKhuVucNuoiDto) {
-    return `This action updates a #${id} khuVucNuoi`;
+  async update(id_kv: number, trang_thai_hoat_dong: string){
+    const connection = await this.pool.getConnection();
+    
+    try {
+      const [rows] = await connection.query(
+        'CALL update_trang_thai_kv(?, ?)',
+        [
+          id_kv, 
+          trang_thai_hoat_dong
+        ],
+      );
+      
+      return { message: 'Request Successfully!'};
+    } catch (error) {
+      throw new InternalServerErrorException({
+        message: 'ERROR!!!!',
+        details: error.message,
+      });
+    } finally {
+      connection.release();
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} khuVucNuoi`;
+  async remove(id: number) {
+    const connection = await this.pool.getConnection();
+
+    try {
+      // Gọi procedure delete_phieu_nhap_thuc_an_theo_id
+      await connection.query('CALL delete_khu_vuc_nuoi_theo_id(?)', [id]);
+
+      return { message: 'Request Successfully!' };
+    } catch (error) {
+      throw new InternalServerErrorException({
+        message: 'ERROR!!!!',
+        details: error.message,
+      });
+    } finally {
+      connection.release();
+    }
   }
 }

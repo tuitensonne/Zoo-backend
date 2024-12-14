@@ -31,11 +31,6 @@ export class PhieuNhapDongVatController {
     return this.phieuNhapDongVatService.findOnePN(id);
   }
 
-  @Get('/thucan')
-  findOneTA(@Body('id') id: number) {
-    return this.phieuNhapDongVatService.findOneTA(id);
-  } 
-
   @Delete('/id')
   removeById(@Body('id') id: number) {
     return this.phieuNhapDongVatService.remove(id);

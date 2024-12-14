@@ -37,8 +37,8 @@ export class PhieuNhapThucAnController {
     return this.phieuNhapThucAnService.findOneTA(id);
   }
 
-  @Delete('/id')
-  removeById(@Body('id') id: number) {
+  @Delete(':id')
+  removeById(@Param('id') id: number) {
     return this.phieuNhapThucAnService.remove(id);
   }
 }

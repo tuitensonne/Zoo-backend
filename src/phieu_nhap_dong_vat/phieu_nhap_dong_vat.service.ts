@@ -8,7 +8,7 @@ export class PhieuNhapDongVatService {
     @Inject('DATABASE_POOL') private readonly pool: Pool,
   ) {}
 
-  async create(CreatePhieuNhapDongVatDto: CreatePhieuNhapDongVatDto) {
+  async create(createPhieuNhapDongVatDto: CreatePhieuNhapDongVatDto) {
     const connection = await this.pool.getConnection();
     try {
       const {
@@ -21,19 +21,18 @@ export class PhieuNhapDongVatService {
         ngay_nhap,
 
         ly_do_nhap,
-      } = CreatePhieuNhapDongVatDto;
-      
+      } = createPhieuNhapDongVatDto;
       // Gọi procedure add_phieu_nhap_dong_vat
       const result =  connection.query(
-        'CALL add_phieu_nhap_dong_vat(?, ?, ?, ?, ?, ?, ?, ?)',
-        [
+        'CALL add_phieu_nhap_dong_vat(?, ?, ?, ?, ?, ?)',
+        [ 
           cccd,
           ID_so_thu,
   
           ten_khoa_hoc,
   
-          so_luong,
           ngay_nhap,
+          so_luong,
   
           ly_do_nhap,
         ],
@@ -43,7 +42,7 @@ export class PhieuNhapDongVatService {
     } catch (error) {
       console.log(error.message)
       throw new InternalServerErrorException({
-        message: 'Oh no!!!!',
+        message: 'ERROR!!!!',
         details: error.message,
       });
     } finally {

@@ -103,8 +103,7 @@ export class TaoPhieuXuatDongVatService {
       } = TaoPhieuXuatDongVatctDto;
   
       // Log giá trị của id_ct để kiểm tra
-      // console.log('Received id_ct:', id_ct);
-  
+      // console.log('Received id_ct:', id_ct); 
       // Kiểm tra xem CCCD có tồn tại trong bảng nhanvien_vanphong không
       const cccdExists = await this.checkCccdExists(cccd);
       if (!cccdExists) {
@@ -113,7 +112,7 @@ export class TaoPhieuXuatDongVatService {
           details: `Không tìm thấy CCCD: ${cccd}`,
         });
       }
-  
+      
       // Kiểm tra id_ct có phải là mảng không
       if (!Array.isArray(id_ct)) {
         throw new InternalServerErrorException({
