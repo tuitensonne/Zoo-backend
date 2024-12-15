@@ -601,7 +601,7 @@ ADD FOREIGN KEY (ten_khoa_hoc)
 
 
 -- -----------------------------------------------------------------Function --
-DELIMITER $$
+DELIMITER //
 
 CREATE FUNCTION get_number_of_khu_vuc_nuoi()
 RETURNS INT
@@ -613,7 +613,7 @@ BEGIN
     FROM khu_vuc_nuoi;
 
     RETURN recordCount;
-END$$
+END//
 
 DELIMITER ;
 
@@ -663,7 +663,7 @@ END//
 DELIMITER ;
 
 
-DELIMITER $$
+DELIMITER //
 
 CREATE FUNCTION get_number_of_phieu_nhap_dong_vat()
 RETURNS INT
@@ -675,12 +675,11 @@ BEGIN
     FROM phieu_nhap_dong_vat;
 
     RETURN recordCount;
-END$$
+END//
 
 DELIMITER ;
 
-
-DELIMITER $$
+DELIMITER //
 
 CREATE FUNCTION get_total_ho_so_suc_khoe(
     searchId INT,    -- Tham số tìm kiếm theo ID
@@ -702,13 +701,13 @@ BEGIN
            ) LIKE CONCAT('%', searchName, '%'));
 
     RETURN total;
-END$$
+END//
 
 DELIMITER ;
 
 -- ---------------------------------------------------------------------------------Trigger --
 -- Ràng buộc disjoint cho đối tác
-DELIMITER $$
+DELIMITER //
 CREATE TRIGGER trg_disjoint_dt_so_thu
 BEFORE INSERT ON dt_so_thu
 FOR EACH ROW
@@ -723,10 +722,10 @@ BEGIN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'id_dt không thuộc đối tác sở thú';
     END IF;
-END $$
+END //
 DELIMITER ;
 
-DELIMITER $$
+DELIMITER //
 CREATE TRIGGER trg_disjoint_dt_cung_cap_thuc_an
 BEFORE INSERT ON dt_cung_cap_thuc_an
 FOR EACH ROW
@@ -741,11 +740,11 @@ BEGIN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'id_dt không thuộc đối tác cung cấp thức ăn';
     END IF;
-END $$
+END //
 
 DELIMITER ;
 
-DELIMITER $$
+DELIMITER //
 CREATE TRIGGER trg_disjoint_dt_vien_nghien_cuu
 BEFORE INSERT ON dt_vien_nghien_cuu
 FOR EACH ROW
@@ -761,12 +760,12 @@ BEGIN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'id_dt không thuộc đối tác viện nghiên cứu';
     END IF;
-END $$
+END //
 
 DELIMITER ;
 
 -- Ràng buộc disjoint cho phiếu nhập
-DELIMITER $$
+DELIMITER //
 
 CREATE TRIGGER trg_disjoint_pn_thuc_an
 BEFORE INSERT ON phieu_nhap_thuc_an
@@ -782,10 +781,10 @@ BEGIN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'id_pn không thuộc phiếu nhập thức ăn';
     END IF;
-END $$
+END //
 DELIMITER ;
 
-DELIMITER $$
+DELIMITER //
 
 CREATE TRIGGER trg_disjoint_pn_dong_vat
 BEFORE INSERT ON phieu_nhap_dong_vat
@@ -801,11 +800,11 @@ BEGIN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'id_pn không thuộc phiếu nhập động vật';
     END IF;
-END $$
+END //
 DELIMITER ;
 
 -- Ràng buộc disjoint cho nhân viên
-DELIMITER $$
+DELIMITER //
 
 CREATE TRIGGER trg_disjoint_nv_van_phong
 BEFORE INSERT ON nv_van_phong
@@ -820,10 +819,10 @@ BEGIN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'cccd không thuộc nhân viên văn phòng';
     END IF;
-END $$
+END //
 DELIMITER ;
 
-DELIMITER $$
+DELIMITER //
 
 CREATE TRIGGER trg_disjoint_nv_cham_soc
 BEFORE INSERT ON nv_cham_soc
@@ -838,11 +837,11 @@ BEGIN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'cccd không thuộc nhân viên chăm sóc';
     END IF;
-END $$
+END //
 
 DELIMITER ;
 
-DELIMITER $$
+DELIMITER //
 
 CREATE TRIGGER trg_disjoint_nv_thu_y
 BEFORE INSERT ON nv_thu_y
@@ -858,12 +857,12 @@ BEGIN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'cccd không thuộc nhân viên thú y';
     END IF;
-END $$
+END //
 
 DELIMITER ;
 
 -- Ràng buộc tạo khóa chính cho mẫu vật
-DELIMITER $$
+DELIMITER //
 
 CREATE TRIGGER trg_primary_key_mau_vat
 BEFORE INSERT ON mau_vat
@@ -872,7 +871,7 @@ BEGIN
     DECLARE new_id VARCHAR(10);
     DECLARE max_id INT;
     
-    SELECT IFNULL(MAX(CAST(SUBSTRING(id_px, 3) AS UNSIGNED)), 0) + 1
+    SELECT IFNULL(MAX(CAST(SUBSTRING(id_mv, 3) AS UNSIGNED)), 0) + 1
     INTO max_id
     FROM mau_vat;
     
@@ -886,7 +885,7 @@ BEGIN
     
     -- Gán giá trị id_mv mới vào bản ghi
     SET NEW.id_mv = new_id;
-END $$
+END //
 DELIMITER ;
 
 -- Ràng buộc kiểm tra loại môi trường khi thêm cá thể 
@@ -896,11 +895,11 @@ CREATE TRIGGER trg_kiem_tra_loai_moi_truong_song_ct
 BEFORE INSERT ON ca_the
 FOR EACH ROW
 BEGIN
-    DECLARE loai_moi_truong_ldv VARCHAR(50);
+    DECLARE loai_moi_truong_loai_dong_vat VARCHAR(50);
     DECLARE loai_moi_truong_khu_vuc VARCHAR(50);
     DECLARE trang_thai_khu_vuc VARCHAR(10);
     
-    SELECT loai_moi_truong_song INTO loai_moi_truong_ldv
+    SELECT loai_moi_truong_song INTO loai_moi_truong_loai_dong_vat
     FROM loai_dong_vat
     WHERE ten_khoa_hoc = NEW.ten_khoa_hoc;
 
@@ -912,7 +911,7 @@ BEGIN
     FROM khu_vuc_nuoi
     WHERE id_kv = NEW.id_kv;
 
-    IF loai_moi_truong_ldv != loai_moi_truong_khu_vuc THEN
+    IF loai_moi_truong_loai_dong_vat != loai_moi_truong_khu_vuc THEN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Môi trường sống của loài động vật và khu vực nuôi không khớp!';
     END IF;
@@ -950,11 +949,11 @@ CREATE TRIGGER trg_kiem_tra_loai_moi_truong_song_nhom
 BEFORE INSERT ON nhom
 FOR EACH ROW
 BEGIN
-    DECLARE loai_moi_truong_ldv VARCHAR(50);
+    DECLARE loai_moi_truong_loai_dong_vat VARCHAR(50);
     DECLARE loai_moi_truong_khu_vuc VARCHAR(50);
     DECLARE trang_thai_khu_vuc VARCHAR(10);
     
-    SELECT loai_moi_truong_song INTO loai_moi_truong_ldv
+    SELECT loai_moi_truong_song INTO loai_moi_truong_loai_dong_vat
     FROM loai_dong_vat
     WHERE ten_khoa_hoc = NEW.ten_khoa_hoc;
 
@@ -966,7 +965,7 @@ BEGIN
     FROM khu_vuc_nuoi
     WHERE id_kv = NEW.id_kv;
     
-    IF loai_moi_truong_ldv != loai_moi_truong_khu_vuc THEN
+    IF loai_moi_truong_loai_dong_vat != loai_moi_truong_khu_vuc THEN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Môi trường sống của loài động vật và khu vực nuôi không khớp!';
     END IF;
@@ -1018,6 +1017,19 @@ BEGIN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Kẻ săn mồi và con mồi không thể tồn tại trong cùng khu vực nuôi!';
     END IF;
+	
+    SELECT COUNT(*)
+    INTO conflict_count
+    FROM nhom AS prey
+    JOIN san_moi
+    ON NEW.ten_khoa_hoc = san_moi.ten_khoa_hoc_sm 
+    AND prey.ten_khoa_hoc = san_moi.ten_khoa_hoc_cm 
+    WHERE prey.id_kv = NEW.id_kv;
+
+    IF conflict_count > 0 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Kẻ săn mồi và con mồi không thể tồn tại trong cùng khu vực nuôi!';
+    END IF;
 
     SELECT COUNT(*)
     INTO conflict_count
@@ -1031,9 +1043,23 @@ BEGIN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Kẻ săn mồi và con mồi không thể tồn tại trong cùng khu vực nuôi!';
     END IF;
+    
+        SELECT COUNT(*)
+    INTO conflict_count
+    FROM nhom AS predator
+    JOIN san_moi
+    ON NEW.ten_khoa_hoc = san_moi.ten_khoa_hoc_cm 
+    AND predator.ten_khoa_hoc = san_moi.ten_khoa_hoc_sm
+    WHERE predator.id_kv = NEW.id_kv;
+
+    IF conflict_count > 0 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Kẻ săn mồi và con mồi không thể tồn tại trong cùng khu vực nuôi!';
+    END IF;
 END; //
 
 DELIMITER;
+
 
 -- Các loài động vật mà là “con mồi” của loài khác trong quan hệ đệ quy “ăn” thì không thể ở chung một khu vực nuôi.
 DELIMITER //
@@ -1056,7 +1082,20 @@ BEGIN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Kẻ săn mồi và con mồi không thể tồn tại trong cùng khu vực nuôi!';
     END IF;
+	
+	SELECT COUNT(*)
+    INTO conflict_count
+    FROM ca_the AS prey
+    JOIN san_moi
+    ON NEW.ten_khoa_hoc = san_moi.ten_khoa_hoc_sm 
+    AND prey.ten_khoa_hoc = san_moi.ten_khoa_hoc_cm 
+    WHERE prey.id_kv = NEW.id_kv;
 
+    IF conflict_count > 0 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Kẻ săn mồi và con mồi không thể tồn tại trong cùng khu vực nuôi!';
+    END IF;
+    
     SELECT COUNT(*)
     INTO conflict_count
     FROM nhom AS predator
@@ -1069,9 +1108,22 @@ BEGIN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Kẻ săn mồi và con mồi không thể tồn tại trong cùng khu vực nuôi!';
     END IF;
+    
+    SELECT COUNT(*)
+    INTO conflict_count
+    FROM ca_the AS predator
+    JOIN san_moi
+    ON NEW.ten_khoa_hoc = san_moi.ten_khoa_hoc_cm 
+    AND predator.ten_khoa_hoc = san_moi.ten_khoa_hoc_sm
+    WHERE predator.id_kv = NEW.id_kv;
+
+    IF conflict_count > 0 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Kẻ săn mồi và con mồi không thể tồn tại trong cùng khu vực nuôi!';
+    END IF;
 END; //
 
-DELIMITER $$
+DELIMITER //
 
 DELIMITER //
 
@@ -1096,21 +1148,29 @@ DELIMITER ;
 DELIMITER //
 
 -- Khi thêm phiếu xuất loài động vật thì số lượng trong loài động vật phải giảm thêm
-CREATE TRIGGER trg_thay_doi_so_luong_loai_dong_vat_px
+
+CREATE TRIGGER update_so_luong_xuat_loai_dong_vat
 AFTER INSERT ON phieu_xuat_dong_vat
 FOR EACH ROW
 BEGIN
-    DECLARE p_so_luong INT;
+    DECLARE current_quantity INT;
 
-    SELECT so_luong INTO p_so_luong 
-    FROM phieu_nhap 
-    WHERE id_px = NEW.id_px;
+    -- Lấy số lượng hiện tại của loài động vật trong bảng loai_dong_vat
+    SELECT so_luong INTO current_quantity
+    FROM loai_dong_vat
+    WHERE ten_khoa_hoc = NEW.ten_khoa_hoc;
 
+    -- Kiểm tra nếu số lượng hiện tại nhỏ hơn số lượng xuất
+    IF current_quantity < NEW.so_luong THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Số lượng động vật xuất vượt quá số lượng hiện có trong hệ thống!';
+    END IF;
+
+    -- Cập nhật số lượng loài động vật trong bảng loai_dong_vat
     UPDATE loai_dong_vat
-    SET so_luong = so_luong - p_so_luong
+    SET so_luong = current_quantity - NEW.so_luong
     WHERE ten_khoa_hoc = NEW.ten_khoa_hoc;
 END; //
-
 DELIMITER ;
 
 DELIMITER //
@@ -1217,7 +1277,7 @@ BEGIN
     FROM loai_dong_vat WHERE so_luong = 0;
 END //
 
-CREATE PROCEDURE get_all_ct_of_ldv(
+CREATE PROCEDURE get_all_ct_of_loai_dong_vat(
 	IN p_ten_khoa_hoc VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
     IN p_gioi_tinh VARCHAR(10)CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci 
 )
@@ -1225,84 +1285,6 @@ BEGIN
     -- Truy vấn để lấy danh sách ten_khoa_hoc
     SELECT id_ct FROM ca_the WHERE ten_khoa_hoc = p_ten_khoa_hoc AND gioi_tinh = p_gioi_tinh;
 END //
-
-CREATE PROCEDURE add_ca_the(
-    IN p_id_kv INT,                 
-    IN p_id_hssk INT,           
-    IN p_ten_khoa_hoc VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
-    IN p_id_ct_cha INT,  
-    IN p_ten_khoa_hoc_cha VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
-    IN p_id_ct_me INT,      
-    IN p_ten_khoa_hoc_me VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci, 
-    IN p_tuoi INT,                  -- Tuổi
-    IN p_adn VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,         
-    IN p_gioi_tinh VARCHAR(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,   
-    IN p_trang_thai VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci   
-)
-BEGIN
-    -- Kiểm tra id_kv tồn tại
-    IF NOT EXISTS (SELECT 1 FROM khu_vuc_nuoi WHERE id_kv = p_id_kv) THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'ID khu vực không tồn tại.';
-    END IF;
-
-    -- Kiểm tra id_hssk tồn tại
-    IF NOT EXISTS (SELECT 1 FROM ho_so_suc_khoe WHERE id_hssk = p_id_hssk) THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'ID hồ sơ sức khỏe không tồn tại.';
-    END IF;
-
-    -- Kiểm tra id_ct_cha tồn tại (nếu không NULL)
-    IF p_id_ct_cha IS NOT NULL AND NOT EXISTS (SELECT 1 FROM ca_the WHERE id_ct = p_id_ct_cha AND ten_khoa_hoc = p_ten_khoa_hoc_cha) THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'ID cá thể cha không tồn tại hoặc không khớp tên khoa học.';
-    END IF;
-
-    -- Kiểm tra id_ct_me tồn tại (nếu không NULL)
-    IF p_id_ct_me IS NOT NULL AND NOT EXISTS (SELECT 1 FROM ca_the WHERE id_ct = p_id_ct_me AND ten_khoa_hoc = p_ten_khoa_hoc_me) THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'ID cá thể mẹ không tồn tại hoặc không khớp tên khoa học.';
-    END IF;
-
-    -- Thêm cá thể mới vào bảng ca_the
-    INSERT INTO ca_the (
-        id_kv, id_hssk, ten_khoa_hoc, ten_khoa_hoc_cha, id_ct_cha, ten_khoa_hoc_me, id_ct_me, tuoi, adn, gioi_tinh, trang_thai
-    )
-    VALUES (
-        p_id_kv, p_id_hssk, p_ten_khoa_hoc, p_ten_khoa_hoc_cha, p_id_ct_cha, p_ten_khoa_hoc_me, p_id_ct_me, p_tuoi, p_adn, p_gioi_tinh, p_trang_thai
-    );
-
-END //
-
-CREATE PROCEDURE add_nhom(
-    IN p_id_kv INT,
-    IN p_id_hssk INT,
-    IN p_ten_khoa_hoc VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
-    IN p_so_luong INT
-)
-BEGIN
-	-- Kiểm tra id_kv tồn tại
-    IF NOT EXISTS (SELECT 1 FROM khu_vuc_nuoi WHERE id_kv = p_id_kv) THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'ID khu vực không tồn tại.';
-    END IF;
-
-    -- Kiểm tra id_hssk tồn tại
-    IF NOT EXISTS (SELECT 1 FROM ho_so_suc_khoe WHERE id_hssk = p_id_hssk) THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'ID hồ sơ sức khỏe không tồn tại.';
-    END IF;
-
-    -- Kiểm tra nếu số lượng phải lớn hơn hoặc bằng 0
-    IF p_so_luong < 0 THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Số lượng phải lớn hơn hoặc bằng 0';
-    ELSE
-        -- Chèn nhóm vào bảng nhom
-        INSERT INTO nhom (id_kv, id_hssk, ten_khoa_hoc, so_luong)
-        VALUES (p_id_kv, p_id_hssk, p_ten_khoa_hoc, p_so_luong);
-    END IF;
-END//
 
 -- Procedure của phiếu nhập thức ăn
 CREATE PROCEDURE add_phieu_nhap_thuc_an(     
@@ -1418,14 +1400,24 @@ BEGIN
     WHERE id_pn = p_id_pn;
 END //
 
--- Procedure của phiếu nhập động vật
-CREATE PROCEDURE add_phieu_nhap_dong_vat(     
+-- Procedure của phiếu nhập động vật cá thể
+CREATE PROCEDURE add_phieu_nhap_dong_vat_ct(     
     IN p_cccd CHAR(12) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,     
     IN p_id_so_thu INT,     
     IN p_ten_khoa_hoc VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,     
     IN p_ngay_nhap DATE,     
     IN p_so_luong INT,     
-    IN p_ly_do_nhap VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci 
+    IN p_ly_do_nhap VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+    IN p_id_kv INT,                 
+    IN p_id_hssk INT,           
+    IN p_id_ct_cha INT,  
+    IN p_ten_khoa_hoc_cha VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+    IN p_id_ct_me INT,      
+    IN p_ten_khoa_hoc_me VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci, 
+    IN p_tuoi INT,                  -- Tuổi
+    IN p_adn VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,         
+    IN p_gioi_tinh VARCHAR(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,   
+    IN p_trang_thai VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci   
 ) 
 BEGIN 
     DECLARE last_insert_id INT; 
@@ -1464,7 +1456,114 @@ BEGIN
         SIGNAL SQLSTATE '45000' 
         SET MESSAGE_TEXT = 'Không thể chèn dữ liệu vào bảng phieu_nhap_dong_vat.'; 
     END IF; 
+	
+    -- Kiểm tra id_kv tồn tại
+    IF NOT EXISTS (SELECT 1 FROM khu_vuc_nuoi WHERE id_kv = p_id_kv) THEN
+		ROLLBACK;
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'ID khu vực không tồn tại.';
+    END IF;
 
+    -- Kiểm tra id_hssk tồn tại
+    IF NOT EXISTS (SELECT 1 FROM ho_so_suc_khoe WHERE id_hssk = p_id_hssk) THEN
+		ROLLBACK;
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'ID hồ sơ sức khỏe không tồn tại.';
+    END IF;
+
+    -- Kiểm tra id_ct_cha tồn tại (nếu không NULL)
+    IF p_id_ct_cha IS NOT NULL AND NOT EXISTS (SELECT 1 FROM ca_the WHERE id_ct = p_id_ct_cha AND ten_khoa_hoc = p_ten_khoa_hoc_cha) THEN
+		ROLLBACK;
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'ID cá thể cha không tồn tại hoặc không khớp tên khoa học.';
+    END IF;
+
+    -- Kiểm tra id_ct_me tồn tại (nếu không NULL)
+    IF p_id_ct_me IS NOT NULL AND NOT EXISTS (SELECT 1 FROM ca_the WHERE id_ct = p_id_ct_me AND ten_khoa_hoc = p_ten_khoa_hoc_me) THEN
+        ROLLBACK;
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'ID cá thể mẹ không tồn tại hoặc không khớp tên khoa học.';
+    END IF;
+
+    -- Thêm cá thể mới vào bảng ca_the
+    INSERT INTO ca_the (
+        id_kv, id_hssk, ten_khoa_hoc, ten_khoa_hoc_cha, id_ct_cha, ten_khoa_hoc_me, id_ct_me, tuoi, adn, gioi_tinh, trang_thai
+    )
+    VALUES (
+        p_id_kv, p_id_hssk, p_ten_khoa_hoc, p_ten_khoa_hoc_cha, p_id_ct_cha, p_ten_khoa_hoc_me, p_id_ct_me, p_tuoi, p_adn, p_gioi_tinh, p_trang_thai
+    );
+    COMMIT; 
+END //
+
+CREATE PROCEDURE add_phieu_nhap_dong_vat_nhom(     
+    IN p_cccd CHAR(12) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,     
+    IN p_id_so_thu INT,     
+    IN p_ten_khoa_hoc VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,     
+    IN p_ngay_nhap DATE,     
+    IN p_so_luong INT,     
+    IN p_ly_do_nhap VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+    IN p_id_kv INT,
+    IN p_id_hssk INT
+) 
+BEGIN 
+    DECLARE last_insert_id INT; 
+
+    -- Bắt đầu giao dịch 
+    START TRANSACTION; 
+
+    IF NOT EXISTS (SELECT 1 FROM dt_so_thu WHERE id_dt = p_id_so_thu) OR p_id_so_thu != NULL THEN 
+		ROLLBACK;
+        SIGNAL SQLSTATE '45000' 
+        SET MESSAGE_TEXT = 'Đối tác không tồn tại.'; 
+    END IF; 
+
+    IF NOT EXISTS (SELECT 1 FROM nv_van_phong WHERE cccd = p_cccd) THEN 
+		ROLLBACK;
+        SIGNAL SQLSTATE '45000' 
+        SET MESSAGE_TEXT = 'Nhân viên không tồn tại.'; 
+    END IF; 
+
+    INSERT INTO phieu_nhap (ngay_nhap, so_luong, cccd, loai_phieu_nhap) 
+    VALUES (p_ngay_nhap, p_so_luong, p_cccd, 'phiếu nhập động vật'); 
+
+    SET last_insert_id = LAST_INSERT_ID(); 
+
+    IF last_insert_id IS NULL THEN 
+		ROLLBACK;
+        SIGNAL SQLSTATE '45000' 
+        SET MESSAGE_TEXT = 'Không thể chèn dữ liệu vào bảng phieu_nhap.'; 
+    END IF; 
+
+    INSERT INTO phieu_nhap_dong_vat (id_pn, ly_do_nhap, id_dt, ten_khoa_hoc) 
+    VALUES (last_insert_id, p_ly_do_nhap, p_id_so_thu, p_ten_khoa_hoc); 
+
+    IF ROW_COUNT() = 0 THEN 
+		ROLLBACK;
+        SIGNAL SQLSTATE '45000' 
+        SET MESSAGE_TEXT = 'Không thể chèn dữ liệu vào bảng phieu_nhap_dong_vat.'; 
+    END IF; 
+	
+    IF NOT EXISTS (SELECT 1 FROM khu_vuc_nuoi WHERE id_kv = p_id_kv) THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'ID khu vực không tồn tại.';
+    END IF;
+
+    -- Kiểm tra id_hssk tồn tại
+    IF NOT EXISTS (SELECT 1 FROM ho_so_suc_khoe WHERE id_hssk = p_id_hssk) THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'ID hồ sơ sức khỏe không tồn tại.';
+    END IF;
+
+    -- Kiểm tra nếu số lượng phải lớn hơn hoặc bằng 0
+    IF p_so_luong < 0 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Số lượng phải lớn hơn hoặc bằng 0';
+    ELSE
+        -- Chèn nhóm vào bảng nhom
+        INSERT INTO nhom (id_kv, id_hssk, ten_khoa_hoc, so_luong)
+        VALUES (p_id_kv, p_id_hssk, p_ten_khoa_hoc, p_so_luong);
+    END IF;
+	
     -- Hoàn tất giao dịch 
     COMMIT; 
 END //
@@ -1781,9 +1880,325 @@ BEGIN
     );
 END //
 
+CREATE PROCEDURE create_lich_su_tiem_chung(
+    IN p_ID_ho_so_suc_khoe INT,
+    IN p_ngay_tiem DATE,
+    IN p_phuong_phap_tiem TEXT,
+    IN p_loai_vaccine TEXT,
+    IN p_lieu_luong INT,
+    IN p_phan_ung_sau_tiem TEXT
+)
+BEGIN
+    -- Kiểm tra xem ID hồ sơ sức khỏe có tồn tại không
+    IF NOT EXISTS (SELECT 1 FROM ho_so_suc_khoe WHERE id_hssk = p_ID_ho_so_suc_khoe) THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'ID hồ sơ sức khỏe không tồn tại';
+    ELSE
+        -- Nếu tồn tại, thực hiện thêm mới lịch sử tiêm chủng
+        INSERT INTO lich_su_tiem_chung (id_hssk, ngay_tiem_chung, phuong_phap_tiem, loai_vaccine, lieu_luong, phan_ung_sau_tiem) 
+        VALUES (p_ID_ho_so_suc_khoe, p_ngay_tiem, p_phuong_phap_tiem, p_loai_vaccine, p_lieu_luong, p_phan_ung_sau_tiem);
+    END IF;
+END //
+
 DELIMITER ;
 
-DELIMITER $$
+
+-- get all phieu xuat dv
+DELIMITER //
+CREATE PROCEDURE get_all_phieu_xuat_dong_vat()
+BEGIN
+    -- Kiểm tra nếu bảng phieu_xuat_dong_vat không có dữ liệu
+	IF (SELECT COUNT(*) FROM phieu_xuat_dong_vat) = 0 THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Không có phiếu xuất động vật nào';
+    END IF;
+
+    -- Kiểm tra nếu bảng loai_dong_vat không có loài động vật
+    IF (SELECT COUNT(*) FROM loai_dong_vat) = 0 THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Không có loài động vật nào trong hệ thống';
+    END IF;
+
+    -- Kiểm tra nếu bảng nv_van_phong không có nhân viên văn phòng
+    IF (SELECT COUNT(*) FROM nv_van_phong) = 0 THEN
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Không có nhân viên văn phòng nào';
+    END IF;
+
+    -- Lấy tất cả thông tin từ phieu_xuat_dong_vat
+    SELECT
+        px.id_px,
+        px.ten_khoa_hoc,
+        px.ngay_xuat,
+        px.so_luong,
+        px.ly_do_xuat,
+        px.id_dt,
+        nvv.cccd,  -- Sử dụng cccd từ bảng nv_van_phong
+        -- Xác định loại dựa trên sự tồn tại trong bảng nhóm hoặc cá thể
+        CASE
+            WHEN EXISTS (SELECT 1 FROM nhom WHERE nhom.ten_khoa_hoc = px.ten_khoa_hoc) THEN 1
+            WHEN EXISTS (SELECT 1 FROM ca_the WHERE ca_the.ten_khoa_hoc = px.ten_khoa_hoc) THEN 0
+            ELSE 'None'
+        END AS loai
+    FROM phieu_xuat_dong_vat px
+	LEFT JOIN loai_dong_vat ON px.ten_khoa_hoc = loai_dong_vat.ten_khoa_hoc
+    LEFT JOIN nv_van_phong nvv ON px.cccd = nvv.cccd
+    LEFT JOIN nhan_vien nv ON nvv.cccd = nv.cccd;
+END //
+DELIMITER ;
+
+
+
+
+
+
+
+-- get chi tiet phieu xuat dong vat
+
+DELIMITER //
+CREATE PROCEDURE get_phieu_xuat_dong_vat_chi_tiet(
+    IN p_id_px INT
+)
+BEGIN
+    -- Kiểm tra xem id_px có tồn tại trong bảng phieu_xuat_dong_vat hay không
+    DECLARE v_count INT;
+    
+    SELECT COUNT(*) INTO v_count
+    FROM phieu_xuat_dong_vat
+    WHERE id_px = p_id_px;
+
+    IF v_count = 0 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Phieu xuat dong vat khong ton tai';
+    ELSE
+        -- Lấy thông tin chi tiết phiếu xuất động vật
+        SELECT 
+            CONCAT(nv.ho, ' ', nv.ten) AS ten_nguoi_tao,  -- Kết hợp họ và tên
+            nv.dia_chi AS address,
+            nv.cccd,
+            px.id_dt,
+            dt.ten_doi_tac,
+            ld.ten_khoa_hoc,
+            ld.ten_loai,
+            ld.do_quy_hiem,
+            ld.loai_thuc_an,
+            ld.loai_moi_truong_song,
+            CASE
+				WHEN EXISTS (SELECT 1 FROM nhom WHERE nhom.ten_khoa_hoc = px.ten_khoa_hoc) THEN 1
+				WHEN EXISTS (SELECT 1 FROM ca_the WHERE ca_the.ten_khoa_hoc = px.ten_khoa_hoc) THEN 0
+				ELSE 'None'
+			END AS loai
+        FROM phieu_xuat_dong_vat px
+        JOIN nhan_vien nv ON px.cccd = nv.cccd
+        JOIN loai_dong_vat ld ON px.ten_khoa_hoc = ld.ten_khoa_hoc
+        JOIN doi_tac dt ON px.id_dt = dt.id_dt
+        WHERE px.id_px = p_id_px;
+    END IF;
+END //
+DELIMITER ;
+
+
+
+
+-- tao phieu xuat dong vat 
+DELIMITER //
+CREATE PROCEDURE tao_phieu_xuat_dong_vat(
+  IN ten_khoa_hoc VARCHAR(100),
+  IN so_luong INT,
+  IN ngay_xuat DATE,
+  IN ly_do_xuat VARCHAR(255),
+  IN id_doi_tac INT,
+  IN cccd VARCHAR(12)
+)
+BEGIN
+  -- Kiểm tra điều kiện `ten_khoa_hoc` có tồn tại trong bảng `loai_dong_vat`
+  IF NOT EXISTS (SELECT 1 FROM loai_dong_vat WHERE ten_khoa_hoc = ten_khoa_hoc) THEN
+    SIGNAL SQLSTATE '45000'
+    SET MESSAGE_TEXT = 'Tên khoa học không tồn tại trong bảng loai_dong_vat';
+  END IF;
+
+  -- Kiểm tra điều kiện `id_doi_tac` có tồn tại trong bảng `doi_tac`
+  IF NOT EXISTS (SELECT 1 FROM doi_tac WHERE id_dt = id_doi_tac) THEN
+    SIGNAL SQLSTATE '45000'
+    SET MESSAGE_TEXT = 'ID đối tác không tồn tại trong bảng doi_tac';
+  END IF;
+
+  -- Kiểm tra điều kiện `cccd` có tồn tại trong bảng `nv_van_phong`
+  IF NOT EXISTS (SELECT 1 FROM nv_van_phong WHERE cccd = cccd) THEN
+    SIGNAL SQLSTATE '45000'
+    SET MESSAGE_TEXT = 'CCCD không tồn tại trong bảng nv_van_phong';
+  END IF;
+
+  -- Kiểm tra các tham số đầu vào
+  IF ten_khoa_hoc IS NULL OR ten_khoa_hoc = '' THEN
+    SIGNAL SQLSTATE '45000'
+    SET MESSAGE_TEXT = 'Tên khoa học loài động vật không được để trống';
+  END IF;
+
+  IF so_luong <= 0 OR ngay_xuat IS NULL OR ly_do_xuat IS NULL OR ly_do_xuat = '' THEN
+    SIGNAL SQLSTATE '45000'
+    SET MESSAGE_TEXT = 'Các tham số không hợp lệ hoặc thiếu thông tin';
+  END IF;
+
+  -- Tiến hành thêm phiếu xuất động vật
+  INSERT INTO phieu_xuat_dong_vat (ngay_xuat, so_luong, ly_do_xuat, id_dt, ten_khoa_hoc, cccd)
+  VALUES (ngay_xuat, so_luong, ly_do_xuat, id_doi_tac, ten_khoa_hoc, cccd);
+
+  -- Trả về thông báo thành công
+  SELECT 'Phiếu xuất động vật đã được tạo thành công!' AS message;
+END//
+DELIMITER ;
+
+
+DROP PROCEDURE IF EXISTS get_nhom_info;
+-- lay thong tin cua nhom
+DELIMITER //
+CREATE PROCEDURE get_nhom_info()
+BEGIN
+    SELECT DISTINCT ten_khoa_hoc
+    FROM nhom;
+END //
+DELIMITER ;
+
+
+-- lay thong tin cua ca the
+DELIMITER //CREATE PROCEDURE get_ct_info()
+BEGIN
+    SELECT DISTINCT ten_khoa_hoc
+    FROM ct;
+END //
+DELIMITER ;
+-- lay thong tin cua doi tac
+DELIMITER //CREATE PROCEDURE get_ten_doi_tac_info()
+BEGIN
+    SELECT ten_doi_tac,id_dt
+    FROM doi_tac;
+END //
+DELIMITER ;
+
+
+
+-- get cccd by nhan vien van phong
+DELIMITER //
+CREATE PROCEDURE get_cccd_by_vanphong(IN input_cccd VARCHAR(12))
+BEGIN
+  DECLARE cccd_found VARCHAR(12);
+
+  -- Kiểm tra và lưu kết quả tìm thấy cccd
+  SELECT cccd INTO cccd_found
+  FROM nv_van_phong
+  WHERE cccd = input_cccd;
+
+  -- Nếu không tìm thấy, trả về thông báo lỗi hoặc giá trị NULL
+  IF cccd_found IS NULL THEN
+    SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'CCCD không tồn tại trong hệ thống';
+  ELSE
+    SELECT cccd_found AS cccd;
+  END IF;
+END//
+DELIMITER ;
+
+
+-- Hàm check số lượng xuat phai nho hon so luong cua nhom 
+DELIMITER //
+CREATE FUNCTION CheckSoluongnhomExportFunc(p_groupId INT, p_quantity INT) 
+RETURNS VARCHAR(255)
+READS SQL DATA
+BEGIN
+    DECLARE current_quantity INT;
+    DECLARE result VARCHAR(255);
+
+    SELECT so_luong INTO current_quantity
+    FROM nhom
+    WHERE id_n = p_groupId;
+
+    IF current_quantity IS NULL THEN
+        SET result = 'Nhóm không tồn tại!';
+    ELSEIF p_quantity > current_quantity THEN
+        SET result = 'Số lượng xuất vượt quá số lượng hiện có!';
+    ELSE
+        SET result = 'Có thể xuất!';
+    END IF;
+
+    RETURN result;
+END;
+//
+
+DELIMITER ;
+
+-- Check id nhom co thuoc loai_dong_vat ko (loai_dong_vat co id do ko)
+DELIMITER //
+
+CREATE FUNCTION CheckIdNhomExist(p_id_n INT, p_ten_khoa_hoc VARCHAR(100))
+RETURNS VARCHAR(255)
+READS SQL DATA
+BEGIN
+    DECLARE result VARCHAR(255);
+
+    -- Kiểm tra sự tồn tại của id_n và ten_khoa_hoc trong bảng nhom
+    SELECT COUNT(*) INTO result
+    FROM nhom
+    WHERE id_n = p_id_n AND ten_khoa_hoc = p_ten_khoa_hoc;
+
+    -- Nếu có ít nhất 1 dòng dữ liệu trả về "Tồn tại", nếu không trả về "Không tồn tại"
+    IF result > 0 THEN
+        SET result = 'Tồn tại';
+    ELSE
+        SET result = 'Không tồn tại';
+    END IF;
+
+    RETURN result;
+END //
+
+DELIMITER ;
+
+-- Check id ca_the có thuộc loai_dong_vat đó ko (check loai_dong_vat có id ca_the đó ko)
+
+DELIMITER //
+
+CREATE PROCEDURE CheckIdCtList(
+    IN p_id_ct_list VARCHAR(255), -- Danh sách ID ca_the (dạng chuỗi, cách nhau bởi dấu phẩy)
+    IN p_ten_khoa_hoc VARCHAR(100), -- Tên loài động vật
+    OUT p_result TEXT -- Kết quả trả về
+)
+BEGIN
+    DECLARE id_ct VARCHAR(50); -- Biến tạm để giữ từng ID ct
+    DECLARE idx INT DEFAULT 1; -- Vị trí phần tử trong chuỗi
+    DECLARE id_count INT DEFAULT 0; -- Số lượng ID ca_the hợp lệ
+    DECLARE total_count INT DEFAULT 0; -- Tổng số lượng ID ca_the trong danh sách
+    DECLARE result_text TEXT DEFAULT ''; -- Kết quả kiểm tra từng ID
+
+    -- Tính tổng số lượng ID ca_the trong danh sách
+    SET total_count = LENGTH(p_id_ct_list) - LENGTH(REPLACE(p_id_ct_list, ',', '')) + 1;
+
+    -- Tách danh sách ID ca_the và kiểm tra từng ID
+    WHILE idx <= total_count DO
+        -- Lấy ID ca_the hiện tại từ danh sách, tách theo dấu phẩy
+        SET id_ct = TRIM(SUBSTRING_INDEX(SUBSTRING_INDEX(p_id_ct_list, ',', idx), ',', -1));
+        
+        -- Kiểm tra ID ca_the có thuộc loài động vật không
+        SET id_count = (
+            SELECT COUNT(*)
+            FROM ct
+            WHERE ca_the.id_ct = id_ct AND ca_the.ten_khoa_hoc = p_ten_khoa_hoc
+        );
+
+        -- Thêm kết quả kiểm tra vào chuỗi kết quả
+        IF id_count > 0 THEN
+            SET result_text = CONCAT(result_text, id_ct, ': Tồn tại\n');
+        ELSE
+            SET result_text = CONCAT(result_text, id_ct, ': Không tồn tại\n');
+        END IF;
+
+        -- Tăng vị trí
+        SET idx = idx + 1;
+    END WHILE;
+
+    -- Gán chuỗi kết quả vào biến OUT
+    SET p_result = result_text;
+END //
+
+DELIMITER ;
+
+
+DELIMITER //
 
 -- ---------------------------------------------------------------------- Insert dữ liệu --
 INSERT INTO loai_dong_vat 
@@ -1991,6 +2406,13 @@ VALUES
     (6, 'Công viên Safari'),
     (7, 'Vườn thú mở'),
     (8, 'Sở thú chuyên biệt');
+
+INSERT INTO st_chuong_trinh_bao_ton (id_dt, chuong_trinh_bao_ton)
+VALUES
+(5, 'Bảo tồn tài nguyên biển và hải đảo'),
+(6, 'Bảo tồn di tích và kiến trúc cổ'),
+(7, 'Bảo tồn các loài thực vật quý hiếm'),
+(8, 'Bảo vệ môi trường và giảm thiểu ô nhiễm không khí');
     
 INSERT INTO dt_vien_nghien_cuu (id_dt, linh_vuc_nghien_cuu) VALUES
 	(9, 'Công nghệ sinh học'),
@@ -2076,9 +2498,3 @@ INSERT INTO cho_thue (id_dt, id_ct, ten_khoa_hoc, thoi_han) VALUES
 (7, 5, 'Python_molurus', 18),
 (8, 7, 'Ailuropoda_melanoleuca', 36);
 
-INSERT INTO st_chuong_trinh_bao_ton (id_dt, chuong_trinh_bao_ton)
-VALUES
-(5, 'Bảo tồn tài nguyên biển và hải đảo'),
-(6, 'Bảo tồn di tích và kiến trúc cổ'),
-(7, 'Bảo tồn các loài thực vật quý hiếm'),
-(8, 'Bảo vệ môi trường và giảm thiểu ô nhiễm không khí');
