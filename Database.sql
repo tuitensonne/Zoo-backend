@@ -1421,10 +1421,8 @@ CREATE PROCEDURE add_phieu_nhap_dong_vat_ct(
 ) 
 BEGIN 
     DECLARE last_insert_id INT; 
-
     -- Bắt đầu giao dịch 
     START TRANSACTION; 
-
     IF NOT EXISTS (SELECT 1 FROM dt_so_thu WHERE id_dt = p_id_so_thu) OR p_id_so_thu != NULL THEN 
 		ROLLBACK;
         SIGNAL SQLSTATE '45000' 
@@ -1463,7 +1461,7 @@ BEGIN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'ID khu vực không tồn tại.';
     END IF;
-
+    
     -- Kiểm tra id_hssk tồn tại
     IF NOT EXISTS (SELECT 1 FROM ho_so_suc_khoe WHERE id_hssk = p_id_hssk) THEN
 		ROLLBACK;
@@ -1472,14 +1470,16 @@ BEGIN
     END IF;
 
     -- Kiểm tra id_ct_cha tồn tại (nếu không NULL)
-    IF p_id_ct_cha IS NOT NULL AND NOT EXISTS (SELECT 1 FROM ca_the WHERE id_ct = p_id_ct_cha AND ten_khoa_hoc = p_ten_khoa_hoc_cha) THEN
+    IF p_id_ct_cha IS NOT NULL AND NOT EXISTS (SELECT 1 FROM ca_the 
+    WHERE id_ct = p_id_ct_cha AND ten_khoa_hoc = p_ten_khoa_hoc_cha) THEN
 		ROLLBACK;
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'ID cá thể cha không tồn tại hoặc không khớp tên khoa học.';
     END IF;
-
+    
     -- Kiểm tra id_ct_me tồn tại (nếu không NULL)
-    IF p_id_ct_me IS NOT NULL AND NOT EXISTS (SELECT 1 FROM ca_the WHERE id_ct = p_id_ct_me AND ten_khoa_hoc = p_ten_khoa_hoc_me) THEN
+    IF p_id_ct_me IS NOT NULL AND NOT EXISTS (SELECT 1 FROM ca_the 
+    WHERE id_ct = p_id_ct_me AND ten_khoa_hoc = p_ten_khoa_hoc_me) THEN
         ROLLBACK;
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'ID cá thể mẹ không tồn tại hoặc không khớp tên khoa học.';
@@ -1556,6 +1556,7 @@ BEGIN
 
     -- Kiểm tra nếu số lượng phải lớn hơn hoặc bằng 0
     IF p_so_luong < 0 THEN
+        ROLLBACK;
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Số lượng phải lớn hơn hoặc bằng 0';
     ELSE
@@ -1944,12 +1945,6 @@ BEGIN
 END //
 DELIMITER ;
 
-
-
-
-
-
-
 -- get chi tiet phieu xuat dong vat
 
 DELIMITER //
@@ -1993,9 +1988,6 @@ BEGIN
     END IF;
 END //
 DELIMITER ;
-
-
-
 
 -- tao phieu xuat dong vat 
 DELIMITER //
@@ -2196,9 +2188,6 @@ BEGIN
 END //
 
 DELIMITER ;
-
-
-DELIMITER //
 
 -- ---------------------------------------------------------------------- Insert dữ liệu --
 INSERT INTO loai_dong_vat 
@@ -2426,13 +2415,13 @@ INSERT INTO phieu_nhap (ngay_nhap, so_luong, loai_phieu_nhap, cccd) VALUES
 ('2024-12-01', 1, 'phiếu nhập động vật', '123456789001'),
 ('2024-12-01', 1, 'phiếu nhập động vật', '123456789001'),
 ('2024-12-02', 1, 'phiếu nhập động vật', '123456789001'),
-('2024-12-03', 15, 'phiếu nhập động vật', '123456789001'),
+('2024-12-03', 20, 'phiếu nhập động vật', '123456789001'),
 ('2024-12-04', 1, 'phiếu nhập động vật', '123456789002'),
 ('2024-12-04', 1, 'phiếu nhập động vật', '123456789002'),
 ('2024-12-04', 1, 'phiếu nhập động vật', '123456789002'),
-('2024-12-05', 12, 'phiếu nhập động vật', '123456789002'),
-('2024-12-05', 12, 'phiếu nhập động vật', '123456789001'),
-('2024-12-06', 10, 'phiếu nhập động vật', '123456789002'),
+('2024-12-05', 20, 'phiếu nhập động vật', '123456789002'),
+('2024-12-05', 20, 'phiếu nhập động vật', '123456789001'),
+('2024-12-06', 20, 'phiếu nhập động vật', '123456789002'),
 ('2024-12-06', 1, 'phiếu nhập động vật', '123456789002'),
 ('2024-12-06', 1, 'phiếu nhập động vật', '123456789002');
 
@@ -2498,3 +2487,18 @@ INSERT INTO cho_thue (id_dt, id_ct, ten_khoa_hoc, thoi_han) VALUES
 (7, 5, 'Python_molurus', 18),
 (8, 7, 'Ailuropoda_melanoleuca', 36);
 
+INSERT INTO phieu_xuat_dong_vat(ngay_xuat, so_luong, ly_do_xuat, id_dt, ten_khoa_hoc, cccd)
+VALUES
+('2024-12-01', 5, 'Xuất bán thương mại', 6, 'Giraffa_camelopardalis', '123456789001'),
+('2024-12-01', 8, 'Xuất bán thương mại', 6, 'Giraffa_camelopardalis', '123456789001'),
+('2024-12-01', 8, 'Xuất bán thương mại', 6, 'Equus_quagga', '123456789001'),
+('2024-12-01', 1, 'Cho thuê', 6, 'Ailuropoda_melanoleuca', '123456789002'),
+('2024-12-01', 10, 'Xuất bán thương mại', 6, 'Spheniscus_demersus', '123456789001');
+
+INSERT INTO mau_vat (ten_mau, loai_mau, tinh_trang_mau, ngay_thu_thap, ten_khoa_hoc, id_ct, id_dt) VALUES
+('Lông hổ', 'Lông', 'Tốt', '2024-01-15', 'Panthera_tigris', 1, 9),
+('Ngà voi', 'Xương', 'Tốt', '2024-02-10', 'Elephas_maximus', 3, 10),
+('Vảy trăn', 'Vảy', 'Tốt', '2024-03-05', 'Python_molurus', 5, NULL),
+('Lông gấu trúc', 'Lông', 'Tốt', '2024-04-18', 'Ailuropoda_melanoleuca', 7, 10),
+('Xương hổ', 'Xương', 'Đang phân hủy', '2024-08-12', 'Panthera_tigris', 2, 9),
+('Ngà voi nhỏ', 'Xương', 'Tốt', '2024-09-01', 'Elephas_maximus', 4, 11);
