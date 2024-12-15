@@ -8,5 +8,4 @@ export class NhanVienController {
   findAllNhanVien() {
     return this.nhanVienService.findAllNhanVienVanPhong();
   }
-
 }

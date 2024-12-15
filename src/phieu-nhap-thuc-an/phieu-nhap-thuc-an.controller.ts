@@ -9,7 +9,6 @@ export class PhieuNhapThucAnController {
   @Post()
   create(@Body() createPhieuNhapThucAnDto: CreatePhieuNhapThucAnDto) {
     return this.phieuNhapThucAnService.create(createPhieuNhapThucAnDto);
-
   }
 
   @Get()
@@ -30,11 +29,6 @@ export class PhieuNhapThucAnController {
   @Get(':id')
   findOnePN(@Param('id') id: number) {
     return this.phieuNhapThucAnService.findOnePN(id);
-  }
-
-  @Get('/thucan')
-  findOneTA(@Body('id') id: number) {
-    return this.phieuNhapThucAnService.findOneTA(id);
   }
 
   @Delete(':id')
