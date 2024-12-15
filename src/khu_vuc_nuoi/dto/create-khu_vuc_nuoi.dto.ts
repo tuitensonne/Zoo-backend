@@ -6,3 +6,5 @@ export class CreateKhuVucNuoiDto {
     chieu_cao: number;
     loai_moi_truong: string;
 }
+
+

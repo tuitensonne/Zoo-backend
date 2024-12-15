@@ -1,14 +1,72 @@
 import { Injectable, Inject, InternalServerErrorException } from '@nestjs/common';
 import { Pool } from 'mysql2/promise';
-import { CreatePhieuNhapDongVatDto } from './dto/create-phieu_nhap_dong_vat.dto';
+import { CreatePhieuNhapDongVatCTDto } from './dto/create-phieu_nhap_dong_vat.dto';
+import { CreatePhieuNhapDongVatNhomDto
 
+ } from './dto/create-phieu_nhap_dong_vat.dto';
 @Injectable()
 export class PhieuNhapDongVatService {
   constructor(
     @Inject('DATABASE_POOL') private readonly pool: Pool,
   ) {}
 
-  async create(createPhieuNhapDongVatDto: CreatePhieuNhapDongVatDto) {
+  async createCT(createPhieuNhapDongVatCTDto: CreatePhieuNhapDongVatCTDto) {
+    const connection = await this.pool.getConnection();
+    try {
+      const {
+        cccd,
+        ID_so_thu,
+        ten_khoa_hoc,
+        so_luong,
+        ngay_nhap,
+        ly_do_nhap,
+        id_kv,             
+        id_hssk,          
+        id_ct_cha,
+        ten_khoa_hoc_cha,
+        id_ct_me, 
+        ten_khoa_hoc_me,
+        tuoi,    
+        adn,       
+        gioi_tinh,
+        trang_thai,
+      } = createPhieuNhapDongVatCTDto;
+      // Gọi procedure add_phieu_nhap_dong_vat
+      const result =  connection.query(
+        'CALL add_phieu_nhap_dong_vat_ct(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+        [ 
+          cccd,     
+          ID_so_thu,     
+          ten_khoa_hoc,     
+          ngay_nhap,     
+          so_luong,     
+          ly_do_nhap,
+          id_kv,                 
+          id_hssk,           
+          id_ct_cha,  
+          ten_khoa_hoc_cha,
+          id_ct_me,      
+          ten_khoa_hoc_me, 
+          tuoi, 
+          adn,         
+          gioi_tinh,   
+          trang_thai   
+        ],
+      );
+      await result;
+      return { message: 'Request Successfully!'};
+    } catch (error) {
+      console.log(error)
+      throw new InternalServerErrorException({
+        message: 'ERROR!!!!',
+        details: error.message,
+      });
+    } finally {
+      connection.release();
+    }
+  }
+ 
+  async createNhom(createPhieuNhapDongVatNhomDto: CreatePhieuNhapDongVatNhomDto) {
     const connection = await this.pool.getConnection();
     try {
       const {
@@ -21,10 +79,12 @@ export class PhieuNhapDongVatService {
         ngay_nhap,
 
         ly_do_nhap,
-      } = createPhieuNhapDongVatDto;
+        id_kv,
+        id_hssk
+      } = createPhieuNhapDongVatNhomDto;
       // Gọi procedure add_phieu_nhap_dong_vat
       const result =  connection.query(
-        'CALL add_phieu_nhap_dong_vat(?, ?, ?, ?, ?, ?)',
+        'CALL add_phieu_nhap_dong_vat_nhom(?, ?, ?, ?, ?, ?, ?, ?)',
         [ 
           cccd,
           ID_so_thu,
@@ -35,12 +95,15 @@ export class PhieuNhapDongVatService {
           so_luong,
   
           ly_do_nhap,
+          id_kv,
+          id_hssk
         ],
       );
       await result;
       return { message: 'Request Successfully!'};
     } catch (error) {
-      console.log(error.message)
+      
+      console.log(error)
       throw new InternalServerErrorException({
         message: 'ERROR!!!!',
         details: error.message,
@@ -62,6 +125,7 @@ export class PhieuNhapDongVatService {
 
       return { message: 'Request Successfully!', data: rows[0] };
     } catch (error) {
+      console.log(error)
       throw new InternalServerErrorException({
         message: 'ERROR!!!!',
         details: error.message,
@@ -83,6 +147,7 @@ export class PhieuNhapDongVatService {
 
       return { message: 'Request Successfully!', data: rows[0] };
     } catch (error) {
+      console.log(error)
       throw new InternalServerErrorException({
         message: 'ERROR!!!!',
         details: error.message,
@@ -102,6 +167,7 @@ export class PhieuNhapDongVatService {
       const totalPages = Math.ceil(totalRecords / limit);
       return { message: 'Request Successfully!', data: totalPages};
     } catch (error) {
+      console.log(error)
       throw new InternalServerErrorException({
         message: 'ERROR!!!!',
         details: error.message,
@@ -122,6 +188,7 @@ export class PhieuNhapDongVatService {
 
       return { message: 'Request Successfully!', data: rows[0] };
     } catch (error) {
+      console.log(error)
       throw new InternalServerErrorException({
         message: 'ERROR!!!!',
         details: error.message,
@@ -140,6 +207,7 @@ export class PhieuNhapDongVatService {
 
       return { message: 'Request Successfully!' };
     } catch (error) {
+      console.log(error)
       throw new InternalServerErrorException({
         message: 'ERROR!!!!',
         details: error.message,

@@ -1,14 +1,20 @@
 import { Controller, Get, Post, Body, Query, Param, Delete } from '@nestjs/common';
 import { PhieuNhapDongVatService } from './phieu_nhap_dong_vat.service';
-import { CreatePhieuNhapDongVatDto } from './dto/create-phieu_nhap_dong_vat.dto';
+import { CreatePhieuNhapDongVatCTDto } from './dto/create-phieu_nhap_dong_vat.dto';
+import { CreatePhieuNhapDongVatNhomDto } from './dto/create-phieu_nhap_dong_vat.dto';
 
-@Controller('phieu-nhap-dong-vat')
+@Controller('phieu-nhap-dong-vat') 
 export class PhieuNhapDongVatController {
   constructor(private readonly phieuNhapDongVatService: PhieuNhapDongVatService) {}
 
-  @Post()
-  create(@Body() CreatePhieuNhapDongVatDto : CreatePhieuNhapDongVatDto ) {
-    return this.phieuNhapDongVatService.create(CreatePhieuNhapDongVatDto );
+  @Post('/cathe')
+  createCT(@Body() CreatePhieuNhapDongVatCTDto : CreatePhieuNhapDongVatCTDto ) {
+    return this.phieuNhapDongVatService.createCT(CreatePhieuNhapDongVatCTDto );
+  }
+
+  @Post('/nhom')
+  createNhom(@Body() CreatePhieuNhapDongVatNhomDto : CreatePhieuNhapDongVatNhomDto ) {
+    return this.phieuNhapDongVatService.createNhom(CreatePhieuNhapDongVatNhomDto );
   }
 
   @Get()
