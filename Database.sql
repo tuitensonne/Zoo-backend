@@ -2,13 +2,13 @@ CREATE TABLE loai_dong_vat (
     ten_khoa_hoc VARCHAR(50),
     ten_loai VARCHAR(50) NOT NULL,
     do_quy_hiem VARCHAR(50) NOT NULL,
-    loai_thuc_an VARCHAR(10) NOT NULL CHECK (loai_thuc_an IN ('ăn thịt', 'ăn cỏ', 'ăn tạp')),
+    loai_thuc_an VARCHAR(10) NOT NULL CHECK (loai_thuc_an IN ('an thit', 'an co', 'an tap')),
     thoi_gian_chu_ki INT NOT NULL,
     thoi_gian_mang_thai INT NOT NULL,
     so_luong INT NOT NULL DEFAULT 0,
-    loai_moi_truong_song VARCHAR(10) NOT NULL CHECK (loai_moi_truong_song IN ('trên cạn', 'dưới nước', 'cả hai')),
+    loai_moi_truong_song VARCHAR(10) NOT NULL CHECK (loai_moi_truong_song IN ('tren can', 'duoi nuoc', 'ca hai')),
     PRIMARY KEY (ten_khoa_hoc)
-) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+);
 
 CREATE TABLE san_moi (
     ten_khoa_hoc_sm VARCHAR(100) NOT NULL,
@@ -16,36 +16,30 @@ CREATE TABLE san_moi (
 
     PRIMARY KEY (ten_khoa_hoc_cm, ten_khoa_hoc_sm)
 
-) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+);
 
 CREATE TABLE khu_vuc_nuoi (
     id_kv INT AUTO_INCREMENT,
     vi_tri VARCHAR(50) NOT NULL,
     suc_chua_toi_da INT NOT NULL CHECK (suc_chua_toi_da > 0),
-    trang_thai_hoat_dong VARCHAR(10) NOT NULL CHECK (trang_thai_hoat_dong IN ('sử dụng' , 'bảo trì')),
+    trang_thai_hoat_dong VARCHAR(10) NOT NULL CHECK (trang_thai_hoat_dong IN ('su dung' , 'bao tri')),
     dien_tich INT NOT NULL CHECK (dien_tich > 0),
     chieu_cao INT NOT NULL CHECK (chieu_cao > 0),
-    loai_moi_truong VARCHAR(10) NOT NULL CHECK (loai_moi_truong IN ('trên cạn', 'dưới nước', 'cả hai')),
+    loai_moi_truong VARCHAR(10) NOT NULL CHECK (loai_moi_truong IN ('tren can', 'duoi nuoc', 'ca hai')),
     PRIMARY KEY (id_kv)
-) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+);
 
 CREATE TABLE nhan_vien (
     cccd CHAR(12) NOT NULL,
-    ho VARCHAR(50) NOT NULL,
-    ten VARCHAR(10) NOT NULL,
+    ho_va_ten VARCHAR(150) NOT NULL,
+    sdt		VARCHAR(10),
+    email	VARCHAR(150) UNIQUE,
+    hash_pass VARCHAR(150),
     dia_chi VARCHAR(100),
-    loai_cong_viec VARCHAR(10) NOT NULL CHECK (loai_cong_viec IN ('văn phòng' , 'thú y' , 'chăm sóc')),
+    loai_cong_viec VARCHAR(10) NOT NULL CHECK (loai_cong_viec IN ('van phong' , 'thú y')),
     
     PRIMARY KEY(cccd)
-) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-
-CREATE TABLE nhan_vien_sdt (
-    cccd CHAR(12) NOT NULL,
-    so_dien_thoai CHAR(10) NOT NULL CHECK (char_length(so_dien_thoai) = 10),
-
-    PRIMARY KEY(cccd, so_dien_thoai)
-
-) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+);
 
 CREATE TABLE nv_van_phong (
     cccd CHAR(12) NOT NULL,
@@ -54,7 +48,7 @@ CREATE TABLE nv_van_phong (
     PRIMARY KEY(cccd)
 
     
-) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+);
 
 CREATE TABLE nv_thu_y (
     cccd CHAR(12) NOT NULL,
@@ -64,27 +58,19 @@ CREATE TABLE nv_thu_y (
     PRIMARY KEY(cccd)
 
     
-) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-
-CREATE TABLE nv_cham_soc (
-    cccd CHAR(12) NOT NULL,
-    chung_nhan_csdv VARCHAR(100) NOT NULL,
-
-    PRIMARY KEY(cccd)
-    
-) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+);
 
 CREATE TABLE ho_so_suc_khoe (
     id_hssk INT AUTO_INCREMENT,
-    cccd CHAR(12) NOT NULL,  
+    cccd CHAR(12),  
     tinh_trang_suc_khoe VARCHAR(50),
     chieu_cao INT,
     can_nang INT,
     PRIMARY KEY (id_hssk)
-) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+);
 
 CREATE TABLE lich_su_dieu_tri (
-    id_hssk INT NOT NULL,
+    id_hssk INT NOT NULL, 
     id_lsdt INT AUTO_INCREMENT,
     trieu_chung VARCHAR(100) NOT NULL,
     chuan_doan VARCHAR(100) NOT NULL,
@@ -93,7 +79,7 @@ CREATE TABLE lich_su_dieu_tri (
     ghi_chu VARCHAR(255),
 
     PRIMARY KEY(id_lsdt , id_hssk)
-) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+);
 
 CREATE TABLE lich_su_tiem_chung (
     id_hssk INT NOT NULL,
@@ -107,7 +93,7 @@ CREATE TABLE lich_su_tiem_chung (
     PRIMARY KEY(id_tc, id_hssk)
 
     
-) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+);
 
 CREATE TABLE che_do_dinh_duong (
     id_cddd INT AUTO_INCREMENT,
@@ -119,7 +105,7 @@ CREATE TABLE che_do_dinh_duong (
 
     PRIMARY KEY (id_cddd, id_hssk)
     
-) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+);
 
 CREATE TABLE thuc_pham_can_tranh (
     id_hssk INT NOT NULL,
@@ -128,27 +114,25 @@ CREATE TABLE thuc_pham_can_tranh (
 
     PRIMARY KEY(id_cddd, id_hssk, thuc_pham_can_tranh)
 
-) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+);
 
 CREATE TABLE khau_phan_an (
     id_kpa INT AUTO_INCREMENT,
-    loai_dong_vat_an VARCHAR(10) NOT NULL CHECK( loai_dong_vat_an IN ('ăn cỏ' , 'ăn thịt' , 'ăn tạp')),
+    loai_dong_vat_an VARCHAR(10) NOT NULL CHECK( loai_dong_vat_an IN ('an co' , 'an thit' , 'an tap')),
     ten_khau_phan VARCHAR(100) NOT NULL,
     id_cddd INT NOT NULL,
-    thoi_gian_an VARCHAR(10) NOT NULL CHECK(thoi_gian_an in ('Buổi sáng', 'Buổi trưa', 'Buổi chiều')),
+    thoi_gian_an VARCHAR(10) NOT NULL CHECK(thoi_gian_an in ('Buoi sang', 'Buoi trua', 'Buoi chieu')),
 
     PRIMARY KEY(id_kpa)
-) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+);
 
 CREATE TABLE qua_trinh_cho_an (
     id_kpa INT NOT NULL,
     id_kv INT NOT NULL,
-    cccd CHAR(12) NOT NULL,
     ngay DATE NOT NULL,
 
     PRIMARY KEY(id_kpa, id_kv)
-
-) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+);
 
 CREATE TABLE thuc_an (
     id_ta INT NOT NULL AUTO_INCREMENT,
@@ -157,7 +141,7 @@ CREATE TABLE thuc_an (
     ngay_het_han DATE NOT NULL,
     so_luong INT NOT NULL,
     PRIMARY KEY (id_ta)
-) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+);
 
 CREATE TABLE kpa_thuc_an (
     id_kpa INT NOT NULL,
@@ -165,16 +149,16 @@ CREATE TABLE kpa_thuc_an (
     so_luong INT NOT NULL,
 
     PRIMARY KEY(id_kpa, id_ta)
-) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+);
 
 -- Văn phòng
 CREATE TABLE doi_tac (
     id_dt INT AUTO_INCREMENT,
     ten_doi_tac VARCHAR(100) NOT NULL,
-    loai_doi_tac VARCHAR(50) NOT NULL CHECK(loai_doi_tac IN ('sở thú', 'cung cấp thức ăn', 'viện nghiên cứu')),
+    loai_doi_tac VARCHAR(50) NOT NULL CHECK(loai_doi_tac IN ('so thu', 'cung cap thuc an', 'vien nghien cuu')),
 
     PRIMARY KEY(id_dt)
-) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+);
 
 CREATE TABLE doi_tac_lien_he (
     id_dt INT NOT NULL,
@@ -184,7 +168,7 @@ CREATE TABLE doi_tac_lien_he (
 
     PRIMARY KEY(id_dt, dia_chi, sdt, email)
 
-) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+);
 
 CREATE TABLE dt_cung_cap_thuc_an (
     id_dt INT NOT NULL,
@@ -193,19 +177,19 @@ CREATE TABLE dt_cung_cap_thuc_an (
     PRIMARY KEY(id_dt)
 
     
-) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+);
 
 CREATE TABLE ccta_chung_nhan_attp (
     id_dt INT NOT NULL,
     chung_nhan_attp VARCHAR(100) NOT NULL,
     PRIMARY KEY (id_dt, chung_nhan_attp)
-) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+);
 
 CREATE TABLE dt_so_thu (
     id_dt INT NOT NULL AUTO_INCREMENT,
     loai_hinh_so_thu VARCHAR(100) NOT NULL,
     PRIMARY KEY (id_dt)
-) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+);
 
 CREATE TABLE ca_the(
     id_ct INT AUTO_INCREMENT,
@@ -218,12 +202,12 @@ CREATE TABLE ca_the(
     ten_khoa_hoc_me VARCHAR(100),
     tuoi INT NOT NULL CHECK (tuoi >= 0),
     adn VARCHAR(100) NOT NULL,
-    gioi_tinh VARCHAR(10) NOT NULL CHECK (gioi_tinh IN ('đực' , 'cái' , 'lưỡng tính')),
-    trang_thai VARCHAR(10) NOT NULL CHECK (trang_thai IN ('chết' , 'còn sống' , 'cho thuê' , 'được thuê' , 'đã bán')),
+    gioi_tinh VARCHAR(10) NOT NULL CHECK (gioi_tinh IN ('duc' , 'cai' , 'luong tinh')),
+    trang_thai VARCHAR(10) NOT NULL CHECK (trang_thai IN ('chet' , 'con song' , 'cho thue' , 'duoc thue' , 'da ban')),
     
     PRIMARY KEY (id_ct, ten_khoa_hoc)
     
-) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+);
 
 CREATE TABLE nhom (
     id_n INT AUTO_INCREMENT,
@@ -234,7 +218,7 @@ CREATE TABLE nhom (
 
     PRIMARY KEY (id_n, ten_khoa_hoc)
     
-) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+);
 
 CREATE TABLE cho_thue(
     id_dt INT NOT NULL,
@@ -244,25 +228,25 @@ CREATE TABLE cho_thue(
 
     PRIMARY KEY (id_ct , ten_khoa_hoc)
 
-) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+);
 
 CREATE TABLE st_chuong_trinh_bao_ton (
     id_dt INT NOT NULL,
     chuong_trinh_bao_ton VARCHAR(100) NOT NULL,
     PRIMARY KEY (id_dt, chuong_trinh_bao_ton)
     
-) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+);
 
 CREATE TABLE dt_vien_nghien_cuu (
     id_dt INT NOT NULL AUTO_INCREMENT,
     linh_vuc_nghien_cuu VARCHAR(100) NOT NULL,
     PRIMARY KEY (id_dt)
     
-) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+);
 
 CREATE TABLE mau_vat (
     id_mv VARCHAR(10) NOT NULL,
-    ten_mau VARCHAR(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+    ten_mau VARCHAR(100)  NOT NULL,
     loai_mau VARCHAR(50) NOT NULL,
     tinh_trang_mau VARCHAR(50) NOT NULL,
     ngay_thu_thap DATE NOT NULL,
@@ -273,7 +257,7 @@ CREATE TABLE mau_vat (
     PRIMARY KEY (id_mv)
 
     
-) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+);
 
 CREATE TABLE phieu_nhap (
     id_pn INT NOT NULL AUTO_INCREMENT,
@@ -284,7 +268,7 @@ CREATE TABLE phieu_nhap (
 
     PRIMARY KEY (id_pn)
     
-) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+);
 
 CREATE TABLE phieu_nhap_thuc_an (
     id_pn INT NOT NULL,
@@ -293,7 +277,7 @@ CREATE TABLE phieu_nhap_thuc_an (
     id_ta INT NOT NULL,
     
     PRIMARY KEY (id_pn)
-) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+);
 
 CREATE TABLE phieu_nhap_dong_vat (
     id_pn INT NOT NULL,
@@ -302,7 +286,7 @@ CREATE TABLE phieu_nhap_dong_vat (
     ten_khoa_hoc VARCHAR(50) NOT NULL,
     
     PRIMARY KEY (id_pn)
-) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+);
 
 CREATE TABLE phieu_xuat_dong_vat (
     id_px INT AUTO_INCREMENT,
@@ -315,7 +299,7 @@ CREATE TABLE phieu_xuat_dong_vat (
     
     PRIMARY KEY (id_px)
     
-) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+);
 
 -- Adding foreign key
 ALTER TABLE san_moi
@@ -329,12 +313,6 @@ ADD FOREIGN KEY (ten_khoa_hoc_sm)
         REFERENCES loai_dong_vat (ten_khoa_hoc)
         ON UPDATE CASCADE
         ON DELETE CASCADE;
-     
-ALTER TABLE nhan_vien_sdt
-ADD FOREIGN KEY(cccd)
-        REFERENCES nhan_vien(cccd)
-        ON UPDATE CASCADE
-        ON DELETE CASCADE;
         
 ALTER TABLE nv_van_phong
 ADD FOREIGN KEY(cccd)
@@ -343,12 +321,6 @@ ADD FOREIGN KEY(cccd)
         ON DELETE CASCADE;
         
 ALTER TABLE nv_thu_y
-ADD FOREIGN KEY(cccd)
-        REFERENCES nhan_vien(cccd)
-        ON UPDATE CASCADE
-        ON DELETE CASCADE;
-        
-ALTER TABLE nv_cham_soc 
 ADD FOREIGN KEY(cccd)
         REFERENCES nhan_vien(cccd)
         ON UPDATE CASCADE
@@ -411,11 +383,6 @@ ADD FOREIGN KEY(id_kv)
         REFERENCES khu_vuc_nuoi(id_kv)
         ON UPDATE CASCADE
         ON DELETE CASCADE;
-
-ALTER TABLE qua_trinh_cho_an
-ADD FOREIGN KEY(cccd)
-        REFERENCES nv_cham_soc(cccd)
-        ON UPDATE CASCADE;
         
 ALTER TABLE kpa_thuc_an 
 ADD FOREIGN KEY(id_kpa)
@@ -603,6 +570,22 @@ ADD FOREIGN KEY (ten_khoa_hoc)
 -- -----------------------------------------------------------------Function --
 DELIMITER //
 
+CREATE FUNCTION get_number_of_phieu_xuat()
+RETURNS INT
+DETERMINISTIC
+BEGIN
+    DECLARE recordCount INT;
+
+    SELECT COUNT(*) INTO recordCount
+    FROM phieu_xuat_dong_vat;
+
+    RETURN recordCount;
+END//
+
+DELIMITER ;
+
+DELIMITER //
+
 CREATE FUNCTION get_number_of_khu_vuc_nuoi()
 RETURNS INT
 DETERMINISTIC
@@ -696,8 +679,8 @@ BEGIN
     LEFT JOIN nhom n ON n.id_hssk = h.id_hssk
     WHERE (searchId IS NULL OR h.id_hssk LIKE CONCAT('%', searchId, '%'))
       AND (searchName IS NULL OR 
-           COALESCE(c.ten_khoa_hoc  COLLATE utf8mb4_unicode_ci
-           , n.ten_khoa_hoc  COLLATE utf8mb4_unicode_ci
+           COALESCE(c.ten_khoa_hoc  
+           , n.ten_khoa_hoc  
            ) LIKE CONCAT('%', searchName, '%'));
 
     RETURN total;
@@ -718,7 +701,7 @@ BEGIN
     FROM doi_tac
     WHERE id_dt = NEW.id_dt;
 
-    IF loai_doi_tac_check != 'sở thú' THEN
+    IF loai_doi_tac_check != 'so thu' THEN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'id_dt không thuộc đối tác sở thú';
     END IF;
@@ -736,9 +719,9 @@ BEGIN
     FROM doi_tac
     WHERE id_dt = NEW.id_dt;
 
-    IF loai_doi_tac_check != 'cung cấp thức ăn' THEN
+    IF loai_doi_tac_check != 'cung cap thuc an' THEN
         SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'id_dt không thuộc đối tác cung cấp thức ăn';
+        SET MESSAGE_TEXT = 'id_dt không thuộc đối tác cung câp thức ăn';
     END IF;
 END //
 
@@ -755,8 +738,8 @@ BEGIN
     FROM doi_tac
     WHERE id_dt = NEW.id_dt;
 
-    -- Nếu không phải loại 'viện nghiên cứu', báo lỗi
-    IF loai_doi_tac_check != 'viện nghiên cứu' THEN
+    -- Nếu không phải loại 'vien nghien cuu', báo lỗi
+    IF loai_doi_tac_check != 'vien nghien cuu' THEN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'id_dt không thuộc đối tác viện nghiên cứu';
     END IF;
@@ -824,25 +807,6 @@ DELIMITER ;
 
 DELIMITER //
 
-CREATE TRIGGER trg_disjoint_nv_cham_soc
-BEFORE INSERT ON nv_cham_soc
-FOR EACH ROW
-BEGIN
-    DECLARE loai_cong_viec_check VARCHAR(50);
-    SELECT loai_cong_viec INTO loai_cong_viec_check
-    FROM nhan_vien
-    WHERE cccd = NEW.cccd;
-
-    IF loai_cong_viec_check != 'chăm sóc' THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'cccd không thuộc nhân viên chăm sóc';
-    END IF;
-END //
-
-DELIMITER ;
-
-DELIMITER //
-
 CREATE TRIGGER trg_disjoint_nv_thu_y
 BEFORE INSERT ON nv_thu_y
 FOR EACH ROW
@@ -852,7 +816,7 @@ BEGIN
     FROM nhan_vien
     WHERE cccd = NEW.cccd;
 
-    -- Nếu không phải loại 'viện nghiên cứu', báo lỗi
+    -- Nếu không phải loại 'vien nghien cuu', báo lỗi
     IF loai_cong_viec_check != 'thú y' THEN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'cccd không thuộc nhân viên thú y';
@@ -916,9 +880,9 @@ BEGIN
         SET MESSAGE_TEXT = 'Môi trường sống của loài động vật và khu vực nuôi không khớp!';
     END IF;
     
-    IF trang_thai_khu_vuc = 'bảo trì' THEN
+    IF trang_thai_khu_vuc = 'bao tri' THEN
         SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Khu vực nuôi đang bảo trì không thể thêm';
+        SET MESSAGE_TEXT = 'Khu vực nuôi đang bao tri không thể thêm';
     END IF;
 END;
 //
@@ -970,9 +934,9 @@ BEGIN
         SET MESSAGE_TEXT = 'Môi trường sống của loài động vật và khu vực nuôi không khớp!';
     END IF;
     
-	IF trang_thai_khu_vuc = 'bảo trì' THEN
+	IF trang_thai_khu_vuc = 'bao tri' THEN
         SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Khu vực nuôi đang bảo trì không thể thêm';
+        SET MESSAGE_TEXT = 'Khu vực nuôi đang bao tri không thể thêm';
     END IF;
 END;
 //
@@ -1206,7 +1170,7 @@ BEGIN
 	DECLARE so_luong_hien_tai INT;
 	IF OLD.trang_thai_hoat_dong != NEW.trang_thai_hoat_dong THEN
         
-        IF NEW.trang_thai_hoat_dong = 'bảo trì' THEN
+        IF NEW.trang_thai_hoat_dong = 'bao tri' THEN
 			SELECT get_number_in_khu_vuc_nuoi(NEW.id_kv) INTO so_luong_hien_tai;
             IF so_luong_hien_tai > 0 THEN
 				SIGNAL SQLSTATE '45000'
@@ -1219,6 +1183,16 @@ END;
 
 DELIMITER ;
 -- --------------------------------------------------------------------Procedure --
+DELIMITER //
+CREATE PROCEDURE get_nhom_info()
+BEGIN
+    SELECT DISTINCT ten_khoa_hoc
+    FROM nhom;
+END //
+DELIMITER ;
+
+
+
 DELIMITER //
 
 -- Procedure của loài động vật
@@ -1241,7 +1215,7 @@ BEGIN
 
     IF EXISTS (SELECT 1 FROM loai_dong_vat WHERE ten_khoa_hoc = n_ten_khoa_hoc) THEN
         SIGNAL SQLSTATE '45000' -- Báo lỗi
-        SET MESSAGE_TEXT = 'Loài động vật đã có trong sở thú';
+        SET MESSAGE_TEXT = 'Loài động vật đã có trong so thu';
     ELSE
         INSERT INTO loai_dong_vat (
             ten_khoa_hoc,
@@ -1278,8 +1252,8 @@ BEGIN
 END //
 
 CREATE PROCEDURE get_all_ct_of_loai_dong_vat(
-	IN p_ten_khoa_hoc VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
-    IN p_gioi_tinh VARCHAR(10)CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci 
+	IN p_ten_khoa_hoc VARCHAR(50) ,
+    IN p_gioi_tinh VARCHAR(10) 
 )
 BEGIN
     -- Truy vấn để lấy danh sách ten_khoa_hoc
@@ -1288,14 +1262,14 @@ END //
 
 -- Procedure của phiếu nhập thức ăn
 CREATE PROCEDURE add_phieu_nhap_thuc_an(     
-	IN p_cccd CHAR(12) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,     
+	IN p_cccd CHAR(12) ,     
     IN p_id_ben_cung_cap_thuc_an INT,     
-    IN p_ten_thuc_an VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,     
+    IN p_ten_thuc_an VARCHAR(50) ,     
     IN p_ham_luong_dinh_duong FLOAT,     
     IN p_ngay_het_han DATE,     
     IN p_ngay_nhap DATE,     
     IN p_so_luong INT,     
-    IN p_nguon_goc_xuat_xu VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci 
+    IN p_nguon_goc_xuat_xu VARCHAR(50)  
 )
 BEGIN 
     DECLARE last_insert_id INT; 
@@ -1366,6 +1340,7 @@ BEGIN
     SELECT *
     FROM phieu_nhap pn
     NATURAL JOIN phieu_nhap_thuc_an pnta
+    ORDER BY id_pn DESC
     LIMIT p_offset, p_limit;
 END //
 
@@ -1402,29 +1377,28 @@ END //
 
 -- Procedure của phiếu nhập động vật cá thể
 CREATE PROCEDURE add_phieu_nhap_dong_vat_ct(     
-    IN p_cccd CHAR(12) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,     
+        IN p_cccd CHAR(12) ,     
     IN p_id_so_thu INT,     
-    IN p_ten_khoa_hoc VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,     
+    IN p_ten_khoa_hoc VARCHAR(50) ,     
     IN p_ngay_nhap DATE,     
     IN p_so_luong INT,     
-    IN p_ly_do_nhap VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+    IN p_ly_do_nhap VARCHAR(50) ,
     IN p_id_kv INT,                 
-    IN p_id_hssk INT,           
+    IN p_can_nang INT,
+    IN p_chieu_cao INT,
     IN p_id_ct_cha INT,  
-    IN p_ten_khoa_hoc_cha VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+    IN p_ten_khoa_hoc_cha VARCHAR(255) ,
     IN p_id_ct_me INT,      
-    IN p_ten_khoa_hoc_me VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci, 
+    IN p_ten_khoa_hoc_me VARCHAR(255) , 
     IN p_tuoi INT,                  -- Tuổi
-    IN p_adn VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,         
-    IN p_gioi_tinh VARCHAR(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,   
-    IN p_trang_thai VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci   
-) 
+    IN p_adn VARCHAR(255) ,         
+    IN p_gioi_tinh VARCHAR(10) ,   
+    IN p_trang_thai VARCHAR(50)    
+)
 BEGIN 
     DECLARE last_insert_id INT; 
-
     -- Bắt đầu giao dịch 
     START TRANSACTION; 
-
     IF NOT EXISTS (SELECT 1 FROM dt_so_thu WHERE id_dt = p_id_so_thu) OR p_id_so_thu != NULL THEN 
 		ROLLBACK;
         SIGNAL SQLSTATE '45000' 
@@ -1456,30 +1430,37 @@ BEGIN
         SIGNAL SQLSTATE '45000' 
         SET MESSAGE_TEXT = 'Không thể chèn dữ liệu vào bảng phieu_nhap_dong_vat.'; 
     END IF; 
-	
+    
+	SET last_insert_id = LAST_INSERT_ID();
+    
     -- Kiểm tra id_kv tồn tại
     IF NOT EXISTS (SELECT 1 FROM khu_vuc_nuoi WHERE id_kv = p_id_kv) THEN
 		ROLLBACK;
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'ID khu vực không tồn tại.';
     END IF;
-
-    -- Kiểm tra id_hssk tồn tại
-    IF NOT EXISTS (SELECT 1 FROM ho_so_suc_khoe WHERE id_hssk = p_id_hssk) THEN
+    
+	INSERT INTO ho_so_suc_khoe(tinh_trang_suc_khoe, chieu_cao, can_nang)
+    VALUES('khỏe mạnh', p_chieu_cao, p_can_nang);
+	
+	IF ROW_COUNT() = 0 THEN 
 		ROLLBACK;
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'ID hồ sơ sức khỏe không tồn tại.';
-    END IF;
-
+        SIGNAL SQLSTATE '45000' 
+        SET MESSAGE_TEXT = 'Không thể tạo hồ sơ sức khỏe'; 
+    END IF; 
+    
+	SET last_insert_id = LAST_INSERT_ID();
     -- Kiểm tra id_ct_cha tồn tại (nếu không NULL)
-    IF p_id_ct_cha IS NOT NULL AND NOT EXISTS (SELECT 1 FROM ca_the WHERE id_ct = p_id_ct_cha AND ten_khoa_hoc = p_ten_khoa_hoc_cha) THEN
+    IF p_id_ct_cha IS NOT NULL AND NOT EXISTS (SELECT 1 FROM ca_the 
+    WHERE id_ct = p_id_ct_cha AND ten_khoa_hoc = p_ten_khoa_hoc_cha) THEN
 		ROLLBACK;
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'ID cá thể cha không tồn tại hoặc không khớp tên khoa học.';
     END IF;
-
+    
     -- Kiểm tra id_ct_me tồn tại (nếu không NULL)
-    IF p_id_ct_me IS NOT NULL AND NOT EXISTS (SELECT 1 FROM ca_the WHERE id_ct = p_id_ct_me AND ten_khoa_hoc = p_ten_khoa_hoc_me) THEN
+    IF p_id_ct_me IS NOT NULL AND NOT EXISTS (SELECT 1 FROM ca_the 
+    WHERE id_ct = p_id_ct_me AND ten_khoa_hoc = p_ten_khoa_hoc_me) THEN
         ROLLBACK;
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'ID cá thể mẹ không tồn tại hoặc không khớp tên khoa học.';
@@ -1490,20 +1471,19 @@ BEGIN
         id_kv, id_hssk, ten_khoa_hoc, ten_khoa_hoc_cha, id_ct_cha, ten_khoa_hoc_me, id_ct_me, tuoi, adn, gioi_tinh, trang_thai
     )
     VALUES (
-        p_id_kv, p_id_hssk, p_ten_khoa_hoc, p_ten_khoa_hoc_cha, p_id_ct_cha, p_ten_khoa_hoc_me, p_id_ct_me, p_tuoi, p_adn, p_gioi_tinh, p_trang_thai
+        p_id_kv, last_insert_id, p_ten_khoa_hoc, p_ten_khoa_hoc_cha, p_id_ct_cha, p_ten_khoa_hoc_me, p_id_ct_me, p_tuoi, p_adn, p_gioi_tinh, p_trang_thai
     );
     COMMIT; 
 END //
 
 CREATE PROCEDURE add_phieu_nhap_dong_vat_nhom(     
-    IN p_cccd CHAR(12) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,     
+    IN p_cccd CHAR(12) ,     
     IN p_id_so_thu INT,     
-    IN p_ten_khoa_hoc VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,     
+    IN p_ten_khoa_hoc VARCHAR(50) ,     
     IN p_ngay_nhap DATE,     
     IN p_so_luong INT,     
-    IN p_ly_do_nhap VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
-    IN p_id_kv INT,
-    IN p_id_hssk INT
+    IN p_ly_do_nhap VARCHAR(50) ,
+    IN p_id_kv INT
 ) 
 BEGIN 
     DECLARE last_insert_id INT; 
@@ -1548,20 +1528,26 @@ BEGIN
         SET MESSAGE_TEXT = 'ID khu vực không tồn tại.';
     END IF;
 
-    -- Kiểm tra id_hssk tồn tại
-    IF NOT EXISTS (SELECT 1 FROM ho_so_suc_khoe WHERE id_hssk = p_id_hssk) THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'ID hồ sơ sức khỏe không tồn tại.';
-    END IF;
+    INSERT INTO ho_so_suc_khoe(tinh_trang_suc_khoe)
+    VALUES('khỏe mạnh');
+	
+	IF ROW_COUNT() = 0 THEN 
+		ROLLBACK;
+        SIGNAL SQLSTATE '45000' 
+        SET MESSAGE_TEXT = 'Không thể tạo hồ sơ sức khỏe'; 
+    END IF; 
+    
+	SET last_insert_id = LAST_INSERT_ID();
 
     -- Kiểm tra nếu số lượng phải lớn hơn hoặc bằng 0
     IF p_so_luong < 0 THEN
+        ROLLBACK;
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Số lượng phải lớn hơn hoặc bằng 0';
     ELSE
         -- Chèn nhóm vào bảng nhom
         INSERT INTO nhom (id_kv, id_hssk, ten_khoa_hoc, so_luong)
-        VALUES (p_id_kv, p_id_hssk, p_ten_khoa_hoc, p_so_luong);
+        VALUES (p_id_kv, last_insert_id, p_ten_khoa_hoc, p_so_luong);
     END IF;
 	
     -- Hoàn tất giao dịch 
@@ -1576,6 +1562,7 @@ BEGIN
     SELECT *
     FROM phieu_nhap pn
     NATURAL JOIN phieu_nhap_dong_vat pndv
+    ORDER BY id_pn DESC
     LIMIT p_offset, p_limit;
 END //
 
@@ -1622,35 +1609,12 @@ BEGIN
     FROM dt_cung_cap_thuc_an NATURAL JOIN doi_tac;
 END//
 
-CREATE PROCEDURE get_all_nv_van_phong()
-BEGIN
-    SELECT cccd, CONCAT(ho, ' ', ten) AS ho_va_ten
-    FROM nhan_vien
-    NATURAL JOIN nv_van_phong;
-END//
-
-CREATE PROCEDURE get_list_khu_vuc_nuoi()
+CREATE PROCEDURE get_list_khu_vuc_nuoi_active()
 BEGIN
     SELECT id_kv, vi_tri, loai_moi_truong
     FROM khu_vuc_nuoi
-    WHERE trang_thai_hoat_dong != "bảo trì";
+    WHERE trang_thai_hoat_dong != 'bao tri';
 END//
-
-
--- Procedure của thức ăn
-CREATE PROCEDURE delete_thuc_an(
-    IN p_ID_TA INT
-)
-BEGIN
-    IF NOT EXISTS (
-        SELECT 1 FROM thuc_an WHERE id_ta = p_ID_TA
-    ) THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Thức ăn không tồn tại.';
-    END IF;
-
-    DELETE FROM thuc_an WHERE id_ta = p_ID_TA;
-END //
 
 CREATE PROCEDURE update_thuc_an(
     IN p_ID_TA INT,
@@ -1684,7 +1648,7 @@ END //
 
 -- Procedure cho nhân viên văn phòng
 CREATE PROCEDURE get_nv_van_phong_theo_cccd(
-    IN p_cccd VARCHAR(12) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci
+    IN p_cccd VARCHAR(12) 
 )
 BEGIN
     SELECT *
@@ -1785,9 +1749,9 @@ BEGIN
     WHERE 
         (searchId IS NULL OR searchId = 0 OR h.id_hssk LIKE CONCAT('%', searchId, '%')) 
         AND (searchName IS NULL OR searchName = '' OR 
-             COALESCE(c.ten_khoa_hoc COLLATE utf8mb4_unicode_ci, 
-                      n.ten_khoa_hoc COLLATE utf8mb4_unicode_ci) 
-             LIKE CONCAT('%', searchName, '%') COLLATE utf8mb4_unicode_ci)
+             COALESCE(c.ten_khoa_hoc , 
+                      n.ten_khoa_hoc ) 
+             LIKE CONCAT('%', searchName, '%') )
     LIMIT offset, pageSize;
 END//
 
@@ -1802,9 +1766,9 @@ BEGIN
             ELSE 0 -- Loại cá thể
         END AS loai,
         CASE 
-            WHEN c.gioi_tinh = 'đực' THEN 0
-            WHEN c.gioi_tinh = 'cái' THEN 1
-            ELSE 2 -- Lưỡng tính
+            WHEN c.gioi_tinh = 'duc' THEN 0
+            WHEN c.gioi_tinh = 'cai' THEN 1
+            ELSE 2 -- luong tinh
         END AS gioi_tinh_enum, -- Chuyển đổi giới tính thành enum
         h.tinh_trang_suc_khoe, 
         h.chieu_cao, 
@@ -1902,10 +1866,26 @@ END //
 
 DELIMITER ;
 
+DELIMITER //
+CREATE PROCEDURE delete_phieu_xuat_dong_vat(
+    IN p_id_px INT
+)
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM phieu_xuat_dong_vat WHERE id_px = p_id_px) THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'ID phiếu xuất không tồn tại';
+    ELSE
+        DELETE FROM phieu_xuat_dong_vat WHERE id_px = p_id_px;
+    END IF;
+END //
 
+DELIMITER ;
 -- get all phieu xuat dv
 DELIMITER //
-CREATE PROCEDURE get_all_phieu_xuat_dong_vat()
+CREATE PROCEDURE get_all_phieu_xuat_dong_vat(
+    IN p_offset INT,
+    IN p_limit INT
+)
 BEGIN
     -- Kiểm tra nếu bảng phieu_xuat_dong_vat không có dữ liệu
 	IF (SELECT COUNT(*) FROM phieu_xuat_dong_vat) = 0 THEN
@@ -1930,7 +1910,7 @@ BEGIN
         px.so_luong,
         px.ly_do_xuat,
         px.id_dt,
-        nvv.cccd,  -- Sử dụng cccd từ bảng nv_van_phong
+        nvv.cccd,  -- su dung cccd từ bảng nv_van_phong
         -- Xác định loại dựa trên sự tồn tại trong bảng nhóm hoặc cá thể
         CASE
             WHEN EXISTS (SELECT 1 FROM nhom WHERE nhom.ten_khoa_hoc = px.ten_khoa_hoc) THEN 1
@@ -1940,15 +1920,10 @@ BEGIN
     FROM phieu_xuat_dong_vat px
 	LEFT JOIN loai_dong_vat ON px.ten_khoa_hoc = loai_dong_vat.ten_khoa_hoc
     LEFT JOIN nv_van_phong nvv ON px.cccd = nvv.cccd
-    LEFT JOIN nhan_vien nv ON nvv.cccd = nv.cccd;
+    LEFT JOIN nhan_vien nv ON nvv.cccd = nv.cccd
+    LIMIT p_offset, p_limit;
 END //
 DELIMITER ;
-
-
-
-
-
-
 
 -- get chi tiet phieu xuat dong vat
 
@@ -1970,7 +1945,7 @@ BEGIN
     ELSE
         -- Lấy thông tin chi tiết phiếu xuất động vật
         SELECT 
-            CONCAT(nv.ho, ' ', nv.ten) AS ten_nguoi_tao,  -- Kết hợp họ và tên
+            ho_va_ten, -- Kết hợp họ và tên
             nv.dia_chi AS address,
             nv.cccd,
             px.id_dt,
@@ -1993,9 +1968,6 @@ BEGIN
     END IF;
 END //
 DELIMITER ;
-
-
-
 
 -- tao phieu xuat dong vat 
 DELIMITER //
@@ -2047,32 +2019,203 @@ END//
 DELIMITER ;
 
 
-DROP PROCEDURE IF EXISTS get_nhom_info;
--- lay thong tin cua nhom
 DELIMITER //
-CREATE PROCEDURE get_nhom_info()
-BEGIN
-    SELECT DISTINCT ten_khoa_hoc
-    FROM nhom;
-END //
-DELIMITER ;
 
+CREATE PROCEDURE get_all_nv_van_phong()
+BEGIN
+    SELECT cccd, ho_va_ten
+    FROM nhan_vien
+    NATURAL JOIN nv_van_phong;
+END//
+
+CREATE PROCEDURE get_list_khu_vuc_nuoi()
+BEGIN
+    SELECT id_kv, vi_tri, loai_moi_truong
+    FROM khu_vuc_nuoi
+    WHERE trang_thai_hoat_dong != 'bao tri';
+END//
+
+
+-- Procedure của thức ăn
+CREATE PROCEDURE delete_thuc_an(
+    IN p_ID_TA INT
+)
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1 FROM thuc_an WHERE id_ta = p_ID_TA
+    ) THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Thức ăn không tồn tại.';
+    END IF;
+
+    DELETE FROM thuc_an WHERE id_ta = p_ID_TA;
+END //
+
+DELIMITER;
 
 -- lay thong tin cua ca the
-DELIMITER //CREATE PROCEDURE get_ct_info()
+DELIMITER //
+CREATE PROCEDURE get_ct_info()
 BEGIN
     SELECT DISTINCT ten_khoa_hoc
-    FROM ct;
+    FROM ca_the;
 END //
 DELIMITER ;
 -- lay thong tin cua doi tac
-DELIMITER //CREATE PROCEDURE get_ten_doi_tac_info()
+DELIMITER //
+CREATE PROCEDURE get_ten_doi_tac_info()
 BEGIN
     SELECT ten_doi_tac,id_dt
     FROM doi_tac;
 END //
 DELIMITER ;
 
+-- get nhan vien by email
+DELIMITER //
+CREATE PROCEDURE get_nhan_vien_by_email(IN input_email VARCHAR(150))
+BEGIN
+    DECLARE p_loai_cong_viec VARCHAR(10);
+	DECLARE p_cccd VARCHAR(12);
+    
+    SELECT loai_cong_viec, cccd 
+    INTO p_loai_cong_viec, p_cccd
+    FROM nhan_vien 
+    WHERE email = input_email;
+
+    IF p_loai_cong_viec IS NULL THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Không tìm thấy nhân viên với email đã nhập';
+    END IF;
+
+    IF p_loai_cong_viec = 'văn phòng' THEN
+        SELECT nv.*, vp.bang_cap
+        FROM nhan_vien nv
+        JOIN nv_van_phong vp ON nv.cccd = vp.cccd 
+        WHERE nv.cccd = p_cccd; 
+
+    ELSEIF p_loai_cong_viec = 'thú y' THEN
+        SELECT nv.*, ty.gphn, ty.nam_kinh_nghiem
+        FROM nhan_vien nv
+        JOIN nv_thu_y ty ON nv.cccd = ty.cccd 
+        WHERE nv.cccd = p_cccd;
+
+    END IF;
+END //
+DELIMITER ;
+
+
+DELIMITER //
+
+CREATE PROCEDURE update_nhan_vien_by_email (
+    IN p_email VARCHAR(150),
+    IN p_ho_va_ten VARCHAR(150),
+    IN p_sdt VARCHAR(10),
+    IN p_dia_chi VARCHAR(100)
+)
+BEGIN
+    DECLARE p_cccd CHAR(12);
+    DECLARE p_loai_cong_viec VARCHAR(10);
+
+    -- Lấy CCCD và loại công việc hiện tại theo email
+    SELECT cccd, loai_cong_viec INTO p_cccd, p_loai_cong_viec
+    FROM nhan_vien
+    WHERE email = p_email;
+
+    -- Nếu không tìm thấy thì báo lỗi
+    IF p_cccd IS NULL THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Không tìm thấy nhân viên với email đã cung cấp';
+    ELSE
+        -- Cập nhật thông tin chung
+        UPDATE nhan_vien
+        SET
+            ho_va_ten     = COALESCE(p_ho_va_ten, ho_va_ten),
+            sdt           = COALESCE(p_sdt, sdt),
+            dia_chi       = COALESCE(p_dia_chi, dia_chi)
+        WHERE email = p_email;
+
+        -- Trả về thông tin chi tiết tuỳ loại công việc
+        IF p_loai_cong_viec = 'văn phòng' THEN
+            SELECT nv.*, vp.bang_cap
+            FROM nhan_vien nv
+            JOIN nv_van_phong vp ON nv.cccd = vp.cccd
+            WHERE nv.cccd = p_cccd;
+
+        ELSEIF p_loai_cong_viec = 'thú y' THEN
+            SELECT nv.*, ty.gphn, ty.nam_kinh_nghiem
+            FROM nhan_vien nv
+            JOIN nv_thu_y ty ON nv.cccd = ty.cccd
+            WHERE nv.cccd = p_cccd;
+        END IF;
+    END IF;
+END //
+
+DELIMITER ;
+
+
+-- Create new nhan vien 
+DELIMITER //
+
+CREATE PROCEDURE create_nhan_vien(
+    IN p_cccd CHAR(12),
+    IN p_ho_va_ten VARCHAR(150),
+    IN p_sdt VARCHAR(10),
+    IN p_email VARCHAR(150),
+    IN p_hash_pass VARCHAR(150),
+    IN p_dia_chi VARCHAR(100),
+    IN p_loai_cong_viec VARCHAR(10),
+    IN p_bang_cap VARCHAR(100),
+    IN p_nam_kinh_nghiem INT
+)
+BEGIN
+    -- Kiểm tra loại công việc hợp lệ
+    IF p_loai_cong_viec NOT IN ('văn phòng', 'thú y', 'chăm sóc') THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Loại công việc không hợp lệ. Chỉ chấp nhận: văn phòng, thú y, chăm sóc.';
+    END IF;
+
+    -- Kiểm tra CCCD hoặc email đã tồn tại chưa
+    IF EXISTS (SELECT 1 FROM nhan_vien WHERE cccd = p_cccd  OR email = p_email ) THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Nhân viên với CCCD hoặc Email này đã tồn tại.';
+    END IF;
+
+    -- Bắt đầu transaction
+    START TRANSACTION;
+
+    -- Chèn vào bảng nhan_vien
+    INSERT INTO nhan_vien (cccd, ho_va_ten, sdt, email, hash_pass, dia_chi, loai_cong_viec)
+    VALUES (p_cccd, p_ho_va_ten, p_sdt, p_email, p_hash_pass, p_dia_chi, p_loai_cong_viec);
+
+    -- Kiểm tra lỗi
+    IF ROW_COUNT() = 0 THEN
+        ROLLBACK;
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Lỗi khi thêm nhân viên';
+    END IF;
+
+    -- Chèn vào bảng con tương ứng
+    IF p_loai_cong_viec = 'văn phòng' THEN
+        INSERT INTO nv_van_phong(cccd, bang_cap)
+        VALUES(p_cccd, p_bang_cap);
+        
+    ELSEIF p_loai_cong_viec = 'thú y' THEN
+        INSERT INTO nv_thu_y(cccd, gphn, nam_kinh_nghiem)
+        VALUES(p_cccd, p_bang_cap, p_nam_kinh_nghiem);
+    END IF;
+
+    -- Kiểm tra lỗi khi chèn bảng con
+    IF ROW_COUNT() = 0 THEN
+        ROLLBACK;
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Lỗi khi thêm vào bảng con';
+    END IF;
+
+    -- Nếu mọi thứ đều thành công, commit transaction
+    COMMIT;
+END //
+
+DELIMITER ;
 
 
 -- get cccd by nhan vien van phong
@@ -2176,7 +2319,7 @@ BEGIN
         -- Kiểm tra ID ca_the có thuộc loài động vật không
         SET id_count = (
             SELECT COUNT(*)
-            FROM ct
+            FROM ca_the
             WHERE ca_the.id_ct = id_ct AND ca_the.ten_khoa_hoc = p_ten_khoa_hoc
         );
 
@@ -2197,20 +2340,17 @@ END //
 
 DELIMITER ;
 
-
-DELIMITER //
-
 -- ---------------------------------------------------------------------- Insert dữ liệu --
 INSERT INTO loai_dong_vat 
 (ten_khoa_hoc, ten_loai, do_quy_hiem, loai_thuc_an, thoi_gian_chu_ki, thoi_gian_mang_thai, so_luong, loai_moi_truong_song) 
 VALUES
-('Panthera_tigris', 'Hổ', 'Nguy cấp', 'ăn thịt', 3, 4, 0, 'trên cạn'),
-('Elephas_maximus', 'Voi', 'Nguy cấp', 'ăn cỏ', 6, 22, 0, 'trên cạn'),
-('Python_molurus', 'Trăn gấm', 'Nguy cấp', 'ăn thịt', 2, 3, 0, 'trên cạn'),
-('Ailuropoda_melanoleuca', 'Gấu trúc', 'Dễ bị tổn thương', 'ăn tạp', 2, 5, 0, 'trên cạn'),
-('Spheniscus_demersus', 'Chim cánh cụt', 'Nguy cấp', 'ăn thịt', 1, 2, 0, 'dưới nước'),
-('Equus_quagga', 'Ngựa vằn', 'Không nguy cấp', 'ăn cỏ', 2, 12, 0, 'trên cạn'),
-('Giraffa_camelopardalis', 'Hươu cao cổ', 'Không nguy cấp', 'ăn cỏ', 3, 15, 0, 'trên cạn');
+('Panthera_tigris', 'Hổ', 'Nguy cấp', 'an thit', 3, 4, 0, 'tren can'),
+('Elephas_maximus', 'Voi', 'Nguy cấp', 'an co', 6, 22, 0, 'tren can'),
+('Python_molurus', 'Trăn gấm', 'Nguy cấp', 'an thit', 2, 3, 0, 'tren can'),
+('Ailuropoda_melanoleuca', 'Gấu trúc', 'Dễ bị tổn thương', 'an tap', 2, 5, 0, 'tren can'),
+('Spheniscus_demersus', 'Chim cánh cụt', 'Nguy cấp', 'an thit', 1, 2, 0, 'duoi nuoc'),
+('Equus_quagga', 'Ngựa vằn', 'Không nguy cấp', 'an co', 2, 12, 0, 'tren can'),
+('Giraffa_camelopardalis', 'Hươu cao cổ', 'Không nguy cấp', 'an co', 3, 15, 0, 'tren can');
 
 INSERT INTO san_moi (ten_khoa_hoc_cm, ten_khoa_hoc_sm) 
 VALUES
@@ -2223,42 +2363,22 @@ VALUES
 
 INSERT INTO khu_vuc_nuoi (vi_tri, suc_chua_toi_da, trang_thai_hoat_dong, dien_tich, chieu_cao, loai_moi_truong) 
 VALUES
-('Khu vực A', 40, 'sử dụng', 100, 10, 'trên cạn'),
-('Khu vực B', 60, 'sử dụng', 200, 12, 'trên cạn'),
-('Khu vực C', 50, 'sử dụng', 300, 15, 'cả hai'),
-('Khu vực D', 40, 'sử dụng', 50, 8, 'trên cạn'),
-('Khu vực E', 40, 'sử dụng', 120, 10, 'dưới nước'),
-('Khu vực F', 50, 'sử dụng', 150, 9, 'dưới nước');
+('Khu vực A', 40, 'su dung', 100, 10, 'tren can'),
+('Khu vực B', 60, 'su dung', 200, 12, 'tren can'),
+('Khu vực C', 50, 'su dung', 300, 15, 'ca hai'),
+('Khu vực D', 40, 'su dung', 50, 8, 'tren can'),
+('Khu vực E', 40, 'su dung', 120, 10, 'duoi nuoc'),
+('Khu vực F', 50, 'su dung', 150, 9, 'duoi nuoc');
 
-INSERT INTO nhan_vien (cccd, ho, ten, dia_chi, loai_cong_viec) VALUES
-('123456789001', 'Nguyễn Văn', 'An', '123 Đường A, TP.HCM', 'văn phòng'),
-('123456789002', 'Trần Minh', 'Bình', '456 Đường B, TP.HCM', 'văn phòng'),
-('123456789003', 'Lê Quang', 'Cương', '789 Đường C, TP.HCM', 'thú y'),
-('123456789004', 'Phạm Thị', 'Dung', '101 Đường D, TP.HCM', 'thú y'),
-('123456789005', 'Hồ Thi', 'E', '202 Đường E, TP.HCM', 'chăm sóc'),
-('123456789006', 'Võ Phúc', 'Hoàng', '303 Đường F, TP.HCM', 'chăm sóc'),
-('123456789007', 'Nguyễn Thị', 'An', '123 Đường A, TP.HCM', 'văn phòng'),
-('123456789008', 'Trần Quang', 'Bình', '456 Đường B, TP.HCM', 'văn phòng'),
-('123456789009', 'Lê Minh', 'Cương', '789 Đường C, TP.HCM', 'thú y'),
-('123456789010', 'Phạm Thị', 'Dung', '101 Đường D, TP.HCM', 'thú y'),
-('123456789011', 'Hồ Thị', 'E', '202 Đường E, TP.HCM', 'chăm sóc'),
-('123456789012', 'Võ Minh', 'Phúc', '303 Đường F, TP.HCM', 'chăm sóc');
-
-
-INSERT INTO nhan_vien_sdt (cccd, so_dien_thoai) VALUES
-('123456789001', '0901234567'),
-('123456789001', '0911234567'),
-('123456789002', '0902234567'),
-('123456789003', '0903234567'),
-('123456789004', '0904234567'),
-('123456789005', '0905234567'),
-('123456789006', '0906234567'),
-('123456789007', '0907234567'),
-('123456789008', '0908234567'),
-('123456789009', '0909234567'),
-('123456789010', '0910234567'),
-('123456789011', '0911234567'),
-('123456789012', '0912234567');
+INSERT INTO nhan_vien (cccd, ho_va_ten, sdt, email, hash_pass, dia_chi, loai_cong_viec) VALUES
+('123456789001', 'Nguyễn Văn An', '0901234567' , 'nguyenvana@gmail.com' , '$argon2id$v=19$m=65536,t=3,p=4$GuLI7WNPGOt9wLtBDmW7Pg$NdZzbpuXGT8KYYwzNqlxFadGdD5iUQhEaq2I7DJx9LU' , '123 Đường A, TP.HCM', 'van phong'),
+('123456789002', 'Trần Minh Bình', '0911234567', 'nguyenvanb@gmail.com' , '$argon2id$v=19$m=65536,t=3,p=4$rhRTLCAG4tXXWlQb49tF2w$OLSgTAQ6Jojn/vSNByGRyo6oULx2BxI1l23F7/sBNCs' ,'456 Đường B, TP.HCM', 'van phong'),
+('123456789003', 'Lê Quang Cương', '0902234567', 'nguyenvanc@gmail.com' , '$argon2id$v=19$m=65536,t=3,p=4$ib+rXezrkmeS1pr39uxHLw$gDSm3Xpt7f/tSBHIS+Apo4M5cE7Vf8LZEpFnw6qJUwI' ,'789 Đường C, TP.HCM', 'thu y'),
+('123456789004', 'Phạm Thị Dung', '0903234567', 'nguyenvand@gmail.com' , '$argon2id$v=19$m=65536,t=3,p=4$6ooKYP3B4YZvBX/zpypHKg$bGC1a6hvz+/Jn7wp8Beegk91uL9dMc/HgV5Qarsv/Ws' ,'101 Đường D, TP.HCM', 'thu y'),
+('123456789007', 'Nguyễn Thị An', '0906234567', 'nguyenvang@gmail.com' , '$argon2id$v=19$m=65536,t=3,p=4$gwKR681eJoInqpHwBnoiZg$or5X6j4RKZketHqMN8i9EMp98/YsKrjjEMHqSQb9BOE' ,'123 Đường A, TP.HCM', 'van phong'),
+('123456789008', 'Trần Quang Bình', '0907234567', 'nguyenvanh@gmail.com' , '$argon2id$v=19$m=65536,t=3,p=4$rt5eevaXhh6g2L8aECRqwA$yW2UdrnXFmBvwE8UOmdsyet6mMeQwxaWzv4o6D90OJE' ,'456 Đường B, TP.HCM', 'van phong'),
+('123456789009', 'Lê Minh Cương', '0908234567', 'nguyenvani@gmail.com' , '$argon2id$v=19$m=65536,t=3,p=4$Dhc/S0Fea5BkN7lNRE5ofg$KtqfgQe1OAbvqVawb/iCG+bWL+ndRRLIAl95ENk1TfM' ,'789 Đường C, TP.HCM', 'thu y'),
+('123456789010', 'Phạm Thị Dung', '0909234567', 'nguyenvanj@gmail.com' , '$argon2id$v=19$m=65536,t=3,p=4$aZ++/YZabppgVW8AoEEu5g$e3U+3epEpeTaZjDoQfxQP0wkcftkjJBtc9T54Prusos' ,'101 Đường D, TP.HCM', 'thu y');
 
 INSERT INTO nv_van_phong (cccd, bang_cap) VALUES
 ('123456789001', 'Cử nhân Quản trị Kinh doanh'),
@@ -2271,12 +2391,6 @@ INSERT INTO nv_thu_y (cccd, gphn, nam_kinh_nghiem) VALUES
 ('123456789004', 'Giấy phép hành nghề thú y số 67890', 8),
 ('123456789009', 'Giấy phép hành nghề thú y số 12345', 5),
 ('123456789010', 'Giấy phép hành nghề thú y số 67890', 8);
-
-INSERT INTO nv_cham_soc (cccd, chung_nhan_csdv) VALUES
-('123456789005', 'Chứng nhận chăm sóc động vật số A123'),
-('123456789006', 'Chứng nhận chăm sóc động vật số B456'),
-('123456789011', 'Chứng nhận chăm sóc động vật số A123'),
-('123456789012', 'Chứng nhận chăm sóc động vật số B456');
 
 
 -- Bảng ho_so_suc_khoe
@@ -2331,18 +2445,18 @@ VALUES
 -- Bảng khau_phan_an
 INSERT INTO khau_phan_an (loai_dong_vat_an, ten_khau_phan, id_cddd, thoi_gian_an)
 VALUES
-    ('ăn thịt', 'Khẩu phần 1', 1, 'Buổi sáng'),
-    ('ăn cỏ', 'Khẩu phần 2', 2, 'Buổi trưa'),
-    ('ăn tạp', 'Khẩu phần 3', 3, 'Buổi chiều'),
-    ('ăn thịt', 'Khẩu phần 4', 4, 'Buổi sáng');
+    ('an thit', 'Khẩu phần 1', 1, 'Buoi sang'),
+    ('an co', 'Khẩu phần 2', 2, 'Buoi trua'),
+    ('an tap', 'Khẩu phần 3', 3, 'Buoi chieu'),
+    ('an thit', 'Khẩu phần 4', 4, 'Buoi sang');
 
 -- Bảng qua_trinh_cho_an
-INSERT INTO qua_trinh_cho_an (id_kpa, id_kv, cccd, ngay)
+INSERT INTO qua_trinh_cho_an (id_kpa, id_kv, ngay)
 VALUES
-    (1, 1, '123456789005', '2024-05-01'),
-    (2, 2, '123456789005', '2024-05-02'),
-    (3, 3, '123456789005', '2024-05-03'),
-    (4, 4, '123456789005', '2024-05-04');
+    (1, 1, '2024-05-01'),
+    (2, 2, '2024-05-02'),
+    (3, 3, '2024-05-03'),
+    (4, 4, '2024-05-04');
     
 INSERT INTO thuc_an (ten_thuc_an, ham_luong_dinh_duong, ngay_het_han, so_luong)
 VALUES
@@ -2362,18 +2476,18 @@ VALUES
 -- Bảng doi_tac
 INSERT INTO doi_tac (ten_doi_tac, loai_doi_tac)
 VALUES
-    ('Công ty Thực phẩm ABC', 'cung cấp thức ăn'),
-    ('Nhà cung cấp XYZ' , 'cung cấp thức ăn'),
-    ('Trang trại Bình Minh', 'cung cấp thức ăn'),
-    ('Công ty Nông nghiệp Xanh', 'cung cấp thức ăn'),
-    ('Sở thú ABC', 'sở thú'),
-    ('Sở thú XYZ' , 'sở thú'),
-    ('Sở thú DEF', 'sở thú'),
-    ('Sở thú GHK', 'sở thú'),
-    ('Viện nghiên cứu ABC', 'viện nghiên cứu'),
-    ('Viện nghiên cứu XYZ' , 'viện nghiên cứu'),
-    ('Viện nghiên cứu Bình Minh', 'viện nghiên cứu'),
-    ('Viện nghiên cứu Xanh', 'viện nghiên cứu');
+    ('Công ty Thực phẩm ABC', 'cung cap thuc an'),
+    ('Nhà cung cấp XYZ' , 'cung cap thuc an'),
+    ('Trang trại Bình Minh', 'cung cap thuc an'),
+    ('Công ty Nông nghiệp Xanh', 'cung cap thuc an'),
+    ('so thu ABC', 'so thu'),
+    ('so thu XYZ' , 'so thu'),
+    ('so thu DEF', 'so thu'),
+    ('so thu GHK', 'so thu'),
+    ('vien nghien cuu ABC', 'vien nghien cuu'),
+    ('vien nghien cuu XYZ' , 'vien nghien cuu'),
+    ('vien nghien cuu Bình Minh', 'vien nghien cuu'),
+    ('vien nghien cuu Xanh', 'vien nghien cuu');
 
 -- Bảng doi_tac_lien_he
 INSERT INTO doi_tac_lien_he (id_dt, dia_chi, sdt, email)
@@ -2402,10 +2516,10 @@ VALUES
 -- Bảng dt_so_thu
 INSERT INTO dt_so_thu (id_dt, loai_hinh_so_thu)
 VALUES
-    (5, 'Sở thú truyền thông'),
+    (5, 'so thu truyền thông'),
     (6, 'Công viên Safari'),
     (7, 'Vườn thú mở'),
-    (8, 'Sở thú chuyên biệt');
+    (8, 'so thu chuyên biệt');
 
 INSERT INTO st_chuong_trinh_bao_ton (id_dt, chuong_trinh_bao_ton)
 VALUES
@@ -2426,13 +2540,13 @@ INSERT INTO phieu_nhap (ngay_nhap, so_luong, loai_phieu_nhap, cccd) VALUES
 ('2024-12-01', 1, 'phiếu nhập động vật', '123456789001'),
 ('2024-12-01', 1, 'phiếu nhập động vật', '123456789001'),
 ('2024-12-02', 1, 'phiếu nhập động vật', '123456789001'),
-('2024-12-03', 15, 'phiếu nhập động vật', '123456789001'),
+('2024-12-03', 20, 'phiếu nhập động vật', '123456789001'),
 ('2024-12-04', 1, 'phiếu nhập động vật', '123456789002'),
 ('2024-12-04', 1, 'phiếu nhập động vật', '123456789002'),
 ('2024-12-04', 1, 'phiếu nhập động vật', '123456789002'),
-('2024-12-05', 12, 'phiếu nhập động vật', '123456789002'),
-('2024-12-05', 12, 'phiếu nhập động vật', '123456789001'),
-('2024-12-06', 10, 'phiếu nhập động vật', '123456789002'),
+('2024-12-05', 20, 'phiếu nhập động vật', '123456789002'),
+('2024-12-05', 20, 'phiếu nhập động vật', '123456789001'),
+('2024-12-06', 20, 'phiếu nhập động vật', '123456789002'),
 ('2024-12-06', 1, 'phiếu nhập động vật', '123456789002'),
 ('2024-12-06', 1, 'phiếu nhập động vật', '123456789002');
 
@@ -2447,19 +2561,19 @@ INSERT INTO phieu_nhap (ngay_nhap, so_luong, loai_phieu_nhap, cccd) VALUES
 
 -- Dữ liệu cho các phiếu nhập động vật
 INSERT INTO phieu_nhap_dong_vat (id_pn, ly_do_nhap, id_dt, ten_khoa_hoc) VALUES
-(1, 'Nhập khẩu động vật cho sở thú', 5, 'Panthera_tigris'),
-(2, 'Nhập khẩu động vật cho sở thú', 5, 'Panthera_tigris'),
-(3, 'Nhập khẩu động vật cho sở thú', 5, 'Panthera_tigris'),
-(4, 'Nhập khẩu động vật cho sở thú', 8, 'Ailuropoda_melanoleuca'),
-(5, 'Nhập khẩu động vật cho sở thú', 5, 'Giraffa_camelopardalis'),
-(6, 'Nhập khẩu động vật cho sở thú', 6, 'Elephas_maximus'),
-(7, 'Nhập khẩu động vật cho sở thú', 6, 'Elephas_maximus'),
-(8, 'Nhập khẩu động vật cho sở thú', 6, 'Elephas_maximus'),
-(9, 'Nhập khẩu động vật cho sở thú', 5, 'Giraffa_camelopardalis'),
-(10, 'Nhập khẩu động vật cho sở thú', 5, 'Equus_quagga'),
-(11, 'Nhập khẩu động vật cho sở thú', 7, 'Spheniscus_demersus'),
-(12, 'Nhập khẩu động vật cho sở thú', 6, 'Python_molurus'),
-(13, 'Nhập khẩu động vật cho sở thú', 6, 'Python_molurus');
+(1, 'Nhập khẩu động vật cho so thu', 5, 'Panthera_tigris'),
+(2, 'Nhập khẩu động vật cho so thu', 5, 'Panthera_tigris'),
+(3, 'Nhập khẩu động vật cho so thu', 5, 'Panthera_tigris'),
+(4, 'Nhập khẩu động vật cho so thu', 8, 'Ailuropoda_melanoleuca'),
+(5, 'Nhập khẩu động vật cho so thu', 5, 'Giraffa_camelopardalis'),
+(6, 'Nhập khẩu động vật cho so thu', 6, 'Elephas_maximus'),
+(7, 'Nhập khẩu động vật cho so thu', 6, 'Elephas_maximus'),
+(8, 'Nhập khẩu động vật cho so thu', 6, 'Elephas_maximus'),
+(9, 'Nhập khẩu động vật cho so thu', 5, 'Giraffa_camelopardalis'),
+(10, 'Nhập khẩu động vật cho so thu', 5, 'Equus_quagga'),
+(11, 'Nhập khẩu động vật cho so thu', 7, 'Spheniscus_demersus'),
+(12, 'Nhập khẩu động vật cho so thu', 6, 'Python_molurus'),
+(13, 'Nhập khẩu động vật cho so thu', 6, 'Python_molurus');
 
 
 -- Dữ liệu cho các phiếu nhập thức ăn
@@ -2472,18 +2586,18 @@ INSERT INTO phieu_nhap_thuc_an (id_pn, nguon_goc_xuat_xu, id_dt, id_ta) VALUES
 (19, 'Lào', 2, 3);
 
 INSERT INTO ca_the (id_kv, id_hssk, ten_khoa_hoc, id_ct_cha, ten_khoa_hoc_cha, id_ct_me, ten_khoa_hoc_me, tuoi, adn, gioi_tinh, trang_thai) VALUES
-(1, 1, 'Panthera_tigris', NULL, NULL, NULL, NULL, 6, 'ADN001', 'đực', 'cho thuê'),
-(1, 2, 'Panthera_tigris', NULL, NULL, NULL, NULL, 5, 'ADN002', 'cái', 'còn sống'),
-(2, 3, 'Elephas_maximus', NULL, NULL, NULL, NULL, 10, 'ADN004', 'cái', 'còn sống'),
-(2, 4, 'Elephas_maximus', NULL, NULL, NULL, NULL, 15, 'ADN005', 'đực', 'cho thuê'),
-(4, 5, 'Python_molurus', NULL, NULL, NULL, NULL, 3, 'ADN007', 'cái', 'cho thuê'),
-(4, 6, 'Python_molurus', NULL, NULL, NULL, NULL, 8, 'ADN008', 'đực', 'còn sống'),
-(2, 7, 'Ailuropoda_melanoleuca', NULL, NULL, NULL, NULL, 6, 'ADN009', 'cái', 'cho thuê');
+(1, 1, 'Panthera_tigris', NULL, NULL, NULL, NULL, 6, 'ADN001', 'duc', 'cho thue'),
+(1, 2, 'Panthera_tigris', NULL, NULL, NULL, NULL, 5, 'ADN002', 'cai', 'con song'),
+(2, 3, 'Elephas_maximus', NULL, NULL, NULL, NULL, 10, 'ADN004', 'cai', 'con song'),
+(2, 4, 'Elephas_maximus', NULL, NULL, NULL, NULL, 15, 'ADN005', 'duc', 'cho thue'),
+(4, 5, 'Python_molurus', NULL, NULL, NULL, NULL, 3, 'ADN007', 'cai', 'cho thue'),
+(4, 6, 'Python_molurus', NULL, NULL, NULL, NULL, 8, 'ADN008', 'duc', 'con song'),
+(2, 7, 'Ailuropoda_melanoleuca', NULL, NULL, NULL, NULL, 6, 'ADN009', 'cai', 'cho thue');
 
 
 INSERT INTO ca_the (id_kv, id_hssk, ten_khoa_hoc, id_ct_cha, ten_khoa_hoc_cha, id_ct_me, ten_khoa_hoc_me, tuoi, adn, gioi_tinh, trang_thai) VALUES
-(1, 8, 'Panthera_tigris', 1, 'Panthera_tigris', 2, 'Panthera_tigris', 1, 'ADN003', 'đực', 'còn sống'),
-(2, 9, 'Elephas_maximus', 4, 'Elephas_maximus', 5, 'Elephas_maximus', 2, 'ADN006', 'đực', 'còn sống');
+(1, 8, 'Panthera_tigris', 1, 'Panthera_tigris', 2, 'Panthera_tigris', 1, 'ADN003', 'duc', 'con song'),
+(2, 9, 'Elephas_maximus', 4, 'Elephas_maximus', 5, 'Elephas_maximus', 2, 'ADN006', 'duc', 'con song');
 
 INSERT INTO nhom (id_kv, id_hssk, ten_khoa_hoc, so_luong)
 VALUES
@@ -2498,3 +2612,18 @@ INSERT INTO cho_thue (id_dt, id_ct, ten_khoa_hoc, thoi_han) VALUES
 (7, 5, 'Python_molurus', 18),
 (8, 7, 'Ailuropoda_melanoleuca', 36);
 
+INSERT INTO phieu_xuat_dong_vat(ngay_xuat, so_luong, ly_do_xuat, id_dt, ten_khoa_hoc, cccd)
+VALUES
+('2024-12-01', 5, 'Xuất bán thương mại', 6, 'Giraffa_camelopardalis', '123456789001'),
+('2024-12-01', 8, 'Xuất bán thương mại', 6, 'Giraffa_camelopardalis', '123456789001'),
+('2024-12-01', 8, 'Xuất bán thương mại', 6, 'Equus_quagga', '123456789001'),
+('2024-12-01', 1, 'cho thue', 6, 'Ailuropoda_melanoleuca', '123456789002'),
+('2024-12-01', 10, 'Xuất bán thương mại', 6, 'Spheniscus_demersus', '123456789001');
+
+INSERT INTO mau_vat (ten_mau, loai_mau, tinh_trang_mau, ngay_thu_thap, ten_khoa_hoc, id_ct, id_dt) VALUES
+('Lông hổ', 'Lông', 'Tốt', '2024-01-15', 'Panthera_tigris', 1, 9),
+('Ngà voi', 'Xương', 'Tốt', '2024-02-10', 'Elephas_maximus', 3, 10),
+('Vảy trăn', 'Vảy', 'Tốt', '2024-03-05', 'Python_molurus', 5, NULL),
+('Lông gấu trúc', 'Lông', 'Tốt', '2024-04-18', 'Ailuropoda_melanoleuca', 7, 10),
+('Xương hổ', 'Xương', 'Đang phân hủy', '2024-08-12', 'Panthera_tigris', 2, 9),
+('Ngà voi nhỏ', 'Xương', 'Tốt', '2024-09-01', 'Elephas_maximus', 4, 11);

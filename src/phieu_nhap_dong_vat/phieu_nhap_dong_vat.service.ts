@@ -21,7 +21,8 @@ export class PhieuNhapDongVatService {
         ngay_nhap,
         ly_do_nhap,
         id_kv,             
-        id_hssk,          
+        can_nang,
+        chieu_cao,     
         id_ct_cha,
         ten_khoa_hoc_cha,
         id_ct_me, 
@@ -33,16 +34,17 @@ export class PhieuNhapDongVatService {
       } = createPhieuNhapDongVatCTDto;
       // Gọi procedure add_phieu_nhap_dong_vat
       const result =  connection.query(
-        'CALL add_phieu_nhap_dong_vat_ct(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+        'CALL add_phieu_nhap_dong_vat_ct(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
         [ 
           cccd,     
           ID_so_thu,     
-          ten_khoa_hoc,     
+          ten_khoa_hoc,      
           ngay_nhap,     
           so_luong,     
           ly_do_nhap,
-          id_kv,                 
-          id_hssk,           
+          id_kv,                  
+          can_nang,
+          chieu_cao,           
           id_ct_cha,  
           ten_khoa_hoc_cha,
           id_ct_me,      
@@ -84,7 +86,7 @@ export class PhieuNhapDongVatService {
       } = createPhieuNhapDongVatNhomDto;
       // Gọi procedure add_phieu_nhap_dong_vat
       const result =  connection.query(
-        'CALL add_phieu_nhap_dong_vat_nhom(?, ?, ?, ?, ?, ?, ?, ?)',
+        'CALL add_phieu_nhap_dong_vat_nhom(?, ?, ?, ?, ?, ?, ?)',
         [ 
           cccd,
           ID_so_thu,
@@ -144,7 +146,6 @@ export class PhieuNhapDongVatService {
         'CALL get_phieu_nhap_dong_vat_theo_id(?)',
         [id],
       );
-
       return { message: 'Request Successfully!', data: rows[0] };
     } catch (error) {
       console.log(error)

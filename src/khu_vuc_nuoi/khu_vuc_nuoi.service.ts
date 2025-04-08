@@ -1,7 +1,6 @@
 import { Injectable, Inject, InternalServerErrorException } from '@nestjs/common';
 import { Pool } from 'mysql2/promise';
 import { CreateKhuVucNuoiDto } from './dto/create-khu_vuc_nuoi.dto';
-import { UpdateKhuVucNuoiDto } from './dto/update-khu_vuc_nuoi.dto';
 
 @Injectable()
 export class KhuVucNuoiService {
@@ -34,6 +33,7 @@ export class KhuVucNuoiService {
       );
       return { message: 'Request Successfully!', data: rows[0] };
     } catch (error) {
+      console.log(error)
       throw new InternalServerErrorException({
         message: 'ERROR!!!!',
         details: error.message,
@@ -43,18 +43,32 @@ export class KhuVucNuoiService {
     }
   }
 
-  async findAllKhuVucNuoi(page: number, limit: number) {
+  async getAllKhuVucNuoi(page: number, limit: number) {
     const connection = await this.pool.getConnection();
     const offset = (page - 1) * limit;
     try {
-      // Gọi procedure get_cac_phieu_nhap_thuc_an
-      const [rows] = await connection.query(
+      let [rows] = await connection.query('SELECT get_number_of_khu_vuc_nuoi() AS recordCount');
+      
+      const totalRecords = rows[0].recordCount;
+      const totalPages = Math.ceil(totalRecords / limit);
+
+      [rows] = await connection.query(
         'CALL get_all_khu_vuc_nuoi(?, ?)',
         [offset, limit],
       );
 
-      return { message: 'Request Successfully!', data: rows[0] };
+      return { 
+        message: 'Request Successfully!', 
+        result: {
+          totalRecords,
+          totalPages,
+          currentPage: page,
+          limit: limit,
+          records: rows[0],
+        }  
+      };
     } catch (error) {
+      console.log(error)
       throw new InternalServerErrorException({
         message: 'ERROR!!!!',
         details: error.message,
@@ -64,15 +78,16 @@ export class KhuVucNuoiService {
     }
   }
 
-  async findKVNList() {
+  async getAllActiveKVN() {
     const connection = await this.pool.getConnection();
     try {
       const [rows] = await connection.query(
-        'CALL get_list_khu_vuc_nuoi()'
+        'CALL get_list_khu_vuc_nuoi_active()'
       );
 
       return { message: 'Request Successfully!', data: rows[0] };
     } catch (error) {
+      console.log(error)
       throw new InternalServerErrorException({
         message: 'ERROR!!!!',
         details: error.message,
@@ -82,7 +97,7 @@ export class KhuVucNuoiService {
     }
   }
 
-  async findOne(id: number) {
+  async getOne(id: number) {
     const connection = await this.pool.getConnection();
     try {
       // Gọi procedure get_cac_phieu_nhap_thuc_an
@@ -93,26 +108,7 @@ export class KhuVucNuoiService {
 
       return { message: 'Request Successfully!', data: rows[0] };
     } catch (error) {
-      throw new InternalServerErrorException({
-        message: 'ERROR!!!!',
-        details: error.message,
-      });
-    } finally {
-      connection.release();
-    }
-  }
-
-  async findNumberOfPageKVN(limit: number){
-    const connection = await this.pool.getConnection();
-    
-    try {
-      const [rows] = await connection.query('SELECT get_number_of_khu_vuc_nuoi() AS recordCount');
-      
-      const totalRecords = rows[0].recordCount;
-      const totalPages = Math.ceil(totalRecords / limit);
-      
-      return { message: 'Request Successfully!', data: totalPages};
-    } catch (error) {
+      console.log(error)
       throw new InternalServerErrorException({
         message: 'ERROR!!!!',
         details: error.message,
@@ -136,6 +132,7 @@ export class KhuVucNuoiService {
       
       return { message: 'Request Successfully!'};
     } catch (error) {
+      console.log(error)
       throw new InternalServerErrorException({
         message: 'ERROR!!!!',
         details: error.message,
@@ -154,6 +151,7 @@ export class KhuVucNuoiService {
 
       return { message: 'Request Successfully!' };
     } catch (error) {
+      console.log(error)
       throw new InternalServerErrorException({
         message: 'ERROR!!!!',
         details: error.message,

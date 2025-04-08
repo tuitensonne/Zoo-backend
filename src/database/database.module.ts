@@ -1,9 +1,5 @@
 import { Module, Global } from '@nestjs/common';
 import * as mysql from 'mysql2/promise';
-import * as dotenv from 'dotenv';
-
-// Nạp file môi trường
-dotenv.config({ path: 'sensitive.env' });
 
 @Global()
 @Module({
@@ -12,7 +8,6 @@ dotenv.config({ path: 'sensitive.env' });
       provide: 'DATABASE_POOL',
       useFactory: async () => {
         try {
-          // Tạo Pool kết nối MySQL
           const pool = mysql.createPool({
             host: process.env.DB_HOST,
             port: parseInt(process.env.DB_PORT, 10),
@@ -24,15 +19,14 @@ dotenv.config({ path: 'sensitive.env' });
             queueLimit: 0,
           });
 
-          // Kiểm tra kết nối
           const connection = await pool.getConnection();
-          console.log('✅ Database connected successfully!');
+          console.log('Database connected successfully!');
           connection.release();
 
-          return pool; // Trả về Pool
+          return pool; 
         } catch (err) {
-          console.error('❌ Database connection failed:', err.message);
-          throw err; // Ném lỗi nếu không kết nối được
+          console.error('Database connection failed:', err.message);
+          throw err; 
         }
       },
     },

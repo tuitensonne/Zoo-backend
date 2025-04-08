@@ -1,0 +1,2150 @@
+{
+	"info": {
+		"_postman_id": "565375c4-4d39-4870-912a-18d883d06fee",
+		"name": "API documentation",
+		"description": "# 📄 Get started here\n\nThis template contains a boilerplate for documentation that you can quickly customize and reuse.\n\n## 🔖 How to use this template\n\n- Replace the content given brackets (()) with your API's details.\n- Tips are formatted in `codespan` - feel free to read and remove them.\n    \n\n---\n\n`Start with a brief overview of what your API offers.`\n\nThe ((product name)) provides many API products, tools, and resources that enable you to ((add product value here)).\n\n`You can also list the APIs you offer, link to the relevant pages, or do both in this section.`\n\n## **Getting started guide**\n\n`List the steps or points required to start using your APIs. Make sure to cover everything required to reach success with your API as quickly as possible.`\n\nTo start using the ((add APIs here)), you need to -\n\n`The points given below are from The Postman API's documentation. You can reference it to write your own getting started guide.`\n\n- You must use a valid API Key to send requests to the API endpoints. You can get your API key from Postman's [integrations dashboard](https://go.postman.co/settings/me/api-keys).\n- The API has [rate and usage limits](https://learning.postman.com/docs/developer/postman-api/postman-api-rate-limits/).\n- The API only responds to HTTPS-secured communications. Any requests sent via HTTP return an HTTP 301 redirect to the corresponding HTTPS resources.\n- The API returns request responses in JSON format. When an API request returns an error, it is sent in the JSON response as an error key.\n    \n\n## Authentication\n\n`Add details on the authorization keys/tokens required, steps that cover how to get them, and the relevant error codes.`\n\nThe ((product name)) API uses ((add your API's authorization type)) for authentication.\n\n`The details given below are from the Postman API's documentation. You can reference it to write your own authentication section.`\n\nPostman uses API keys for authentication. You can generate a Postman API key in the [API keys](https://postman.postman.co/settings/me/api-keys) section of your Postman account settings.\n\nYou must include an API key in each request to the Postman API with the X-Api-Key request header.\n\n### Authentication error response\n\nIf an API key is missing, malformed, or invalid, you will receive an HTTP 401 Unauthorized response code.\n\n## Rate and usage limits\n\n`Use this section to cover your APIs' terms of use. Include API limits, constraints, and relevant error codes, so consumers understand the permitted API usage and practices.`\n\n`The example given below is from The Postman API's documentation. Use it as a reference to write your APIs' terms of use.`\n\nAPI access rate limits apply at a per-API key basis in unit time. The limit is 300 requests per minute. Also, depending on your plan, you may have usage limits. If you exceed either limit, your request will return an HTTP 429 Too Many Requests status code.\n\nEach API response returns the following set of headers to help you identify your use status:\n\n| Header | Description |\n| --- | --- |\n| `X-RateLimit-Limit` | The maximum number of requests that the consumer is permitted to make per minute. |\n| `X-RateLimit-Remaining` | The number of requests remaining in the current rate limit window. |\n| `X-RateLimit-Reset` | The time at which the current rate limit window resets in UTC epoch seconds. |\n\n### 503 response\n\nAn HTTP `503` response from our servers indicates there is an unexpected spike in API access traffic. The server is usually operational within the next five minutes. If the outage persists or you receive any other form of an HTTP `5XX` error, [contact support](https://support.postman.com/hc/en-us/requests/new/).\n\n### **Need some help?**\n\n`Add links that customers can refer to whenever they need help.`\n\nIn case you have questions, go through our tutorials ((link to your video or help documentation here)). Or visit our FAQ page ((link to the relevant page)).\n\nOr you can check out our community forum, there’s a good chance our community has an answer for you. Visit our developer forum ((link to developer forum)) to review topics, ask questions, and learn from others.\n\n`You can also document or add links to libraries, code examples, and other resources needed to make a request.`",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "40073034"
+	},
+	"item": [
+		{
+			"name": "Phieu nhap thuc an",
+			"item": [
+				{
+					"name": "Create Phieu Nhap Thuc An",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"cccd\": \"123456789001\",\r\n  \"ID_ben_cung_cap_thuc_an\": 1,\r\n  \"ten_thuc_an\": \"Ức gà\",\r\n  \"ham_luong_dinh_duong\": 2,\r\n  \"ngay_het_han\": \"2025-02-22\",\r\n  \"ngay_nhap\": \"2024-02-22\",\r\n  \"so_luong\": 10,\r\n  \"nguon_goc_xuat_xu\": \"Việt Nam\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8088/phieu-nhap-thuc-an",
+							"host": [
+								"localhost"
+							],
+							"port": "8088",
+							"path": [
+								"phieu-nhap-thuc-an"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"cccd\": \"123456789001\",\r\n  \"ID_ben_cung_cap_thuc_an\": 1,\r\n  \"ten_thuc_an\": \"Ức gà\",\r\n  \"ham_luong_dinh_duong\": 2,\r\n  \"ngay_het_han\": \"2025-02-22\",\r\n  \"ngay_nhap\": \"2024-02-22\",\r\n  \"so_luong\": 10,\r\n  \"nguon_goc_xuat_xu\": \"Việt Nam\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8088/phieu-nhap-thuc-an",
+									"host": [
+										"localhost"
+									],
+									"port": "8088",
+									"path": [
+										"phieu-nhap-thuc-an"
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": "{\r\n    \"message\": \"Request Successfully!\"\r\n}"
+						}
+					]
+				},
+				{
+					"name": "Get All Phieu Nhap Thuc An",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8088/phieu-nhap-thuc-an?page=1&limit=5",
+							"host": [
+								"localhost"
+							],
+							"port": "8088",
+							"path": [
+								"phieu-nhap-thuc-an"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "limit",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8088/phieu-nhap-thuc-an?page=1&limit=5",
+									"host": [
+										"localhost"
+									],
+									"port": "8088",
+									"path": [
+										"phieu-nhap-thuc-an"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": "limit",
+											"value": "5"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [],
+							"body": "{\r\n    \"message\": \"Request Successfully!\",\r\n    \"data\": [\r\n        {\r\n            \"id_pn\": 14,\r\n            \"ngay_nhap\": \"2024-12-06T17:00:00.000Z\",\r\n            \"so_luong\": 200,\r\n            \"loai_phieu_nhap\": \"phiếu nhập thức ăn\",\r\n            \"cccd\": \"123456789001\",\r\n            \"nguon_goc_xuat_xu\": \"Việt Nam\",\r\n            \"id_dt\": 2,\r\n            \"id_ta\": 1\r\n        },\r\n        {\r\n            \"id_pn\": 15,\r\n            \"ngay_nhap\": \"2024-12-07T17:00:00.000Z\",\r\n            \"so_luong\": 150,\r\n            \"loai_phieu_nhap\": \"phiếu nhập thức ăn\",\r\n            \"cccd\": \"123456789001\",\r\n            \"nguon_goc_xuat_xu\": \"Thái Lan\",\r\n            \"id_dt\": 2,\r\n            \"id_ta\": 2\r\n        },\r\n        {\r\n            \"id_pn\": 16,\r\n            \"ngay_nhap\": \"2024-12-08T17:00:00.000Z\",\r\n            \"so_luong\": 180,\r\n            \"loai_phieu_nhap\": \"phiếu nhập thức ăn\",\r\n            \"cccd\": \"123456789001\",\r\n            \"nguon_goc_xuat_xu\": \"Malaysia\",\r\n            \"id_dt\": 2,\r\n            \"id_ta\": 3\r\n        },\r\n        {\r\n            \"id_pn\": 17,\r\n            \"ngay_nhap\": \"2024-12-09T17:00:00.000Z\",\r\n            \"so_luong\": 220,\r\n            \"loai_phieu_nhap\": \"phiếu nhập thức ăn\",\r\n            \"cccd\": \"123456789002\",\r\n            \"nguon_goc_xuat_xu\": \"Indonesia\",\r\n            \"id_dt\": 2,\r\n            \"id_ta\": 4\r\n        },\r\n        {\r\n            \"id_pn\": 18,\r\n            \"ngay_nhap\": \"2024-12-10T17:00:00.000Z\",\r\n            \"so_luong\": 160,\r\n            \"loai_phieu_nhap\": \"phiếu nhập thức ăn\",\r\n            \"cccd\": \"123456789002\",\r\n            \"nguon_goc_xuat_xu\": \"Campuchia\",\r\n            \"id_dt\": 2,\r\n            \"id_ta\": 2\r\n        }\r\n    ]\r\n}"
+						}
+					]
+				},
+				{
+					"name": "Get Phieu Nhap Thuc An theo ID",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8088/phieu-nhap-thuc-an/2",
+							"host": [
+								"localhost"
+							],
+							"port": "8088",
+							"path": [
+								"phieu-nhap-thuc-an",
+								"2"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8088/phieu-nhap-thuc-an/14",
+									"host": [
+										"localhost"
+									],
+									"port": "8088",
+									"path": [
+										"phieu-nhap-thuc-an",
+										"14"
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": "{\r\n    \"message\": \"Request Successfully!\",\r\n    \"data\": [\r\n        {\r\n            \"id_pn\": 14,\r\n            \"ngay_nhap\": \"2024-12-06T17:00:00.000Z\",\r\n            \"so_luong\": 200,\r\n            \"loai_phieu_nhap\": \"phiếu nhập thức ăn\",\r\n            \"cccd\": \"123456789001\",\r\n            \"nguon_goc_xuat_xu\": \"Việt Nam\",\r\n            \"id_dt\": 2,\r\n            \"id_ta\": 1\r\n        }\r\n    ]\r\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete Phieu Nhap Thuc An theo ID",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8088/phieu-nhap-thuc-an/7",
+							"host": [
+								"localhost"
+							],
+							"port": "8088",
+							"path": [
+								"phieu-nhap-thuc-an",
+								"7"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8088/phieu-nhap-thuc-an/14",
+									"host": [
+										"localhost"
+									],
+									"port": "8088",
+									"path": [
+										"phieu-nhap-thuc-an",
+										"14"
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": "{\r\n    \"message\": \"Request Successfully!\"\r\n}"
+						}
+					]
+				},
+				{
+					"name": "Get Total Page For PNTA",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"vi_tri\": \"Khu A\",\r\n  \"suc_chua_toi_da\": 15,\r\n  \"trang_thai_hoat_dong\": \"sử dụng\",\r\n  \"dien_tich\": 14,\r\n  \"chieu_cao\": 21,\r\n  \"loai_moi_truong\": \"trên cạn\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8088/phieu-nhap-thuc-an/total-pages?limit=10",
+							"host": [
+								"localhost"
+							],
+							"port": "8088",
+							"path": [
+								"phieu-nhap-thuc-an",
+								"total-pages"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8088/phieu-nhap-thuc-an/total-pages?limit=10",
+									"host": [
+										"localhost"
+									],
+									"port": "8088",
+									"path": [
+										"phieu-nhap-thuc-an",
+										"total-pages"
+									],
+									"query": [
+										{
+											"key": "limit",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": "{\r\n    \"message\": \"Request Successfully!\",\r\n    \"data\": 1\r\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Phieu nhap dong vat",
+			"item": [
+				{
+					"name": "Create Phieu Nhap Ca The",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"cccd\": \"123456789002\",\r\n    \"ID_so_thu\": 6,\r\n    \"ten_khoa_hoc\": \"Panthera_tigris\",\r\n    \"ngay_nhap\": \"2022-02-22\",\r\n    \"so_luong\": 1,\r\n    \"ly_do_nhap\": \"Bảo tồn động vật quý hiếm\",\r\n    \"id_kv\": 1,\r\n    \"id_hssk\": 14,\r\n    \"id_ct_cha\": null,\r\n    \"ten_khoa_hoc_cha\": null,\r\n    \"id_ct_me\": null,\r\n    \"ten_khoa_hoc_me\": null,\r\n    \"tuoi\": 12,\r\n    \"adn\": \"1231456\",\r\n    \"gioi_tinh\": \"đực\",\r\n    \"trang_thai\": \"còn sống\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8088/phieu-nhap-dong-vat/cathe",
+							"host": [
+								"localhost"
+							],
+							"port": "8088",
+							"path": [
+								"phieu-nhap-dong-vat",
+								"cathe"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "localhost:8088/loai-dong-vat/create",
+									"host": [
+										"localhost"
+									],
+									"port": "8088",
+									"path": [
+										"loai-dong-vat",
+										"create"
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": "{\r\n    \"message\": \"Request Successfully!\"\r\n}"
+						}
+					]
+				},
+				{
+					"name": "Create Phieu Nhap Nhom",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8088/phieu-nhap-dong-vat/nhom",
+							"host": [
+								"localhost"
+							],
+							"port": "8088",
+							"path": [
+								"phieu-nhap-dong-vat",
+								"nhom"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"cccd\": \"123456789002\",\r\n    \"ID_so_thu\": 6,\r\n    \"ten_khoa_hoc\": \"Giraffa_camelopardalis\",\r\n    \"ngay_nhap\": \"2022-02-22\",\r\n    \"so_luong\": 12,\r\n    \"ly_do_nhap\": \"Bảo tồn động vật quý hiếm\",\r\n    \"id_kv\": 2,\r\n    \"id_hssk\": 15\r\n\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8088/phieu-nhap-dong-vat/nhom",
+									"host": [
+										"localhost"
+									],
+									"port": "8088",
+									"path": [
+										"phieu-nhap-dong-vat",
+										"nhom"
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": "{\r\n    \"message\": \"Request Successfully!\"\r\n}"
+						}
+					]
+				},
+				{
+					"name": "Get Total Page For PNDV",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"vi_tri\": \"Khu A\",\r\n  \"suc_chua_toi_da\": 15,\r\n  \"trang_thai_hoat_dong\": \"sử dụng\",\r\n  \"dien_tich\": 14,\r\n  \"chieu_cao\": 21,\r\n  \"loai_moi_truong\": \"trên cạn\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8088/phieu-nhap-dong-vat/total-pages?limit=10",
+							"host": [
+								"localhost"
+							],
+							"port": "8088",
+							"path": [
+								"phieu-nhap-dong-vat",
+								"total-pages"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8088/phieu-nhap-dong-vat/total-pages?limit=10",
+									"host": [
+										"localhost"
+									],
+									"port": "8088",
+									"path": [
+										"phieu-nhap-dong-vat",
+										"total-pages"
+									],
+									"query": [
+										{
+											"key": "limit",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": "{\r\n    \"message\": \"Request Successfully!\",\r\n    \"data\": 2\r\n}"
+						}
+					]
+				},
+				{
+					"name": "Get Phieu Nhap Dong Vat theo ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8088/phieu-nhap-dong-vat/2",
+							"host": [
+								"localhost"
+							],
+							"port": "8088",
+							"path": [
+								"phieu-nhap-dong-vat",
+								"2"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8088/phieu-nhap-dong-vat/2",
+									"host": [
+										"localhost"
+									],
+									"port": "8088",
+									"path": [
+										"phieu-nhap-dong-vat",
+										"2"
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": "{\r\n    \"message\": \"Request Successfully!\",\r\n    \"data\": [\r\n        {\r\n            \"id_pn\": 2,\r\n            \"ngay_nhap\": \"2024-11-30T17:00:00.000Z\",\r\n            \"so_luong\": 1,\r\n            \"loai_phieu_nhap\": \"phiếu nhập động vật\",\r\n            \"cccd\": \"123456789001\",\r\n            \"ly_do_nhap\": \"Nhập khẩu động vật cho sở thú\",\r\n            \"id_dt\": 5,\r\n            \"ten_khoa_hoc\": \"Panthera_tigris\"\r\n        }\r\n    ]\r\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete Phieu Nhap Dong Vat theo ID",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8088/phieu-nhap-dong-vat/id",
+							"host": [
+								"localhost"
+							],
+							"port": "8088",
+							"path": [
+								"phieu-nhap-dong-vat",
+								"id"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": 2\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8088/phieu-nhap-dong-vat/id",
+									"host": [
+										"localhost"
+									],
+									"port": "8088",
+									"path": [
+										"phieu-nhap-dong-vat",
+										"id"
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": "{\r\n    \"message\": \"Request Successfully!\"\r\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Phieu xuat dong vat",
+			"item": [
+				{
+					"name": "Create Phieu Xuat Ca The",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8088/tao-phieu-xuat-dong-vat/createct",
+							"host": [
+								"localhost"
+							],
+							"port": "8088",
+							"path": [
+								"tao-phieu-xuat-dong-vat",
+								"createct"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Create Phieu Xuat Ca The",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8088/tao-phieu-xuat-dong-vat/createct",
+									"host": [
+										"localhost"
+									],
+									"port": "8088",
+									"path": [
+										"tao-phieu-xuat-dong-vat",
+										"createct"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Create Phieu Xuat Nhom",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8088/phieu-nhap-dong-vat/nhom",
+							"host": [
+								"localhost"
+							],
+							"port": "8088",
+							"path": [
+								"phieu-nhap-dong-vat",
+								"nhom"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Create Phieu Xuat Nhom",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8088/tao-phieu-xuat-dong-vat/createGroup",
+									"host": [
+										"localhost"
+									],
+									"port": "8088",
+									"path": [
+										"tao-phieu-xuat-dong-vat",
+										"createGroup"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": null
+						}
+					]
+				},
+				{
+					"name": "Get Total Page For PXDV",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5ndXllbnZhbmFAZ21haWwuY29tIiwiam9iVHlwZSI6InZhbiBwaG9uZyIsImlhdCI6MTc0NDEyMTYzNCwiZXhwIjoxNzQ0MTIyNTM0fQ.p2rA6WWWOva-2htM7z824A1llxmx3m5c9M1BxQKplp4",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"vi_tri\": \"Khu A\",\r\n  \"suc_chua_toi_da\": 15,\r\n  \"trang_thai_hoat_dong\": \"sử dụng\",\r\n  \"dien_tich\": 14,\r\n  \"chieu_cao\": 21,\r\n  \"loai_moi_truong\": \"trên cạn\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8088/phieu-xuat-dong-vat/total-pages?limit=10",
+							"host": [
+								"localhost"
+							],
+							"port": "8088",
+							"path": [
+								"phieu-xuat-dong-vat",
+								"total-pages"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8088/phieu-nhap-dong-vat/total-pages?limit=10",
+									"host": [
+										"localhost"
+									],
+									"port": "8088",
+									"path": [
+										"phieu-nhap-dong-vat",
+										"total-pages"
+									],
+									"query": [
+										{
+											"key": "limit",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": "{\r\n    \"message\": \"Request Successfully!\",\r\n    \"data\": 1\r\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete Phieu Xuat Dong Vat theo ID",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"id\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8088/phieu-xuat-dong-vat/2",
+							"host": [
+								"localhost"
+							],
+							"port": "8088",
+							"path": [
+								"phieu-xuat-dong-vat",
+								"2"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"id\": 2\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8088/phieu-nhap-dong-vat/id",
+									"host": [
+										"localhost"
+									],
+									"port": "8088",
+									"path": [
+										"phieu-nhap-dong-vat",
+										"id"
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": "{\r\n    \"message\": \"Request Successfully!\"\r\n}"
+						}
+					]
+				},
+				{
+					"name": "Get all phieu xuat",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8088/phieu-xuat-dong-vat?page=0&limit=10",
+							"host": [
+								"localhost"
+							],
+							"port": "8088",
+							"path": [
+								"phieu-xuat-dong-vat"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "0"
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get all phieu xuat",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8088/phieu-xuat-dong-vat?page=0&limit=10",
+									"host": [
+										"localhost"
+									],
+									"port": "8088",
+									"path": [
+										"phieu-xuat-dong-vat"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "0"
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "[\r\n    {\r\n        \"id_px\": 1,\r\n        \"ten_khoa_hoc\": \"Giraffa_camelopardalis\",\r\n        \"ngay_xuat\": \"2024-11-30T17:00:00.000Z\",\r\n        \"so_luong\": 5,\r\n        \"ly_do_xuat\": \"Xuất bán thương mại\",\r\n        \"id_dt\": 6,\r\n        \"cccd\": \"123456789001\",\r\n        \"loai\": \"1\"\r\n    },\r\n    {\r\n        \"id_px\": 2,\r\n        \"ten_khoa_hoc\": \"Giraffa_camelopardalis\",\r\n        \"ngay_xuat\": \"2024-11-30T17:00:00.000Z\",\r\n        \"so_luong\": 8,\r\n        \"ly_do_xuat\": \"Xuất bán thương mại\",\r\n        \"id_dt\": 6,\r\n        \"cccd\": \"123456789001\",\r\n        \"loai\": \"1\"\r\n    },\r\n    {\r\n        \"id_px\": 3,\r\n        \"ten_khoa_hoc\": \"Equus_quagga\",\r\n        \"ngay_xuat\": \"2024-11-30T17:00:00.000Z\",\r\n        \"so_luong\": 8,\r\n        \"ly_do_xuat\": \"Xuất bán thương mại\",\r\n        \"id_dt\": 6,\r\n        \"cccd\": \"123456789001\",\r\n        \"loai\": \"1\"\r\n    },\r\n    {\r\n        \"id_px\": 4,\r\n        \"ten_khoa_hoc\": \"Ailuropoda_melanoleuca\",\r\n        \"ngay_xuat\": \"2024-11-30T17:00:00.000Z\",\r\n        \"so_luong\": 1,\r\n        \"ly_do_xuat\": \"cho thue\",\r\n        \"id_dt\": 6,\r\n        \"cccd\": \"123456789002\",\r\n        \"loai\": \"0\"\r\n    },\r\n    {\r\n        \"id_px\": 5,\r\n        \"ten_khoa_hoc\": \"Spheniscus_demersus\",\r\n        \"ngay_xuat\": \"2024-11-30T17:00:00.000Z\",\r\n        \"so_luong\": 10,\r\n        \"ly_do_xuat\": \"Xuất bán thương mại\",\r\n        \"id_dt\": 6,\r\n        \"cccd\": \"123456789001\",\r\n        \"loai\": \"1\"\r\n    },\r\n    {\r\n        \"id_px\": 6,\r\n        \"ten_khoa_hoc\": \"Equus_quagga\",\r\n        \"ngay_xuat\": \"2025-02-21T17:00:00.000Z\",\r\n        \"so_luong\": 1,\r\n        \"ly_do_xuat\": \"Chuyển giao\",\r\n        \"id_dt\": 5,\r\n        \"cccd\": \"123456789001\",\r\n        \"loai\": \"1\"\r\n    },\r\n    {\r\n        \"id_px\": 7,\r\n        \"ten_khoa_hoc\": \"Panthera_tigris\",\r\n        \"ngay_xuat\": \"2022-02-21T17:00:00.000Z\",\r\n        \"so_luong\": 1,\r\n        \"ly_do_xuat\": \"Chuyển giao\",\r\n        \"id_dt\": 6,\r\n        \"cccd\": \"123456789001\",\r\n        \"loai\": \"0\"\r\n    },\r\n    {\r\n        \"id_px\": 8,\r\n        \"ten_khoa_hoc\": \"Panthera_tigris\",\r\n        \"ngay_xuat\": \"2025-02-21T17:00:00.000Z\",\r\n        \"so_luong\": 1,\r\n        \"ly_do_xuat\": \"Chuyển giao\",\r\n        \"id_dt\": 6,\r\n        \"cccd\": \"123456789001\",\r\n        \"loai\": \"0\"\r\n    }\r\n]"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Khu vuc nuoi",
+			"item": [
+				{
+					"name": "Create Khu Vuc Nuoi",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"vi_tri\": \"Khu A\",\r\n  \"suc_chua_toi_da\": 15,\r\n  \"trang_thai_hoat_dong\": \"sử dụng\",\r\n  \"dien_tich\": 14,\r\n  \"chieu_cao\": 21,\r\n  \"loai_moi_truong\": \"trên cạn\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8088/khu-vuc-nuoi",
+							"host": [
+								"localhost"
+							],
+							"port": "8088",
+							"path": [
+								"khu-vuc-nuoi"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"vi_tri\": \"Khu A\",\r\n  \"suc_chua_toi_da\": 15,\r\n  \"trang_thai_hoat_dong\": \"sử dụng\",\r\n  \"dien_tich\": 14,\r\n  \"chieu_cao\": 21,\r\n  \"loai_moi_truong\": \"trên cạn\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8088/khu-vuc-nuoi",
+									"host": [
+										"localhost"
+									],
+									"port": "8088",
+									"path": [
+										"khu-vuc-nuoi"
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": "{\r\n    \"message\": \"Request Successfully!\"\r\n}"
+						}
+					]
+				},
+				{
+					"name": "Get All Khu Vuc Nuoi",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8088/khu-vuc-nuoi?page=1&&limit=10",
+							"host": [
+								"localhost"
+							],
+							"port": "8088",
+							"path": [
+								"khu-vuc-nuoi"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": null,
+									"value": null
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8088/khu-vuc-nuoi?page=1&&limit=10",
+									"host": [
+										"localhost"
+									],
+									"port": "8088",
+									"path": [
+										"khu-vuc-nuoi"
+									],
+									"query": [
+										{
+											"key": "page",
+											"value": "1"
+										},
+										{
+											"key": null,
+											"value": null
+										},
+										{
+											"key": "limit",
+											"value": "10"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": "{\r\n    \"message\": \"Request Successfully!\",\r\n    \"data\": [\r\n        {\r\n            \"id_kv\": 1,\r\n            \"vi_tri\": \"Khu vực A\",\r\n            \"suc_chua_toi_da\": 40,\r\n            \"trang_thai_hoat_dong\": \"sử dụng\",\r\n            \"dien_tich\": 100,\r\n            \"chieu_cao\": 10,\r\n            \"loai_moi_truong\": \"trên cạn\"\r\n        },\r\n        {\r\n            \"id_kv\": 2,\r\n            \"vi_tri\": \"Khu vực B\",\r\n            \"suc_chua_toi_da\": 60,\r\n            \"trang_thai_hoat_dong\": \"sử dụng\",\r\n            \"dien_tich\": 200,\r\n            \"chieu_cao\": 12,\r\n            \"loai_moi_truong\": \"trên cạn\"\r\n        },\r\n        {\r\n            \"id_kv\": 3,\r\n            \"vi_tri\": \"Khu vực C\",\r\n            \"suc_chua_toi_da\": 50,\r\n            \"trang_thai_hoat_dong\": \"sử dụng\",\r\n            \"dien_tich\": 300,\r\n            \"chieu_cao\": 15,\r\n            \"loai_moi_truong\": \"cả hai\"\r\n        },\r\n        {\r\n            \"id_kv\": 4,\r\n            \"vi_tri\": \"Khu vực D\",\r\n            \"suc_chua_toi_da\": 40,\r\n            \"trang_thai_hoat_dong\": \"sử dụng\",\r\n            \"dien_tich\": 50,\r\n            \"chieu_cao\": 8,\r\n            \"loai_moi_truong\": \"trên cạn\"\r\n        },\r\n        {\r\n            \"id_kv\": 5,\r\n            \"vi_tri\": \"Khu vực E\",\r\n            \"suc_chua_toi_da\": 40,\r\n            \"trang_thai_hoat_dong\": \"sử dụng\",\r\n            \"dien_tich\": 120,\r\n            \"chieu_cao\": 10,\r\n            \"loai_moi_truong\": \"dưới nước\"\r\n        },\r\n        {\r\n            \"id_kv\": 6,\r\n            \"vi_tri\": \"Khu vực F\",\r\n            \"suc_chua_toi_da\": 50,\r\n            \"trang_thai_hoat_dong\": \"sử dụng\",\r\n            \"dien_tich\": 150,\r\n            \"chieu_cao\": 9,\r\n            \"loai_moi_truong\": \"dưới nước\"\r\n        },\r\n        {\r\n            \"id_kv\": 7,\r\n            \"vi_tri\": \"Khu A\",\r\n            \"suc_chua_toi_da\": 15,\r\n            \"trang_thai_hoat_dong\": \"sử dụng\",\r\n            \"dien_tich\": 14,\r\n            \"chieu_cao\": 21,\r\n            \"loai_moi_truong\": \"trên cạn\"\r\n        }\r\n    ]\r\n}"
+						}
+					]
+				},
+				{
+					"name": "Get Thong Tin Chung Cua KVN",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8088/khu-vuc-nuoi?page=1&&limit=10",
+							"host": [
+								"localhost"
+							],
+							"port": "8088",
+							"path": [
+								"khu-vuc-nuoi"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": null,
+									"value": null
+								},
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8088/khu-vuc-nuoi/list",
+									"host": [
+										"localhost"
+									],
+									"port": "8088",
+									"path": [
+										"khu-vuc-nuoi",
+										"list"
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": "{\r\n    \"message\": \"Request Successfully!\",\r\n    \"data\": [\r\n        {\r\n            \"id_kv\": 1,\r\n            \"vi_tri\": \"Khu vực A\",\r\n            \"loai_moi_truong\": \"trên cạn\"\r\n        },\r\n        {\r\n            \"id_kv\": 2,\r\n            \"vi_tri\": \"Khu vực B\",\r\n            \"loai_moi_truong\": \"trên cạn\"\r\n        },\r\n        {\r\n            \"id_kv\": 4,\r\n            \"vi_tri\": \"Khu vực D\",\r\n            \"loai_moi_truong\": \"trên cạn\"\r\n        },\r\n        {\r\n            \"id_kv\": 5,\r\n            \"vi_tri\": \"Khu vực E\",\r\n            \"loai_moi_truong\": \"dưới nước\"\r\n        },\r\n        {\r\n            \"id_kv\": 6,\r\n            \"vi_tri\": \"Khu vực F\",\r\n            \"loai_moi_truong\": \"dưới nước\"\r\n        },\r\n        {\r\n            \"id_kv\": 7,\r\n            \"vi_tri\": \"Khu A\",\r\n            \"loai_moi_truong\": \"trên cạn\"\r\n        }\r\n    ]\r\n}"
+						}
+					]
+				},
+				{
+					"name": "Get Total Page For KVN",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"vi_tri\": \"Khu A\",\r\n  \"suc_chua_toi_da\": 15,\r\n  \"trang_thai_hoat_dong\": \"sử dụng\",\r\n  \"dien_tich\": 14,\r\n  \"chieu_cao\": 21,\r\n  \"loai_moi_truong\": \"trên cạn\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8088/khu-vuc-nuoi/total-pages?limit=10",
+							"host": [
+								"localhost"
+							],
+							"port": "8088",
+							"path": [
+								"khu-vuc-nuoi",
+								"total-pages"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8088/khu-vuc-nuoi/total-pages?limit=5",
+									"host": [
+										"localhost"
+									],
+									"port": "8088",
+									"path": [
+										"khu-vuc-nuoi",
+										"total-pages"
+									],
+									"query": [
+										{
+											"key": "limit",
+											"value": "5"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": "{\r\n    \"message\": \"Request Successfully!\",\r\n    \"data\": 2\r\n}"
+						}
+					]
+				},
+				{
+					"name": "Find KVN By ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8088/khu-vuc-nuoi/2",
+							"host": [
+								"localhost"
+							],
+							"port": "8088",
+							"path": [
+								"khu-vuc-nuoi",
+								"2"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8088/khu-vuc-nuoi/2",
+									"host": [
+										"localhost"
+									],
+									"port": "8088",
+									"path": [
+										"khu-vuc-nuoi",
+										"2"
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": "{\r\n    \"message\": \"Request Successfully!\",\r\n    \"data\": [\r\n        {\r\n            \"id_kv\": 2,\r\n            \"vi_tri\": \"Khu vực B\",\r\n            \"suc_chua_toi_da\": 60,\r\n            \"trang_thai_hoat_dong\": \"sử dụng\",\r\n            \"dien_tich\": 200,\r\n            \"chieu_cao\": 12,\r\n            \"loai_moi_truong\": \"trên cạn\"\r\n        }\r\n    ]\r\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete Khu Vuc Nuoi theo ID",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8088/khu-vuc-nuoi/2",
+							"host": [
+								"localhost"
+							],
+							"port": "8088",
+							"path": [
+								"khu-vuc-nuoi",
+								"2"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "localhost:8088/khu-vuc-nuoi/3",
+									"host": [
+										"localhost"
+									],
+									"port": "8088",
+									"path": [
+										"khu-vuc-nuoi",
+										"3"
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": "{\r\n    \"message\": \"Request Successfully!\"\r\n}"
+						}
+					]
+				},
+				{
+					"name": "Update Trang Thai KVN",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"trang_thai_hoat_dong\": \"sử dụng\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8088/khu-vuc-nuoi/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8088",
+							"path": [
+								"khu-vuc-nuoi",
+								"2"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8088/loai-dong-vat/create",
+									"host": [
+										"localhost"
+									],
+									"port": "8088",
+									"path": [
+										"loai-dong-vat",
+										"create"
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Loai Dong Vat",
+			"item": [
+				{
+					"name": "get CT theo gioi tinh",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5ndXllbnZhbmFAZ21haWwuY29tIiwiam9iVHlwZSI6InZhbiBwaG9uZyIsImlhdCI6MTc0NDEyMDk1OSwiZXhwIjoxNzQ0MTIxODU5fQ.l9dxPEWI7NDbs0K0Hgec2ZM4loX2r2EciTp8E8KfgXA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8088/loai-dong-vat/cathe?ten_khoa_hoc=Panthera_tigris&gioi_tinh=1",
+							"host": [
+								"localhost"
+							],
+							"port": "8088",
+							"path": [
+								"loai-dong-vat",
+								"cathe"
+							],
+							"query": [
+								{
+									"key": "ten_khoa_hoc",
+									"value": "Panthera_tigris"
+								},
+								{
+									"key": "gioi_tinh",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8088/loai-dong-vat/cathe?ten_khoa_hoc=Ailuropoda_melanoleuca&gioi_tinh=1",
+									"host": [
+										"localhost"
+									],
+									"port": "8088",
+									"path": [
+										"loai-dong-vat",
+										"cathe"
+									],
+									"query": [
+										{
+											"key": "ten_khoa_hoc",
+											"value": "Ailuropoda_melanoleuca"
+										},
+										{
+											"key": "gioi_tinh",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [
+								{}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date"
+								}
+							],
+							"body": "{\r\n    \"message\": \"Request Successfully!\",\r\n    \"data\": [\r\n        {\r\n            \"id_ct\": 7\r\n        }\r\n    ]\r\n}"
+						}
+					]
+				},
+				{
+					"name": "get All LDV",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8088/loai-dong-vat/cathe?ten_khoa_hoc=Panthera_tigris&gioi_tinh=1",
+							"host": [
+								"localhost"
+							],
+							"port": "8088",
+							"path": [
+								"loai-dong-vat",
+								"cathe"
+							],
+							"query": [
+								{
+									"key": "ten_khoa_hoc",
+									"value": "Panthera_tigris"
+								},
+								{
+									"key": "gioi_tinh",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8088/loai-dong-vat/getallLDV",
+									"host": [
+										"localhost"
+									],
+									"port": "8088",
+									"path": [
+										"loai-dong-vat",
+										"getallLDV"
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [
+								{}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date"
+								}
+							],
+							"body": "{\r\n    \"message\": \"Request Successfully!\",\r\n    \"data\": [\r\n        {\r\n            \"ten_khoa_hoc\": \"Ailuropoda_melanoleuca\",\r\n            \"loai\": \"Cá thể\"\r\n        },\r\n        {\r\n            \"ten_khoa_hoc\": \"Elephas_maximus\",\r\n            \"loai\": \"Cá thể\"\r\n        },\r\n        {\r\n            \"ten_khoa_hoc\": \"Panthera_tigris\",\r\n            \"loai\": \"Cá thể\"\r\n        },\r\n        {\r\n            \"ten_khoa_hoc\": \"Python_molurus\",\r\n            \"loai\": \"Cá thể\"\r\n        },\r\n        {\r\n            \"ten_khoa_hoc\": \"Equus_quagga\",\r\n            \"loai\": \"Nhóm\"\r\n        },\r\n        {\r\n            \"ten_khoa_hoc\": \"Giraffa_camelopardalis\",\r\n            \"loai\": \"Nhóm\"\r\n        },\r\n        {\r\n            \"ten_khoa_hoc\": \"Spheniscus_demersus\",\r\n            \"loai\": \"Nhóm\"\r\n        },\r\n        {\r\n            \"ten_khoa_hoc\": \"Ailuropoda_melanoleuca\",\r\n            \"loai\": \"\"\r\n        }\r\n    ]\r\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Doi Tac",
+			"item": [
+				{
+					"name": "get All Doi Tac So Thu",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8088/doi-tac/sothu",
+							"host": [
+								"localhost"
+							],
+							"port": "8088",
+							"path": [
+								"doi-tac",
+								"sothu"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8088/doi-tac/sothu",
+									"host": [
+										"localhost"
+									],
+									"port": "8088",
+									"path": [
+										"doi-tac",
+										"sothu"
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": "{\r\n    \"message\": \"Request Successfully!\",\r\n    \"data\": [\r\n        {\r\n            \"id_dt\": 5,\r\n            \"ten_doi_tac\": \"Sở thú ABC\"\r\n        },\r\n        {\r\n            \"id_dt\": 6,\r\n            \"ten_doi_tac\": \"Sở thú XYZ\"\r\n        },\r\n        {\r\n            \"id_dt\": 7,\r\n            \"ten_doi_tac\": \"Sở thú DEF\"\r\n        },\r\n        {\r\n            \"id_dt\": 8,\r\n            \"ten_doi_tac\": \"Sở thú GHK\"\r\n        }\r\n    ]\r\n}"
+						}
+					]
+				},
+				{
+					"name": "get All Doi Tac Cung Cap Thuc An",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8088/doi-tac/sothu",
+							"host": [
+								"localhost"
+							],
+							"port": "8088",
+							"path": [
+								"doi-tac",
+								"sothu"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8088/doi-tac/thucan",
+									"host": [
+										"localhost"
+									],
+									"port": "8088",
+									"path": [
+										"doi-tac",
+										"thucan"
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": "{\r\n    \"message\": \"Request Successfully!\",\r\n    \"data\": [\r\n        {\r\n            \"id_dt\": 1,\r\n            \"ten_doi_tac\": \"Công ty Thực phẩm ABC\"\r\n        },\r\n        {\r\n            \"id_dt\": 2,\r\n            \"ten_doi_tac\": \"Nhà cung cấp XYZ\"\r\n        },\r\n        {\r\n            \"id_dt\": 3,\r\n            \"ten_doi_tac\": \"Trang trại Bình Minh\"\r\n        },\r\n        {\r\n            \"id_dt\": 4,\r\n            \"ten_doi_tac\": \"Công ty Nông nghiệp Xanh\"\r\n        }\r\n    ]\r\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Nhan Vien",
+			"item": [
+				{
+					"name": "get All Nhan Vien Van Phong",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8088/doi-tac/sothu",
+							"host": [
+								"localhost"
+							],
+							"port": "8088",
+							"path": [
+								"doi-tac",
+								"sothu"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "New Request",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8088/nhan-vien/vanphong",
+									"host": [
+										"localhost"
+									],
+									"port": "8088",
+									"path": [
+										"nhan-vien",
+										"vanphong"
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": "{\r\n    \"message\": \"Request Successfully!\",\r\n    \"data\": [\r\n        {\r\n            \"cccd\": \"123456789001\",\r\n            \"ho_va_ten\": \"Nguyễn Văn An\"\r\n        },\r\n        {\r\n            \"cccd\": \"123456789002\",\r\n            \"ho_va_ten\": \"Trần Minh Bình\"\r\n        },\r\n        {\r\n            \"cccd\": \"123456789007\",\r\n            \"ho_va_ten\": \"Nguyễn Thị An\"\r\n        },\r\n        {\r\n            \"cccd\": \"123456789008\",\r\n            \"ho_va_ten\": \"Trần Quang Bình\"\r\n        }\r\n    ]\r\n}"
+						}
+					]
+				},
+				{
+					"name": "Get Profile",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var template = `\r",
+									"<style type=\"text/css\">\r",
+									"    .tftable {font-size:14px;color:#333333;width:100%;border-width: 1px;border-color: #87ceeb;border-collapse: collapse;}\r",
+									"    .tftable th {font-size:18px;background-color:#87ceeb;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;text-align:left;}\r",
+									"    .tftable tr {background-color:#ffffff;}\r",
+									"    .tftable td {font-size:14px;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;}\r",
+									"    .tftable tr:hover {background-color:#e0ffff;}\r",
+									"</style>\r",
+									"\r",
+									"<table class=\"tftable\" border=\"1\">\r",
+									"    <tr>\r",
+									"        <th>CCCD</th>\r",
+									"        <th>Full Name</th>\r",
+									"        <th>Phone Number</th>\r",
+									"        <th>Email</th>\r",
+									"        <th>Address</th>\r",
+									"        <th>Job Type</th>\r",
+									"        <th>Education</th>\r",
+									"    </tr>\r",
+									"    <tr>\r",
+									"        <td>{{cccd}}</td>\r",
+									"        <td>{{ho_va_ten}}</td>\r",
+									"        <td>{{sdt}}</td>\r",
+									"        <td>{{email}}</td>\r",
+									"        <td>{{dia_chi}}</td>\r",
+									"        <td>{{loai_cong_viec}}</td>\r",
+									"        <td>{{bang_cap}}</td>\r",
+									"    </tr>\r",
+									"</table>\r",
+									"`;\r",
+									"\r",
+									"function constructVisualizerPayload() {\r",
+									"    return { response: pm.response.json() }\r",
+									"}\r",
+									"\r",
+									"pm.visualizer.set(template, constructVisualizerPayload());"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5ndXllbnZhbmFAZ21haWwuY29tIiwiam9iVHlwZSI6InZhbiBwaG9uZyIsImlhdCI6MTc0NDEyMDYwOCwiZXhwIjoxNzQ0MTIxNTA4fQ.e1lgeoi8d5j6VLT1O2PyLa7YdvshxHB3pMaPlLTtbso",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8088/nhan-vien/profile",
+							"host": [
+								"localhost"
+							],
+							"port": "8088",
+							"path": [
+								"nhan-vien",
+								"profile"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get Profile",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "localhost:8088/nhan-vien/profile",
+									"host": [
+										"localhost"
+									],
+									"port": "8088",
+									"path": [
+										"nhan-vien",
+										"profile"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"cccd\": \"123456789001\",\r\n    \"ho_va_ten\": \"Nguyễn Văn An\",\r\n    \"sdt\": \"0901234567\",\r\n    \"email\": \"nguyenvana@gmail.com\",\r\n    \"dia_chi\": \"123 Đường A, TP.HCM\",\r\n    \"loai_cong_viec\": \"van phong\",\r\n    \"bang_cap\": \"Cử nhân Quản trị Kinh doanh\"\r\n}"
+						}
+					]
+				},
+				{
+					"name": "Sign in",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"nguyenvana@gmail.com\",\r\n    \"password\": \"12345678\",\r\n    \"jobType\": \"van phong\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8088/auth/signin",
+							"host": [
+								"localhost"
+							],
+							"port": "8088",
+							"path": [
+								"auth",
+								"signin"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Sign in",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"email\": \"nguyenvana@gmail.com\",\r\n    \"password\": \"12345678\",\r\n    \"jobType\": \"van phong\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8088/auth/signin",
+									"host": [
+										"localhost"
+									],
+									"port": "8088",
+									"path": [
+										"auth",
+										"signin"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"access_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5ndXllbnZhbmFAZ21haWwuY29tIiwiam9iVHlwZSI6InZhbiBwaG9uZyIsImlhdCI6MTc0NDEyMDYwOCwiZXhwIjoxNzQ0MTIxNTA4fQ.e1lgeoi8d5j6VLT1O2PyLa7YdvshxHB3pMaPlLTtbso\",\r\n    \"refresh_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5ndXllbnZhbmFAZ21haWwuY29tIiwiam9iVHlwZSI6InZhbiBwaG9uZyIsImlhdCI6MTc0NDEyMDYwOCwiZXhwIjoxNzQ0MTI0MjA4fQ.aAFt1H3uQTHLjOfKCtU5ugEzRkQoB-ef_0ZdtOSFL_8\",\r\n    \"role\": \"van phong\"\r\n}"
+						}
+					]
+				},
+				{
+					"name": "Update Profile",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var template = `\r",
+									"<style type=\"text/css\">\r",
+									"    .tftable {font-size:14px;color:#333333;width:100%;border-width: 1px;border-color: #87ceeb;border-collapse: collapse;}\r",
+									"    .tftable th {font-size:18px;background-color:#87ceeb;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;text-align:left;}\r",
+									"    .tftable tr {background-color:#ffffff;}\r",
+									"    .tftable td {font-size:14px;border-width: 1px;padding: 8px;border-style: solid;border-color: #87ceeb;}\r",
+									"    .tftable tr:hover {background-color:#e0ffff;}\r",
+									"</style>\r",
+									"\r",
+									"<table class=\"tftable\" border=\"1\">\r",
+									"    <tr>\r",
+									"        <th>CCCD</th>\r",
+									"        <th>Full Name</th>\r",
+									"        <th>Phone Number</th>\r",
+									"        <th>Email</th>\r",
+									"        <th>Address</th>\r",
+									"        <th>Job Type</th>\r",
+									"        <th>Education</th>\r",
+									"    </tr>\r",
+									"    <tr>\r",
+									"        <td>{{cccd}}</td>\r",
+									"        <td>{{ho_va_ten}}</td>\r",
+									"        <td>{{sdt}}</td>\r",
+									"        <td>{{email}}</td>\r",
+									"        <td>{{dia_chi}}</td>\r",
+									"        <td>{{loai_cong_viec}}</td>\r",
+									"        <td>{{bang_cap}}</td>\r",
+									"    </tr>\r",
+									"</table>\r",
+									"`;\r",
+									"\r",
+									"function constructVisualizerPayload() {\r",
+									"    return { response: pm.response.json() }\r",
+									"}\r",
+									"\r",
+									"pm.visualizer.set(template, constructVisualizerPayload());"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5ndXllbnZhbmFAZ21haWwuY29tIiwiam9iVHlwZSI6InZhbiBwaG9uZyIsImlhdCI6MTc0NDEyMDYwOCwiZXhwIjoxNzQ0MTIxNTA4fQ.e1lgeoi8d5j6VLT1O2PyLa7YdvshxHB3pMaPlLTtbso",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"sdt\": \"0789539225\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8088/nhan-vien/profile",
+							"host": [
+								"localhost"
+							],
+							"port": "8088",
+							"path": [
+								"nhan-vien",
+								"profile"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get Profile",
+							"originalRequest": {
+								"method": "PATCH",
+								"header": [],
+								"url": {
+									"raw": "localhost:8088/nhan-vien/profile",
+									"host": [
+										"localhost"
+									],
+									"port": "8088",
+									"path": [
+										"nhan-vien",
+										"profile"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"cccd\": \"123456789001\",\r\n    \"ho_va_ten\": \"Nguyễn Văn An\",\r\n    \"sdt\": \"0789539225\",\r\n    \"email\": \"nguyenvana@gmail.com\",\r\n    \"dia_chi\": \"123 Đường A, TP.HCM\",\r\n    \"loai_cong_viec\": \"van phong\",\r\n    \"bang_cap\": \"Cử nhân Quản trị Kinh doanh\"\r\n}"
+						}
+					]
+				},
+				{
+					"name": "Get refresh token",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5ndXllbnZhbmFAZ21haWwuY29tIiwiam9iVHlwZSI6InZhbiBwaG9uZyIsImlhdCI6MTc0NDEyMDYwOCwiZXhwIjoxNzQ0MTIxNTA4fQ.e1lgeoi8d5j6VLT1O2PyLa7YdvshxHB3pMaPlLTtbso",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"refreshToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5ndXllbnZhbmFAZ21haWwuY29tIiwiam9iVHlwZSI6InZhbiBwaG9uZyIsImlhdCI6MTc0NDEyMDYwOCwiZXhwIjoxNzQ0MTI0MjA4fQ.aAFt1H3uQTHLjOfKCtU5ugEzRkQoB-ef_0ZdtOSFL_8\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:8088/auth/refreshToken",
+							"host": [
+								"localhost"
+							],
+							"port": "8088",
+							"path": [
+								"auth",
+								"refreshToken"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get refresh token",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"refreshToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5ndXllbnZhbmFAZ21haWwuY29tIiwiam9iVHlwZSI6InZhbiBwaG9uZyIsImlhdCI6MTc0NDEyMDYwOCwiZXhwIjoxNzQ0MTI0MjA4fQ.aAFt1H3uQTHLjOfKCtU5ugEzRkQoB-ef_0ZdtOSFL_8\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "localhost:8088/auth/refreshToken",
+									"host": [
+										"localhost"
+									],
+									"port": "8088",
+									"path": [
+										"auth",
+										"refreshToken"
+									]
+								}
+							},
+							"_postman_previewlanguage": null,
+							"header": null,
+							"cookie": [],
+							"body": "{\r\n    \"access_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5ndXllbnZhbmFAZ21haWwuY29tIiwiam9iVHlwZSI6InZhbiBwaG9uZyIsImlhdCI6MTc0NDEyMDk1OSwiZXhwIjoxNzQ0MTIxODU5fQ.l9dxPEWI7NDbs0K0Hgec2ZM4loX2r2EciTp8E8KfgXA\",\r\n    \"refresh_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im5ndXllbnZhbmFAZ21haWwuY29tIiwiam9iVHlwZSI6InZhbiBwaG9uZyIsImlhdCI6MTc0NDEyMDk1OSwiZXhwIjoxNzQ0MTI0NTU5fQ.yqxzetWAQ-D4trcLHhP76QB3N4XvQnFB_8Eg4mi8vP4\",\r\n    \"role\": \"van phong\"\r\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Ho so suc khoe",
+			"item": [
+				{
+					"name": "Get all ho so suc khoe",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:8088/ho-so-suc-khoe/all?page=1&pageSize=10",
+							"host": [
+								"localhost"
+							],
+							"port": "8088",
+							"path": [
+								"ho-so-suc-khoe",
+								"all"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "pageSize",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create lich su tiem chung",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "localhost:8088/lich-su-tiem-chung/create",
+							"host": [
+								"localhost"
+							],
+							"port": "8088",
+							"path": [
+								"lich-su-tiem-chung",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create lich su dieu tri Copy",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "localhost:8088/lich-su-dieu-tri/create",
+							"host": [
+								"localhost"
+							],
+							"port": "8088",
+							"path": [
+								"lich-su-dieu-tri",
+								"create"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "apikey",
+		"apikey": [
+			{
+				"key": "key",
+				"value": "X-API-Key",
+				"type": "string"
+			},
+			{
+				"key": "value",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "https://farming-simulator.pstmn.io"
+		}
+	]
+}
