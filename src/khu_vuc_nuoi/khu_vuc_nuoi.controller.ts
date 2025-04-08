@@ -1,9 +1,13 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query  } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query, UseGuards  } from '@nestjs/common';
 import { KhuVucNuoiService } from './khu_vuc_nuoi.service';
 import { CreateKhuVucNuoiDto } from './dto/create-khu_vuc_nuoi.dto';
-import { UpdateKhuVucNuoiDto } from './dto/update-khu_vuc_nuoi.dto';
+import { AuthGuard } from 'src/auth/auth.guard';
+import { Roles } from 'src/auth/Roles/roles.decorator';
+import { Role } from 'src/auth/Roles/role.enum';
 
 @Controller('khu-vuc-nuoi')
+@UseGuards(AuthGuard)
+@Roles(Role.Office)
 export class KhuVucNuoiController {
   constructor(private readonly khuVucNuoiService: KhuVucNuoiService) {}
 
@@ -13,23 +17,16 @@ export class KhuVucNuoiController {
   }
 
   @Get()
-  findAllKhuVucNuoi(
-    @Query('page') page: number = 0,
+  getAllKhuVucNuoi(
+    @Query('page') page: number = 1,
     @Query('limit') limit: number = 10
   ) {
-    return this.khuVucNuoiService.findAllKhuVucNuoi(page, limit);
+    return this.khuVucNuoiService.getAllKhuVucNuoi(page, limit);
   }
 
-  @Get('/total-pages')
-  findNumberOfKVN(
-    @Query('limit') limit: number = 10
-  ) {
-    return this.khuVucNuoiService.findNumberOfPageKVN(limit);
-  }
-
-  @Get('/list')
-  findKVNList() {
-    return this.khuVucNuoiService.findKVNList();
+  @Get('list')
+  getKVNList() {
+    return this.khuVucNuoiService.getAllActiveKVN();
   }
 
   @Patch(':id')
@@ -40,9 +37,9 @@ export class KhuVucNuoiController {
       return this.khuVucNuoiService.update(id_kv, trang_thai_hoat_dong);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) { 
-    return this.khuVucNuoiService.findOne(+id);
+  @Get(':id/status')
+  getOne(@Param('id') id: string) { 
+    return this.khuVucNuoiService.getOne(+id);
   }
 
   @Delete(':id')

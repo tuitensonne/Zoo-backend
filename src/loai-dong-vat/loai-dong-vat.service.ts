@@ -30,8 +30,8 @@ export class LoaiDongVatService {
     const connection = await this.pool.getConnection();
     let gioi_tinh = ""
     if (gt === 0)
-      gioi_tinh = "đực"
-    else gioi_tinh = "cái"
+      gioi_tinh = "đuc"
+    else gioi_tinh = "cai"
       try {
       const [rows] = await connection.query(
         'CALL get_all_ct_of_loai_dong_vat(?, ?)', [ten_khoa_hoc

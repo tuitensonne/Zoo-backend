@@ -1,16 +1,32 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
+import * as dotenv from 'dotenv';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+
+dotenv.config();
+
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  // CORS cấu hình cho frontend (React)
   app.enableCors({
-    origin: 'http://localhost:3000', 
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    allowedHeaders: 'Content-Type, Accept',
+    origin: 'http://localhost:3000',
+    methods: ['GET', 'POST', 'PATCH', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
   });
-  await app.listen(8088);
+
+  // ✅ Swagger config
+  const config = new DocumentBuilder()
+    .setTitle('Animal Health Export App')
+    .setDescription('API cho hệ thống quản lý hồ sơ sức khỏe và phiếu xuất động vật')
+    .setVersion('1.0')
+    .addBearerAuth()
+    .build();
+
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api-docs', app, document);
+
+  await app.listen(process.env.BACKEND_PORT ?? 8080);
 }
 bootstrap();
-
-

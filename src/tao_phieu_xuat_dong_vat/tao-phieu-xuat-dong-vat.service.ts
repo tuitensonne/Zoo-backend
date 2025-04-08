@@ -174,17 +174,12 @@ export class TaoPhieuXuatDongVatService {
     }
   }
   
-  
-  
-
-
-   // Phương thức lấy thông tin về cá thể (ct)
    async getCtInfo() {
     const connection = await this.pool.getConnection();
     
     try {
       const [rows] = await connection.query('CALL get_ct_info()');
-      return rows; // Trả về danh sách tên khoa học từ bảng cá thể
+      return rows;
     } catch (error) {
       throw new InternalServerErrorException({
         message: 'Error fetching ct information',

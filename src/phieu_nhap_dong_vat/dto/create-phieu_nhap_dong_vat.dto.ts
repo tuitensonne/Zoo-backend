@@ -6,7 +6,8 @@ export class CreatePhieuNhapDongVatCTDto {
     ngay_nhap: string;
     ly_do_nhap: string;
     id_kv: number             
-    id_hssk: number          
+    can_nang: number
+    chieu_cao: number    
     id_ct_cha: number
     ten_khoa_hoc_cha: string
     id_ct_me: number  
