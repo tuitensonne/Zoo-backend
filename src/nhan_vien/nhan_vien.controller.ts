@@ -12,7 +12,7 @@ export class NhanVienController {
   findAllNhanVien() {
     return this.nhanVienService.findAllNhanVienVanPhong();
   }
-
+  
   @Get('profile')
   async getProfileByEmail(@Req() request: Request) {
     return this.nhanVienService.getProfileByEmail(request['user'].email)

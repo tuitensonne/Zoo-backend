@@ -1444,6 +1444,7 @@ BEGIN
     VALUES('khỏe mạnh', p_chieu_cao, p_can_nang);
 	
 	IF ROW_COUNT() = 0 THEN 
+
 		ROLLBACK;
         SIGNAL SQLSTATE '45000' 
         SET MESSAGE_TEXT = 'Không thể tạo hồ sơ sức khỏe'; 
