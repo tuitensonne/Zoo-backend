@@ -311,8 +311,296 @@ Each animal species must have:
 <p align="center"><img src="assets/table31.png" alt="table31" width="600"></p>
 
 ## 📌**Procedure, Trigger, and Function** 
+
 ## 📌**Source Code Structure** 
+
 ## 📌**Implementation**
+### **Application Programming Interface - API**
+
+- **Animal Enclosure Area APIs**
+  - `POST /khu-vuc-nuoi`
+    - Description: Create a new animal enclosure area.
+    - Parameters: Body: The data must follow the format of CreateKhuVucNuoiDto. 
+    ```
+    export class CreateKhuVucNuoiDto {
+      vi_tri: string;
+      suc_chua_toi_da: number;
+      trang_thai_hoat_dong: string;
+      dien_tich: number;
+      chieu_cao: number;
+      loai_moi_truong: string;
+    }
+    ```
+    - Returns: The result of the creation, including information about the newly created enclosure area.
+  - `GET /khu-vuc-nuoi`
+    - Description: Retrieve a list of animal enclosure areas.
+    - Parameters: page (query): Page index (default is 0). limit (query): Number of results per page (default is 10).
+    - Returns: A list of enclosure areas based on the specified page and limit.
+  - `GET /khu-vuc-nuoi/total-pages`
+    - Description: Get the total number of enclosure area pages.
+    - Parameters: limit (query): Number of results per page (default is 10).
+    - Returns: Total number of enclosure area pages.
+  - `GET /khu-vuc-nuoi/list`
+    - Description: Get a list of all animal enclosure areas.
+    - Returns: A list of all enclosure areas (not paginated).
+  - `PATCH /khu-vuc-nuoi/:id`
+    - Description: Update the activity status of an enclosure area by ID.
+    - Parameters: id (param): The ID of the enclosure area to update. trang_thai_hoat_dong (body): New activity status of the enclosure area.
+    - Returns: The result of the status update.
+  - `GET /khu-vuc-nuoi/:id`
+    - Description: Get detailed information of an enclosure area by ID.
+    - Parameters: id (param): ID of the enclosure area to retrieve.
+    - Returns: Detailed information of the specified enclosure area.
+  - `DELETE /khu-vuc-nuoi/:id`
+    - Description: Delete an enclosure area by ID.
+    - Parameters: id (param): ID of the enclosure area to delete.
+    - Returns: Result of the deletion.
+
+- **Animal Feed Import Form APIs**
+  - `POST /phieu-nhap-thuc-an`
+    - Description: Create a new animal feed import form.
+    - Parameters: Body: Data must follow the CreatePhieuNhapThucAnDto format.
+    - Returns: The result of the creation, including the newly created form.
+  - `GET /phieu-nhap-thuc-an`
+    - Description: Retrieve a list of animal feed import forms.
+    - Parameters: page (query): Page index (default is 0). limit (query): Number of results per page (default is 10).
+    - Returns: A list of forms based on the specified page and limit.
+  - `GET /phieu-nhap-thuc-an/total-pages`
+    - Description: Get the total number of animal feed import form pages.
+    - Parameters: limit (query): Number of results per page (default is 10).
+    - Returns: Total number of pages.
+  - `GET /phieu-nhap-thuc-an/:id`
+    - Description: Get detailed information of an animal feed import form by ID.
+    - Parameters: id (param): ID of the form to retrieve.
+    - Returns: Detailed information of the specified form.
+  - `GET /phieu-nhap-thuc-an/thucan`
+    - Description: Get feed information from a specific import form.
+    - Parameters: id (body): ID of the import form to retrieve feed information.
+    - Returns: Feed information of the corresponding form.
+  - `DELETE /phieu-nhap-thuc-an/:id`
+    - Description: Delete an animal feed import form by ID.
+    - Parameters: id (param): ID of the form to delete.
+    - Returns: Result of the deletion.
+
+- **Animal Import Form APIs**
+  - `POST /phieu-nhap-dong-vat`
+    - Description: Create a new animal import form.
+    - Parameters: Body: Data must follow the format of CreatePhieuNhapDongVatDto.
+    - Returns: The result of the creation, including the newly created form.
+  - `GET /phieu-nhap-dong-vat`
+    - Description: Retrieve a list of animal import forms.
+    - Parameters: page (query): Page index (default is 0). limit (query): Number of results per page (default is 10).
+    - Returns: A list of forms based on the specified page and limit.
+  - `GET /phieu-nhap-dong-vat/total-pages`
+    - Description: Get the total number of animal import form pages.
+    - Parameters: limit (query): Number of results per page (default is 10).
+    - Returns: Total number of pages.
+  - `GET /phieu-nhap-dong-vat/:id`
+    - Description: Get detailed information of an animal import form by ID.
+    - Parameters:id (param): ID of the form to retrieve.
+    - Returns: Detailed information of the specified form.
+  - `DELETE /phieu-nhap-dong-vat/id`
+    - Description: Delete an animal import form by ID.
+    - Parameters: id(body): ID of the form to delete.
+    - Returns: Result of the deletion.
+
+- **Animal Species APIs**
+  - `POST /loai-dong-vat/create`
+    - Description: Create a new animal species.
+    - Parameters: Body: Must follow the structure of CreateLoaiDongVatDto. Response: Result of the creation, including the newly created species data.
+  - `POST /loai-dong-vat/create/cathe`
+    - Description: Create a new individual animal of a species.
+    - Parameters: Body: Must follow the structure of CreateCaTheDto. Response: Result of the creation, including the newly created individual data.
+  - `POST /loai-dong-vat/create/nhom`
+    - Description: Create a new animal group for a species.
+    - Parameters: Body: Must follow the structure of CreateNhomDto. Response: Result of the creation, including the newly created group data.
+  - `GET /loai-dong-vat/cathe`
+    - Description: Get a list of individual animals based on scientific name and gender.
+    - Parameters: ten_khoa_hoc (query): Scientific name of the species (default: ""). gioi_tinh (query): Gender of the individual (0: both genders, 1: female). Response: List of individual animals matching the given criteria.
+  - `GET /loai-dong-vat/getallLDV`
+    - Description: Retrieve a list of all animal species.
+    - Parameters: None. Response: A list of all animal species.
+- **Office Staff APIs**
+  - `GET /nhan-vien/vanphong`
+    - Description: Get a list of all office staff.
+    - Parameters: None. Response: A list of all office staff.
+- **Animal Export Record APIs**
+  - `GET /phieu-xuat-dong-vat/all`
+    - Description: Get a list of all animal export records from the database.
+    - Workflow: Client sends a GET request to the /all endpoint. Connects to the database using MySQL Pool. Calls the stored procedure CALL get_all_phieu_xuat_dong_vat() to fetch data. Processes the returned data:If rows[0] is a valid array, map fields to GetPhieuXuatDongVatDto. Otherwise, return a data format error. Return the formatted list of export records.
+  - Response Format:
+    - Status Code: 200 OK
+    - Body: Array of animal export record objects.
+      
+      ```
+      [
+        {
+          "id_px": 1,
+          "ten_khoa_hoc": "Panthera leo",
+          "ngay_xuat": "2024-12-15",
+          "so_luong": 2,
+          "ly_do_xuat": "Transferred to sanctuary",
+          "id_dt": 5,
+          "cccd": "123456789",
+          "loai": "Group"
+        },
+        {
+          "id_px": 2,
+          "ten_khoa_hoc": "Elephas maximus",
+          "ngay_xuat": "2024-12-14",
+          "so_luong": 1,
+          "ly_do_xuat": "Conservation handover",
+          "id_dt": 3,
+          "cccd": "987654321",
+          "loai": "Individual"
+        }
+      ]
+      ```
+
+  - `GET /phieu-xuat-dong-vat/details/:ID_phieu_xuat_dong_vat`
+    - Description: Get details of an animal export record by its ID.
+    - URL Parameter: ID_phieu_xuat_dong_vat (string): ID of the export record to retrieve.
+    - Workflow: Send a GET request with the export ID. Call stored procedure CALL get_phieu_xuat_dong_vat_chi_tiet(?). Return 404 if no data is found. Otherwise, map data to GetPhieuXuatDongVatChiTietDto.
+    - Response Format:
+      - Status Code: 200 OK
+      - Body: Detailed object of the export record.
+    - Sample Response:
+
+      ```
+      [
+        {
+          "ten_nguoi_tao": "Nguyen Van A",
+          "address": "123 Main Street",
+          "cccd": "123456789",
+          "id_dt": 5,
+          "ten_doi_tac": "Zoo Partner",
+          "ten_khoa_hoc": "Panthera leo",
+          "ten_loai": "Lion",
+          "do_quy_hiem": "Endangered",
+          "loai_thuc_an": "Meat",
+          "loai_moi_truong_song": "Savanna",
+          "loai": "Individual"
+        }
+      ]
+      ```
+
+- **APIs for Creating Animal Export Records**
+  - `POST /tao-phieu-xuat-dong-vat/createGroup`
+    - Description: Create an animal export record for a group.
+    - Request Body:
+
+      ```
+      {
+        "ldv": "Panthera leo", // Species
+        "id_nhom": 10, // Group ID
+        "so_luong_xuat": 5, // Quantity to export
+        "ngay_xuat": "2024-12-15", // Export date
+        "ly_do_xuat": "Transfer", // Reason
+        "doi_tac": "Zoo Partner", // Partner
+        "cccd": "123456789" // Staff's CCCD
+      }
+      ```
+
+  - Workflow: Verify that the CCCD exists. Confirm that id_nhom and ldv are valid.Ensure so_luong_xuat does not exceed available amount.Call stored procedure tao_phieu_xuat_dong_vat.
+  - Response Format: Status Code: 200 OK
+  - Body:
+    ```
+    {
+    "message": "Animal export record successfully created!"
+    }
+    ```
+  - `POST /tao-phieu-xuat-dong-vat/createct`
+    - Description: Create an export record for individual animals.
+    - Request Body:
+      ```
+        {
+          "ldv": "Panthera leo", // Species
+          "id_ct": [1, 2, 3], // Array of individual IDs
+          "so_luong_xuat": 3, // Quantity to export
+          "ngay_xuat": "2024-12-15", // Export date
+          "ly_do_xuat": "Transfer", // Reason
+          "doi_tac": "Zoo Partner", // Partner
+          "cccd": "123456789" // Staff's CCCD
+        }
+      ```
+    - Workflow: Verify that the CCCD exists. Ensure id_ct is an array. Validate each id_ct matches the species. Call stored procedure tao_phieu_xuat_dong_vat.
+    - Response Format: Status Code: 200 OK
+      - Body:
+        ```
+        {
+          "message": "Animal export record successfully created!"
+        }
+        ```
+
+  - `GET /tao-phieu-xuat-dong-vat/ct`
+    - Description: Get information about individual animals.
+    - Workflow: Connect to the database. Call stored procedure get_ct_info() to fetch individual info. Return the result list.
+    - Response Format: Status Code: 200 OK
+      - Body:
+        ```
+        [
+          {
+            "ten_khoa_hoc": "Panthera leo",
+            "id_ct": 1,
+            ...
+          },
+          ...
+        ]
+        ```
+  - `GET /tao-phieu-xuat-dong-vat/nhom`
+    - Description: Get information about animal groups.
+    - Workflow: Connect to the database. Call stored procedure get_nhom_info() to fetch group info. Return the result list.
+    - Response Format: Status Code: 200 OK
+      - Body:
+        ```
+          [
+          {
+            "id_nhom": 1,
+            "ten_khoa_hoc": "Panthera leo",
+            "so_luong": 10,
+            "mo_ta": "Lion group in area A",
+            ...
+          },
+          ...
+        ]
+        ```
+  - `GET /tao-phieu-xuat-dong-vat/getdoitac`
+    - Description: Get the list of partners, including their IDs and names.
+    - Workflow: Connect to the database. Call stored procedure get_ten_doi_tac_info() to fetch partner info. Format the result as an array of objects with id_dt and ten_doi_tac. Return the formatted list.
+    - Response Format: Status Code: 200 OK
+      - Body:
+        ```
+        [
+          {
+            "id_dt": 1,
+            "ten_doi_tac": "ABC Company"
+          },
+          {
+            "id_dt": 2,
+            "ten_doi_tac": "XYZ Company"
+          },
+          ...
+        ]
+        ```
+
+- **Veterinarian APIs**
+  - `GET /ho-so-suc-khoe/all`
+    - Description: Retrieve a list of health records with support for pagination and search by health record ID or scientific name.
+    - Parameters: page (query): Page number (default is 1). pageSize (query): Number of records per page (default is 10). searchId (query): Health record ID (default is "null"). searchName (query): Scientific name of the species (default is "null").
+    - Returns: A list of general information about health records.
+  - `GET /ho-so-suc-khoe/details/:ID_ho_so_suc_khoe`
+    - Description: Retrieve detailed information of a specific health record.
+    - Parameter: Health record ID
+    - Returns: Detailed information of the health record including basic data, treatment history, and vaccination history.
+  - `POST /lich-su-dieu-tri/create`
+    - Description: Add a treatment history entry to a health record.
+    - Parameter:  Body: The data sent must follow the CreateLichSuDieuTriDto format.
+    - Returns: message: "Treatment history has been successfully created!"
+  - `POST /lich-su-tiem-chung/create`
+    - Description: Add a vaccination history entry to a health record.
+    - Parameter: Body: The data sent must follow the CreateLichSuTiemChungDto format.
+    - Returns: message: "Vaccination history has been successfully created!"
+    
 ## 📌**DEMO Features**
 
 <p align="center"><img src="assets/demo1.png" alt="table" width="600"></p>
