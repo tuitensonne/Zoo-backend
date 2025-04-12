@@ -236,6 +236,14 @@ Each animal species must have:
 - The `activity status` of an enclosure must be one of two values: `"in use"` or `"under maintenance".`
 
 ## 📌**Enhanced Entity-Relationship Diagram EERD and Mapping**
+### **EERD Diagram**
+
+<p align="center"><img src="assets/eerd.png" alt="eerd" width="600"></p>
+
+### **Mapping to Relational Schema**
+
+<p align="center"><img src="assets/mapping.png" alt="mapping" width="600"></p>
+
 ## 📌**Database Schema Design in MySQL** 
 ## 📌**Procedure, Trigger, and Function** 
 ## 📌**Source Code Structure** 
