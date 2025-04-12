@@ -313,8 +313,21 @@ Each animal species must have:
 ## 📌**Procedure, Trigger, and Function** 
 
 ## 📌**Source Code Structure** 
+### **Backend**
 
+<p align="center"><img src="assets/cttm1.png" alt="cttm" width="300"></p>
+
+The file "database.sql" contains the script to create the database. The file "API documentation for Zoo.json" contains information about the application's APIs.
+
+### **Frontend**
+
+<p align="center"><img src="assets/cttm2.png" alt="cttm2" width="300"></p>
+
+- components: Contains reusable components.
+- pages: Contains the application's pages, each of which may include multiple child components.
+- services: Contains services used to call APIs.
 ## 📌**Implementation**
+
 ### **Application Programming Interface - API**
 
 - **Animal Enclosure Area APIs**
@@ -600,7 +613,7 @@ Each animal species must have:
     - Description: Add a vaccination history entry to a health record.
     - Parameter: Body: The data sent must follow the CreateLichSuTiemChungDto format.
     - Returns: message: "Vaccination history has been successfully created!"
-    
+
 ## 📌**DEMO Features**
 
 <p align="center"><img src="assets/demo1.png" alt="table" width="600"></p>
