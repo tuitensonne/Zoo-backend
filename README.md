@@ -310,7 +310,755 @@ Each animal species must have:
   - Specimens
 <p align="center"><img src="assets/table31.png" alt="table31" width="600"></p>
 
-## 📌**Procedure, Trigger, and Function** 
+## 📌**Procedure** 
+### **Procedure for Animal Import Records**
+
+- `add_phieu_nhap_dong_vat_ct`: This procedure creates an animal import record in the `phieu_nhap_dong_vat` table, and then creates an individual record in the `ca_the` table. If any error occurs during creation, it will rollback the transaction.
+  ``` sql
+  CREATE PROCEDURE add_phieu_nhap_dong_vat_ct(     
+      IN p_cccd CHAR(12) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,     
+      IN p_id_so_thu INT,     
+      IN p_ten_khoa_hoc VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,     
+      IN p_ngay_nhap DATE,     
+      IN p_so_luong INT,     
+      IN p_ly_do_nhap VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+      IN p_id_kv INT,                 
+      IN p_id_hssk INT,           
+      IN p_id_ct_cha INT,  
+      IN p_ten_khoa_hoc_cha VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+      IN p_id_ct_me INT,      
+      IN p_ten_khoa_hoc_me VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci, 
+      IN p_tuoi INT,                  
+      IN p_adn VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,         
+      IN p_gioi_tinh VARCHAR(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,   
+      IN p_trang_thai VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci   
+  ) 
+  BEGIN 
+      DECLARE last_insert_id INT; 
+
+      START TRANSACTION; 
+
+      IF NOT EXISTS (SELECT 1 FROM dt_so_thu WHERE id_dt = p_id_so_thu) OR p_id_so_thu != NULL THEN 
+          ROLLBACK;
+          SIGNAL SQLSTATE '45000' 
+          SET MESSAGE_TEXT = 'Doi tac khong ton tai.'; 
+      END IF; 
+
+      IF NOT EXISTS (SELECT 1 FROM nv_van_phong WHERE cccd = p_cccd) THEN 
+          ROLLBACK;
+          SIGNAL SQLSTATE '45000' 
+          SET MESSAGE_TEXT = 'Nhan vien khong ton tai.'; 
+      END IF; 
+
+      INSERT INTO phieu_nhap (ngay_nhap, so_luong, cccd, loai_phieu_nhap) 
+      VALUES (p_ngay_nhap, p_so_luong, p_cccd, 'phieu nhap dong vat'); 
+
+      SET last_insert_id = LAST_INSERT_ID(); 
+
+      IF last_insert_id IS NULL THEN 
+          ROLLBACK;
+          SIGNAL SQLSTATE '45000' 
+          SET MESSAGE_TEXT = 'Khong the chen du lieu vao phieu nhap.'; 
+      END IF; 
+
+      INSERT INTO phieu_nhap_dong_vat (id_pn, ly_do_nhap, id_dt, ten_khoa_hoc) 
+      VALUES (last_insert_id, p_ly_do_nhap, p_id_so_thu, p_ten_khoa_hoc); 
+
+      IF ROW_COUNT() = 0 THEN 
+          ROLLBACK;
+          SIGNAL SQLSTATE '45000' 
+          SET MESSAGE_TEXT = 'Khong the chen du lieu vao phieu nhap dong vat.'; 
+      END IF; 
+      
+      IF NOT EXISTS (SELECT 1 FROM khu_vuc_nuoi WHERE id_kv = p_id_kv) THEN
+          ROLLBACK;
+          SIGNAL SQLSTATE '45000'
+          SET MESSAGE_TEXT = 'ID khu vuc khong ton tai.';
+      END IF;
+
+      IF NOT EXISTS (SELECT 1 FROM ho_so_suc_khoe WHERE id_hssk = p_id_hssk) THEN
+          ROLLBACK;
+          SIGNAL SQLSTATE '45000'
+          SET MESSAGE_TEXT = 'ID ho so suc khoe khong ton tai.';
+      END IF;
+
+      IF p_id_ct_cha IS NOT NULL AND NOT EXISTS (SELECT 1 FROM ca_the WHERE id_ct = p_id_ct_cha AND ten_khoa_hoc = p_ten_khoa_hoc_cha) THEN
+          ROLLBACK;
+          SIGNAL SQLSTATE '45000'
+          SET MESSAGE_TEXT = 'ID ca the cha khong ton tai.';
+      END IF;
+
+      IF p_id_ct_me IS NOT NULL AND NOT EXISTS (SELECT 1 FROM ca_the WHERE id_ct = p_id_ct_me AND ten_khoa_hoc = p_ten_khoa_hoc_me) THEN
+          ROLLBACK;
+          SIGNAL SQLSTATE '45000'
+          SET MESSAGE_TEXT = 'ID ca the me khong ton tai.';
+      END IF;
+
+      INSERT INTO ca_the (
+          id_kv, id_hssk, ten_khoa_hoc, ten_khoa_hoc_cha, id_ct_cha, ten_khoa_hoc_me, id_ct_me, tuoi, adn, gioi_tinh, trang_thai
+      )
+      VALUES (
+          p_id_kv, p_id_hssk, p_ten_khoa_hoc, p_ten_khoa_hoc_cha, p_id_ct_cha, p_ten_khoa_hoc_me, p_id_ct_me, p_tuoi, p_adn, p_gioi_tinh, p_trang_thai
+      );
+      COMMIT; 
+  END $$
+  ```
+
+- `add_phieu_nhap_dong_vat_nhom`: This procedure creates an animal import record in the `phieu_nhap_dong_vat` table, and then creates a group record in the `nhom` table. If any error occurs during creation, it will rollback the transaction.
+  ``` sql
+  CREATE PROCEDURE add_phieu_nhap_dong_vat_nhom(     
+      IN p_cccd CHAR(12) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,     
+      IN p_id_so_thu INT,     
+      IN p_ten_khoa_hoc VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,     
+      IN p_ngay_nhap DATE,     
+      IN p_so_luong INT,     
+      IN p_ly_do_nhap VARCHAR(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+      IN p_id_kv INT,
+      IN p_id_hssk INT
+  ) 
+  BEGIN 
+    DECLARE last_insert_id INT; 
+
+      START TRANSACTION; 
+
+      IF NOT EXISTS (SELECT 1 FROM dt_so_thu WHERE id_dt = p_id_so_thu) OR p_id_so_thu != NULL THEN 
+          ROLLBACK;
+          SIGNAL SQLSTATE '45000' 
+          SET MESSAGE_TEXT = 'Doi tac khong ton tai.'; 
+      END IF; 
+
+      IF NOT EXISTS (SELECT 1 FROM nv_van_phong WHERE cccd = p_cccd) THEN 
+          ROLLBACK;
+          SIGNAL SQLSTATE '45000' 
+          SET MESSAGE_TEXT = 'Nhan vien khong ton tai.'; 
+      END IF; 
+
+      INSERT INTO phieu_nhap (ngay_nhap, so_luong, cccd, loai_phieu_nhap) 
+      VALUES (p_ngay_nhap, p_so_luong, p_cccd, 'phieu nhap dong vat'); 
+
+      SET last_insert_id = LAST_INSERT_ID(); 
+
+      IF last_insert_id IS NULL THEN 
+          ROLLBACK;
+          SIGNAL SQLSTATE '45000' 
+          SET MESSAGE_TEXT = 'Khong the chen du lieu vao phieu nhap.'; 
+      END IF; 
+
+      INSERT INTO phieu_nhap_dong_vat (id_pn, ly_do_nhap, id_dt, ten_khoa_hoc) 
+      VALUES (last_insert_id, p_ly_do_nhap, p_id_so_thu, p_ten_khoa_hoc); 
+
+      IF ROW_COUNT() = 0 THEN 
+          ROLLBACK;
+          SIGNAL SQLSTATE '45000' 
+          SET MESSAGE_TEXT = 'Khong the chen du lieu vao phieu nhap dong vat.'; 
+      END IF; 
+      
+      IF NOT EXISTS (SELECT 1 FROM khu_vuc_nuoi WHERE id_kv = p_id_kv) THEN
+          ROLLBACK;
+          SIGNAL SQLSTATE '45000'
+          SET MESSAGE_TEXT = 'ID khu vuc khong ton tai.';
+      END IF;
+
+      IF p_so_luong < 0 THEN
+          ROLLBACK;
+          SIGNAL SQLSTATE '45000'
+          SET MESSAGE_TEXT = 'So luong phai lon hoac bang 0 0';
+      ELSE
+          INSERT INTO nhom (id_kv, id_hssk, ten_khoa_hoc, so_luong)
+          VALUES (p_id_kv, p_id_hssk, p_ten_khoa_hoc, p_so_luong);
+      END IF;
+    
+      COMMIT; 
+  END $$
+  ```
+
+### **Procedures for Veterinary Records**
+- Procedure to retrieve general information of a health record `(get_all_ho_so_suc_khoe)`:
+  - Purpose: Designed to retrieve a list of health records from the database with search and pagination capabilities.
+  - Input parameters:
+    - `offset`: Starting point of the returned data.
+    - `pageSize`: Number of records to return.
+    - `searchId`: Health record ID for searching (can be omitted if NULL or 0).
+    - `searchName`: Scientific name for searching (can be omitted if NULL or empty).
+  - Main Functionality:
+    - Join the ho_so_suc_khoe table with ca_the and nhom to get related information.
+    - Determine the type of record (loai) based on the associated tables.
+    - Return columns: id_hssk, loai, tinh_trang_suc_khoe, chieu_cao, can_nang, tuoi_or_soluong, ten_khoa_hoc.
+  - Code: 
+    ``` sql
+    CREATE PROCEDURE `get_all_ho_so_suc_khoe`(
+        IN offset INT,
+        IN pageSize INT,
+        IN searchId INT,    -- Tham số tìm kiếm theo ID
+        IN searchName VARCHAR(255)   -- Tham số tìm kiếm theo tên khoa học
+    )
+    BEGIN
+        SELECT h.id_hssk, 
+              CASE
+                  WHEN n.so_luong IS NOT NULL THEN 1 -- Loại nhóm
+                  ELSE 0 -- Loại cá thể
+              END AS loai,
+              h.tinh_trang_suc_khoe, 
+              h.chieu_cao, 
+              h.can_nang,
+              CASE
+                  WHEN n.so_luong IS NOT NULL THEN n.so_luong -- Số lượng cho nhóm
+                  ELSE c.tuoi -- Tuổi cho cá thể
+              END AS tuoi_or_soluong,
+              COALESCE(c.ten_khoa_hoc, n.ten_khoa_hoc, 'Tên khoa học không xác định') AS ten_khoa_hoc
+        FROM ho_so_suc_khoe h
+        LEFT JOIN ct c ON c.id_hssk = h.id_hssk
+        LEFT JOIN nhom n ON n.id_hssk = h.id_hssk
+        WHERE 
+            (searchId IS NULL OR searchId = 0 OR h.id_hssk LIKE CONCAT('%', searchId, '%'))  -- Kiểm tra khi searchId là NULL hoặc 0
+            AND (searchName IS NULL OR searchName = '' OR 
+                COALESCE(c.ten_khoa_hoc, n.ten_khoa_hoc) LIKE CONCAT('%', searchName, '%'))  -- Kiểm tra khi searchName là NULL hoặc chuỗi rỗng
+        LIMIT offset, pageSize;
+    END
+    ```
+
+
+- Procedure to retrieve detailed information of a health record (get_ho_so_suc_khoe_chi_tiet):
+  - Purpose: Retrieves detailed information of a specific health record based on id_hssk, including general information, treatment history, and vaccination history.
+  - Input parameter:
+    - id_hssk: Health record ID for querying.
+  - Main Functionality:
+    - Basic Information: `ten_thu_y`: Veterinarian's name. `cccd_thu_y`: Veterinarian's CCCD. `loai`: Record type (0: individual, 1: group). `gioi_tinh_enum`: Gender converted to enum value (0: male, 1: female, 2: hermaphrodite). `tinh_trang_suc_khoe`, `chieu_cao`, `can_nang`: Health-related details.
+    - Treatment History: Stored as a JSON array with symptoms, diagnosis, results, medications, and notes. Retrieved from `lich_su_dieu_tri` table.
+    - Vaccination History: Stored as a JSON array with vaccination date, method, vaccine type, dosage, and post-vaccination reactions. Retrieved from `lich_su_tiem_chung` table.
+  - Code: 
+    ``` sql
+      CREATE PROCEDURE get_ho_so_suc_khoe_chi_tiet (IN id_hssk INT)
+      BEGIN
+          SELECT  
+              CONCAT(nv.ho, ' ', nv.ten) AS ten_thu_y, -- Tên thú y (kết hợp họ và tên)
+              nv.cccd AS cccd_thu_y, -- CCCD của thú y
+              h.id_hssk, 
+              CASE
+                  WHEN n.so_luong IS NOT NULL THEN 1 -- Loại nhóm
+                  ELSE 0 -- Loại cá thể
+              END AS loai,
+              CASE 
+                  WHEN c.gioi_tinh = 'đực' THEN 0
+                  WHEN c.gioi_tinh = 'cái' THEN 1
+                  ELSE 2 -- Lưỡng tính
+              END AS gioi_tinh_enum, -- Chuyển đổi giới tính thành enum
+              h.tinh_trang_suc_khoe, 
+              h.chieu_cao, 
+              h.can_nang,
+
+              -- Lịch sử điều trị dưới dạng mảng JSON
+              (SELECT JSON_ARRAYAGG(
+                      JSON_OBJECT(
+                          'id_lsdt', lsd.id_lsdt,
+                          'trieu_chung', lsd.trieu_chung,
+                          'chan_doan', lsd.chuan_doan,
+                          'ket_qua', lsd.ket_qua,
+                          'loai_thuoc', lsd.loai_thuoc,
+                          'ghi_chu', lsd.ghi_chu
+                      )
+                  )
+                  FROM (
+                      SELECT DISTINCT id_lsdt, trieu_chung, chuan_doan, ket_qua, loai_thuoc, ghi_chu
+                      FROM lich_su_dieu_tri lsd
+                      WHERE lsd.id_hssk = h.id_hssk
+                  ) lsd
+              ) AS lich_su_dieu_tri,
+
+              -- Lịch sử tiêm chủng dưới dạng mảng JSON
+              (SELECT JSON_ARRAYAGG(
+                      JSON_OBJECT(
+                          'id_tc', lst.id_tc,
+                          'ngay_tiem', lst.ngay_tiem_chung,
+                          'phuong_phap_tiem', lst.phuong_phap_tiem,
+                          'loai_vaccine', lst.loai_vaccine,
+                          'lieu_luong', lst.lieu_luong,
+                          'phan_ung_sau_tiem', lst.phan_ung_sau_tiem
+                      )
+                  )
+                  FROM (
+                      SELECT DISTINCT id_tc, ngay_tiem_chung, phuong_phap_tiem, loai_vaccine, lieu_luong, phan_ung_sau_tiem
+                      FROM lich_su_tiem_chung tc
+                      WHERE tc.id_hssk = h.id_hssk
+                  ) lst
+              ) AS lich_su_tiem_chung
+
+          FROM ho_so_suc_khoe h
+          LEFT JOIN ct c ON c.id_hssk = h.id_hssk
+          LEFT JOIN nhom n ON n.id_hssk = h.id_hssk
+          LEFT JOIN nhan_vien nv ON nv.cccd = h.cccd 
+          WHERE h.id_hssk = id_hssk;
+
+      END $$
+      ```
+
+
+
+
+
+- Procedure to create a treatment history for a health record (create_lich_su_dieu_tri):
+  - Purpose: Adds a new record to the lich_su_dieu_tri table to store details about a specific treatment for a health record.
+  - Input parameters:
+    - p_ID_ho_so_suc_khoe (INT): Health record ID.
+    - p_trieu_chung (TEXT): Recorded symptoms during treatment.
+    - p_chan_doan (TEXT): Diagnosis from the veterinarian.
+    - p_ket_qua (TEXT): Treatment results.
+    - p_loai_thuoc (TEXT): Type of medication used in treatment.
+    - p_ghi_chu (TEXT): Additional treatment notes.
+  - Main Functionality:
+    - Validates the id_hssk. If not found, the procedure will return an error message: "Health record ID does not exist."
+    - Executes an INSERT statement to add a new record into the lich_su_dieu_tri table with the input parameters.
+  - Code: 
+    ``` sql
+    CREATE PROCEDURE create_lich_su_dieu_tri (
+        IN p_ID_ho_so_suc_khoe INT,
+        IN p_trieu_chung TEXT,
+        IN p_chan_doan TEXT,
+        IN p_ket_qua TEXT,
+        IN p_loai_thuoc TEXT,
+        IN p_ghi_chu TEXT
+    )
+    BEGIN
+        -- Kiểm tra xem ID hồ sơ sức khỏe có tồn tại không
+        IF NOT EXISTS (SELECT 1 FROM ho_so_suc_khoe WHERE id_hssk = p_ID_ho_so_suc_khoe) THEN
+            SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'ID hồ sơ sức khỏe không tồn tại';
+        ELSE
+            -- Thêm mới lịch sử điều trị
+            INSERT INTO lich_su_dieu_tri (
+                id_hssk,
+                trieu_chung,
+                chuan_doan,
+                ket_qua,
+                loai_thuoc,
+                ghi_chu
+            ) VALUES (
+                p_ID_ho_so_suc_khoe,
+                p_trieu_chung,
+                p_chan_doan,
+                p_ket_qua,
+                p_loai_thuoc,
+                p_ghi_chu
+            );
+        END IF;
+    END $$
+    ```
+
+- Procedure to create a vaccination history for a health record (create_lich_su_tiem_chung):
+  - Purpose: Adds a new record to the lich_su_tiem_chung table to store vaccination details related to a health record while validating id_hssk.
+  - Input parameters:
+    - p_ID_ho_so_suc_khoe (INT): Health record ID.
+    - p_ngay_tiem (DATE): Vaccination date.
+    - p_phuong_phap_tiem (TEXT): Vaccination method.
+    - p_loai_vaccine (TEXT): Type of vaccine used.
+    - p_lieu_luong (INT): Vaccine dosage (unit depending on regulation).
+    - p_phan_ung_sau_tiem (TEXT): Post-vaccination reactions (if any).
+  - Main Functionality:
+    - Validates the id_hssk. If not found, the procedure will return an error message: "Health record ID does not exist."
+    - Adds a new record into the lich_su_tiem_chung table with the input parameters.
+  - Code: 
+    ```sql
+    CREATE PROCEDURE create_lich_su_tiem_chung (
+        IN p_ID_ho_so_suc_khoe INT,
+        IN p_ngay_tiem DATE,
+        IN p_phuong_phap_tiem TEXT,
+        IN p_loai_vaccine TEXT,
+        IN p_lieu_luong INT,
+        IN p_phan_ung_sau_tiem TEXT
+    )
+    BEGIN
+        -- Kiểm tra xem ID hồ sơ sức khỏe có tồn tại không
+        IF NOT EXISTS (SELECT 1 FROM ho_so_suc_khoe WHERE id_hssk = p_ID_ho_so_suc_khoe) THEN
+            SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'ID hồ sơ sức khỏe không tồn tại';
+        ELSE
+            -- Nếu tồn tại, thực hiện thêm mới lịch sử tiêm chủng
+            INSERT INTO lich_su_tiem_chung (
+                id_hssk,
+                ngay_tiem_chung,
+                phuong_phap_tiem,
+                loai_vaccine,
+                lieu_luong,
+                phan_ung_sau_tiem
+            ) VALUES (
+                p_ID_ho_so_suc_khoe,
+                p_ngay_tiem,
+                p_phuong_phap_tiem,
+                p_loai_vaccine,
+                p_lieu_luong,
+                p_phan_ung_sau_tiem
+            );
+        END IF;
+    END $$
+    ```
+
+
+    
+### **Procedures for Animal Export Records**
+- Procedure to retrieve all information from the animal export record table (get_all_phieu_xuat_dong_vat):
+  - This procedure performs a query to return a list of animal export records with the following details:
+    - px.id_px: Export record ID.
+    - px.ten_khoa_hoc: Scientific name of the animal related to the export record.
+    - px.ngay_xuat: Date of animal export.
+    - px.so_luong: Quantity of animals exported.
+    - px.ly_do_xuat: Reason for animal export.
+    - px.id_dt: Recipient object ID.
+    - nvv.cccd: CCCD of the staff handling the export record (if available).
+    - Type of Animal: `1`: If the animal belongs to a group (checked in the nhom table). `0`: If the animal is an individual (checked in the ct table). `None`: If the animal doesn't belong to a group or an individual.
+  - Code: 
+    ``` sql
+    CREATE PROCEDURE get_all_phieu_xuat_dong_vat()
+    BEGIN
+        -- Kiểm tra nếu bảng phieu_xuat_dong_vat không có dữ liệu
+      IF (SELECT COUNT(*) FROM phieu_xuat_dong_vat) = 0 THEN
+            SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Không có phiếu xuất động vật nào';
+        END IF;
+
+        -- Kiểm tra nếu bảng ldv không có loài động vật
+        IF (SELECT COUNT(*) FROM ldv) = 0 THEN
+            SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Không có loài động vật nào trong hệ thống';
+        END IF;
+
+        -- Kiểm tra nếu bảng nv_van_phong không có nhân viên văn phòng
+        IF (SELECT COUNT(*) FROM nv_van_phong) = 0 THEN
+            SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Không có nhân viên văn phòng nào';
+        END IF;
+
+        -- Lấy tất cả thông tin từ phieu_xuat_dong_vat
+        SELECT
+            px.id_px,
+            px.ten_khoa_hoc,
+            px.ngay_xuat,
+            px.so_luong,
+            px.ly_do_xuat,
+            px.id_dt,
+            nvv.cccd,  -- Sử dụng cccd từ bảng nv_van_phong
+            -- Xác định loại dựa trên sự tồn tại trong bảng nhóm hoặc cá thể
+            CASE
+                WHEN EXISTS (SELECT 1 FROM nhom WHERE nhom.ten_khoa_hoc = px.ten_khoa_hoc) THEN 1
+                WHEN EXISTS (SELECT 1 FROM ct WHERE ct.ten_khoa_hoc = px.ten_khoa_hoc) THEN 0
+                ELSE 'None'
+            END AS loai
+        FROM phieu_xuat_dong_vat px
+      LEFT JOIN ldv ON px.ten_khoa_hoc = ldv.ten_khoa_hoc
+        LEFT JOIN nv_van_phong nvv ON px.cccd = nvv.cccd
+        LEFT JOIN nhan_vien nv ON nvv.cccd = nv.cccd;
+    END $$
+    ```
+
+
+
+- Procedure to retrieve detailed information of a specific animal export record (get_phieu_xuat_dong_vat_chi_tiet):
+  - Purpose: This procedure retrieves detailed information of a specific animal export record, including the staff that created the record, associated partners, and the animals involved in the export.
+  - Steps:
+    - Checks the existence of the export record:
+      - Queries the `phieu_xuat_dong_vat` table to verify if the export record ID (`id_px`) exists.
+      - If not found, an error will be raised: "Animal export record does not exist."
+    - Retrieves detailed information:
+      - Retrieves staff information from the nhan_vien table, including full name, address, and CCCD.
+      - Retrieves partner information from the doi_tac table, including partner ID (id_dt) and partner name.
+      - Retrieves animal species information from the ldv table, including scientific name (`ten_khoa_hoc`), species name (`ten_loai`), rarity (`do_quy_hiem`), food type (`loai_thuc_an`), and habitat (`loai_moi_truong_song`).
+    - Classifies the animal species based on their existence in the nhom and ct tables:
+      - Value 1: If the species is part of a group.
+      - Value 0: If the species is an individual.
+      - Value 'None': If the species doesn't belong to a group or individual.
+  - Returned Information:
+    - Staff: Full name, address, CCCD.
+    - Partner: Partner ID (id_dt) and partner name (ten_doi_tac).
+    - Animal Species: Scientific name, species name, rarity, food type, habitat.
+    - Animal Type: `1:` If it's a group animal. `0`: If it's an individual animal. `None`: If it doesn't belong to a group or individual.
+  - Code: 
+    ``` sql
+    CREATE PROCEDURE get_phieu_xuat_dong_vat_chi_tiet(
+        IN p_id_px INT
+    )
+    BEGIN
+        -- Kiểm tra xem id_px có tồn tại trong bảng phieu_xuat_dong_vat hay không
+        DECLARE v_count INT;
+        
+        SELECT COUNT(*) INTO v_count
+        FROM phieu_xuat_dong_vat
+        WHERE id_px = p_id_px;
+
+        IF v_count = 0 THEN
+            SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'Phieu xuat dong vat khong ton tai';
+        ELSE
+            -- Lấy thông tin chi tiết phiếu xuất động vật
+            SELECT 
+                CONCAT(nv.ho, ' ', nv.ten) AS ten_nguoi_tao,  -- Kết hợp họ và tên
+                nv.dia_chi AS address,
+                nv.cccd,
+                px.id_dt,
+                dt.ten_doi_tac,
+                ld.ten_khoa_hoc,
+                ld.ten_loai,
+                ld.do_quy_hiem,
+                ld.loai_thuc_an,
+                ld.loai_moi_truong_song,
+                CASE
+            WHEN EXISTS (SELECT 1 FROM nhom WHERE nhom.ten_khoa_hoc = px.ten_khoa_hoc) THEN 1
+            WHEN EXISTS (SELECT 1 FROM ct WHERE ct.ten_khoa_hoc = px.ten_khoa_hoc) THEN 0
+            ELSE 'None'
+          END AS loai
+            FROM phieu_xuat_dong_vat px
+            JOIN nhan_vien nv ON px.cccd = nv.cccd
+            JOIN ldv ld ON px.ten_khoa_hoc = ld.ten_khoa_hoc
+            JOIN doi_tac dt ON px.id_dt = dt.id_dt
+            WHERE px.id_px = p_id_px;
+        END IF;
+    END $$
+    ```
+
+
+
+
+- Procedure to create a new animal export record in the database (tao_phieu_xuat_dong_vat):
+  – This procedure performs the following steps:
+    - Validate input parameters: Verify that ten_khoa_hoc exists in the ldv table. If not, raise an error with the message: **"Scientific name does not exist in the ldv table."**
+    - Verify that id_doi_tac exists in the doi_tac table. If not, raise an error with the message:  **"Partner ID does not exist in the doi_tac table."**
+    - Verify that cccd exists in the nv_van_phong table. If not, raise an error with the message: **"CCCD does not exist in the nv_van_phong table."**
+  - Check logical validity of the input parameters:
+    - If ten_khoa_hoc is empty or NULL, raise an error with the message: **"Scientific name of the animal species must not be empty."**
+    - If so_luong is less than or equal to 0, or if ngay_xuat, ly_do_xuat are empty or NULL, raise an error with the message: **"Invalid parameters or missing information."**
+  - If all conditions are met, insert a new animal export record into the phieu_xuat_dong_vat table with the following information: Export date (ngay_xuat), Quantity (so_luong) ,Reason for export (ly_do_xuat), Partner ID (id_doi_tac), Scientific name (ten_khoa_hoc), Staff’s CCCD (cccd)
+  - Return a confirmation message: **"Animal export record created successfully!"**
+  - Code:
+    ``` sql
+    CREATE PROCEDURE get_phieu_xuat_dong_vat_chi_tiet(
+        IN p_id_px INT
+    )
+    BEGIN
+        -- Kiểm tra xem id_px có tồn tại trong bảng phieu_xuat_dong_vat hay không
+        DECLARE v_count INT;
+        
+        SELECT COUNT(*) INTO v_count
+        FROM phieu_xuat_dong_vat
+        WHERE id_px = p_id_px;
+
+        IF v_count = 0 THEN
+            SIGNAL SQLSTATE '45000'
+            SET MESSAGE_TEXT = 'Phieu xuat dong vat khong ton tai';
+        ELSE
+            -- Lấy thông tin chi tiết phiếu xuất động vật
+            SELECT 
+                CONCAT(nv.ho, ' ', nv.ten) AS ten_nguoi_tao,  -- Kết hợp họ và tên
+                nv.dia_chi AS address,
+                nv.cccd,
+                px.id_dt,
+                dt.ten_doi_tac,
+                ld.ten_khoa_hoc,
+                ld.ten_loai,
+                ld.do_quy_hiem,
+                ld.loai_thuc_an,
+                ld.loai_moi_truong_song,
+                CASE
+            WHEN EXISTS (SELECT 1 FROM nhom WHERE nhom.ten_khoa_hoc = px.ten_khoa_hoc) THEN 1
+            WHEN EXISTS (SELECT 1 FROM ct WHERE ct.ten_khoa_hoc = px.ten_khoa_hoc) THEN 0
+            ELSE 'None'
+          END AS loai
+            FROM phieu_xuat_dong_vat px
+            JOIN nhan_vien nv ON px.cccd = nv.cccd
+            JOIN ldv ld ON px.ten_khoa_hoc = ld.ten_khoa_hoc
+            JOIN doi_tac dt ON px.id_dt = dt.id_dt
+            WHERE px.id_px = p_id_px;
+        END IF;
+    END $$
+    ```
+
+ 
+- Retrieving Information from the Animal Group Table (get_nhom_info())
+  – This procedure is designed to retrieve a list of scientific names of all animal groups from the nhom table.
+  – The returned data is a list of unique scientific names, helping avoid duplicated information in the results.
+
+  ``` sql
+  CREATE PROCEDURE tao_phieu_xuat_dong_vat(
+    IN ten_khoa_hoc VARCHAR(100),
+    IN so_luong INT,
+    IN ngay_xuat DATE,
+    IN ly_do_xuat VARCHAR(255),
+    IN id_doi_tac INT,
+    IN cccd VARCHAR(12)
+  )
+  BEGIN
+    -- Kiểm tra điều kiện ten_khoa_hoc có tồn tại trong bảng ldv
+    IF NOT EXISTS (SELECT 1 FROM ldv WHERE ten_khoa_hoc = ten_khoa_hoc) THEN
+      SIGNAL SQLSTATE '45000'
+      SET MESSAGE_TEXT = 'Tên khoa học không tồn tại trong bảng ldv';
+    END IF;
+
+    -- Kiểm tra điều kiện id_doi_tac có tồn tại trong bảng doi_tac
+    IF NOT EXISTS (SELECT 1 FROM doi_tac WHERE id_dt = id_doi_tac) THEN
+      SIGNAL SQLSTATE '45000'
+      SET MESSAGE_TEXT = 'ID đối tác không tồn tại trong bảng doi_tac';
+    END IF;
+
+    -- Kiểm tra điều kiện cccd có tồn tại trong bảng nv_van_phong
+    IF NOT EXISTS (SELECT 1 FROM nv_van_phong WHERE cccd = cccd) THEN
+      SIGNAL SQLSTATE '45000'
+      SET MESSAGE_TEXT = 'CCCD không tồn tại trong bảng nv_van_phong';
+    END IF;
+
+    -- Kiểm tra các tham số đầu vào
+    IF ten_khoa_hoc IS NULL OR ten_khoa_hoc = '' THEN
+      SIGNAL SQLSTATE '45000'
+      SET MESSAGE_TEXT = 'Tên khoa học loài động vật không được để trống';
+    END IF;
+
+    IF so_luong <= 0 OR ngay_xuat IS NULL OR ly_do_xuat IS NULL OR ly_do_xuat = '' THEN
+      SIGNAL SQLSTATE '45000'
+      SET MESSAGE_TEXT = 'Các tham số không hợp lệ hoặc thiếu thông tin';
+    END IF;
+
+    -- Tiến hành thêm phiếu xuất động vật
+    INSERT INTO phieu_xuat_dong_vat (ngay_xuat, so_luong, ly_do_xuat, id_dt, ten_khoa_hoc, cccd)
+    VALUES (ngay_xuat, so_luong, ly_do_xuat, id_doi_tac, ten_khoa_hoc, cccd);
+
+    -- Trả về thông báo thành công
+    SELECT 'Phiếu xuất động vật đã được tạo thành công!' AS message;
+  END$$
+  ```
+
+
+- Retrieving Information from the Individual Animal Table (get_ct_info())
+  – This procedure is designed to retrieve a list of scientific names of all individual animals in the ct table.
+  – The returned data is a list of unique scientific names, helping eliminate duplicate values in the results.
+
+  ``` sql
+  CREATE PROCEDURE get_ct_info()
+  BEGIN
+      SELECT DISTINCT ten_khoa_hoc
+      FROM ct;
+  END $$
+  ```
+
+- Retrieving Partner Information (get_ten_doi_tac_info())
+  – This procedure is designed to retrieve a list of all partner information from the doi_tac table.
+  – The returned data includes: ten_doi_tac: Name of the partner. id_dt: Unique ID of the partner.
+  – This result can be used for reference or displaying partner information in the system.
+
+  ``` sql
+  CREATE PROCEDURE get_ten_doi_tac_info()
+  BEGIN
+      SELECT ten_doi_tac,id_dt
+      FROM doi_tac;
+  END $$
+  ```
+
+
+- Retrieving Office Staff CCCD Information (get_cccd_by_vanphong)
+  – This procedure is designed to verify and retrieve CCCD information of office staff from the nv_van_phong table using the provided input CCCD.
+  – Input parameter: input_cccd: The CCCD value to check and search for in the system.
+  – Execution logic: Search for cccd in the nv_van_phong table and store the result in the variable cccd_found. If not found, raise an error with the message: **"CCCD does not exist in the system."**
+  - If found, return the found cccd.
+
+  – Returned result: cccd: The CCCD found in the system.
+
+  – Usage: This procedure is used to verify the validity of cccd before performing any further operations related to office staff.
+
+  ``` sql
+  CREATE PROCEDURE get_cccd_by_vanphong(IN input_cccd VARCHAR(12))
+  BEGIN
+    DECLARE cccd_found VARCHAR(12);
+
+    -- Kiểm tra và lưu kết quả tìm thấy cccd
+    SELECT cccd INTO cccd_found
+    FROM nv_van_phong
+    WHERE cccd = input_cccd;
+
+    -- Nếu không tìm thấy, trả về thông báo lỗi hoặc giá trị NULL
+    IF cccd_found IS NULL THEN
+      SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'CCCD không tồn tại trong hệ thống';
+    ELSE
+      SELECT cccd_found AS cccd;
+    END IF;
+  END$$
+  ```
+
+- Check the list of individual animal IDs (CheckIdCtList)
+  – This procedure is designed to verify each individual animal ID (id_ct) in a list and determine whether it belongs to the specified animal species.
+  – Input parameters: p_id_ct_list: A string containing a list of id_ct, separated by commas. p_ten_khoa_hoc: The scientific name of the animal species to check against.
+  – Output parameter: p_result: The verification result for each id_ct in the list, returned as a text string.
+  – Execution logic:
+    - Determine the total number of id_ct in the list based on the number of commas.
+    - Iterate through each id_ct in the list and check if it exists in the ct table and belongs to the specified ten_khoa_hoc.
+    - Record the result for each id_ct ("Exists" or "Does not exist") in the result string.
+    - Return the result string via the p_result parameter.
+  – Return result: A result string containing the verification for each id_ct in the list, formatted as follows: id_ct: Exists if the ID belongs to the specified animal species. id_ct: Does not exist if the ID does not belong to the specified animal species.
+  – Use case: This procedure supports verification of animal individual lists to ensure data accuracy in management or export operations.
+
+  ``` sql
+  CREATE PROCEDURE CheckIdCtList(
+      IN p_id_ct_list VARCHAR(255), -- Danh sách ID ct (dạng chuỗi, cách nhau bởi dấu phẩy)
+      IN p_ten_khoa_hoc VARCHAR(100), -- Tên loài động vật
+      OUT p_result TEXT -- Kết quả trả về
+  )
+  BEGIN
+      DECLARE id_ct VARCHAR(50); -- Biến tạm để giữ từng ID ct
+      DECLARE idx INT DEFAULT 1; -- Vị trí phần tử trong chuỗi
+      DECLARE id_count INT DEFAULT 0; -- Số lượng ID ct hợp lệ
+      DECLARE total_count INT DEFAULT 0; -- Tổng số lượng ID ct trong danh sách
+      DECLARE result_text TEXT DEFAULT ''; -- Kết quả kiểm tra từng ID
+
+      -- Tính tổng số lượng ID ct trong danh sách
+      SET total_count = LENGTH(p_id_ct_list) - LENGTH(REPLACE(p_id_ct_list, ',', '')) + 1;
+
+      -- Tách danh sách ID ct và kiểm tra từng ID
+      WHILE idx <= total_count DO
+          -- Lấy ID ct hiện tại từ danh sách, tách theo dấu phẩy
+          SET id_ct = TRIM(SUBSTRING_INDEX(SUBSTRING_INDEX(p_id_ct_list, ',', idx), ',', -1));
+          
+          -- Kiểm tra ID ct có thuộc loài động vật không
+          SET id_count = (
+              SELECT COUNT(*)
+              FROM ct
+              WHERE ct.id_ct = id_ct AND ct.ten_khoa_hoc = p_ten_khoa_hoc
+          );
+
+          -- Thêm kết quả kiểm tra vào chuỗi kết quả
+          IF id_count > 0 THEN
+              SET result_text = CONCAT(result_text, id_ct, ': Tồn tại\n');
+          ELSE
+              SET result_text = CONCAT(result_text, id_ct, ': Không tồn tại\n');
+          END IF;
+
+          -- Tăng vị trí
+          SET idx = idx + 1;
+      END WHILE;
+
+      -- Gán chuỗi kết quả vào biến OUT
+      SET p_result = result_text;
+  END 
+  ```
+
+
+- Get the number of animal species (GetSoLuongLdv)
+  – This procedure is designed to retrieve the quantity (so_luong) of an animal species from the ldv table based on the provided ten_khoa_hoc.
+  – Input parameter: ten_khoa_hoc_input: The scientific name of the animal species to query.
+  – Output parameter: so_luongldv: The quantity of the animal species corresponding to the provided scientific name.
+  – Execution logic:
+    - The procedure queries the ldv table to get the so_luong value corresponding to the ten_khoa_hoc.
+    - If no results are found, the returned value of so_luongldv is set to 0.
+  – Return result:
+    - The quantity of the animal species (so_luongldv) corresponding to ten_khoa_hoc_input
+    - If the species is not found, the return value is 0.
+  – Use case: This procedure supports lookup operations for animal species quantity, serving management or statistical activities.
+
+  ``` sql
+  CREATE PROCEDURE GetSoLuongLdv(IN ten_khoa_hoc_input VARCHAR(100), OUT so_luong INT)
+  BEGIN
+      -- Lấy số lượng từ bảng ldv dựa trên ten_khoa_hoc
+      SELECT so_luong 
+      INTO so_luong 
+      FROM ldv 
+      WHERE ten_khoa_hoc = ten_khoa_hoc_input;
+      
+      -- Nếu không tìm thấy, trả về 0 hoặc giá trị mặc định
+      IF so_luong IS NULL THEN
+          SET so_luong = 0;
+      END IF;
+  END$$
+  ```
 
 ## 📌**Source Code Structure** 
 ### **Backend**
