@@ -245,6 +245,71 @@ Each animal species must have:
 <p align="center"><img src="assets/mapping.png" alt="mapping" width="600"></p>
 
 ## 📌**Database Schema Design in MySQL** 
+
+- Data Insertion
+  - Animal Species
+<p align="center"><img src="assets/table1.png" alt="table1" width="600"></p>
+  - Predation
+<p align="center"><img src="assets/table2.png" alt="table2" width="600"></p>
+  - Enclosure
+<p align="center"><img src="assets/table3.png" alt="table3" width="600"></p>
+  - Staff
+<p align="center"><img src="assets/table4.png" alt="table4" width="600"></p>
+  - Staff Phone Numbers
+<p align="center"><img src="assets/table5.png" alt="table5" width="600"></p>
+  - Office Staff
+<p align="center"><img src="assets/table6.png" alt="table6" width="600"></p>
+  - Veterinarians
+<p align="center"><img src="assets/table7.png" alt="table7" width="600"></p>
+  - Caretakers
+<p align="center"><img src="assets/table8.png" alt="table8" width="600"></p>
+  - Health Records
+<p align="center"><img src="assets/table9.png" alt="table9" width="600"></p>
+  - Vaccination History
+<p align="center"><img src="assets/table10.png" alt="table10" width="600"></p>
+  - Treatment History
+<p align="center"><img src="assets/table11.png" alt="table11" width="600"></p>
+  - Nutrition Plan
+<p align="center"><img src="assets/table12.png" alt="table12" width="600"></p>
+  - Restricted Foods
+<p align="center"><img src="assets/table13.png" alt="table13" width="600"></p>
+  - Meal
+<p align="center"><img src="assets/table14.png" alt="table14" width="600"></p>
+  - Feeding Process
+<p align="center"><img src="assets/table15.png" alt="table15" width="600"></p>
+  - Food Items
+<p align="center"><img src="assets/table16.png" alt="table16" width="600"></p>
+  - Partners
+<p align="center"><img src="assets/table17.png" alt="table17" width="600"></p>
+  - Partner Contact Details
+<p align="center"><img src="assets/table18.png" alt="table18" width="600"></p>
+  - Research Institute Partners
+<p align="center"><img src="assets/table19.png" alt="table19" width="600"></p>
+  - Zoo Partners
+<p align="center"><img src="assets/table20.png" alt="table20" width="600"></p>
+  - Zoo Conservation Programs
+<p align="center"><img src="assets/table21.png" alt="table21" width="600"></p>
+  - Food Supplier Partners
+<p align="center"><img src="assets/table22.png" alt="table22" width="600"></p>
+  - Food Safety Certifications
+<p align="center"><img src="assets/table23.png" alt="table23" width="600"></p>
+  - Import Forms
+<p align="center"><img src="assets/table24.png" alt="table24" width="600"></p>
+  - Food Import Forms
+<p align="center"><img src="assets/table25.png" alt="table25" width="600"></p>
+  - Animal Import Forms
+<p align="center"><img src="assets/table26.png" alt="table26" width="600"></p>
+  - Individual Animals
+<p align="center"><img src="assets/table27.png" alt="table27" width="600"></p>
+  - Animal Groups
+<p align="center"><img src="assets/table28.png" alt="table28" width="600"></p>
+  - Rented Individuals
+<p align="center"><img src="assets/table29.png" alt="table29" width="600"></p>
+  - Animal Export Forms
+<p align="center"><img src="assets/table30.png" alt="table30" width="600"></p>
+  - Specimens
+<p align="center"><img src="assets/table31.png" alt="table31" width="600"></p>
+
 ## 📌**Procedure, Trigger, and Function** 
 ## 📌**Source Code Structure** 
 ## 📌**Implementation**
