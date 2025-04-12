@@ -218,6 +218,23 @@ Each animal species must have:
     - Has multiple `individuals`
     - May be involved in `multiple import/export forms`
 ## 📌**Semantic Constraints** 
+- The total `"quantity"` of all groups and individual animals with the status `"alive"` of a particular species must equal the `"quantity"` of that animal species.
+- An animal species will by `default participate` in the "division" relationship if the user has not decided to assign it to either of the two relationships.
+- If an individual `has a "has" relationship` with a specimen, it cannot be deleted unless the specimen is deleted first.
+- The attribute `"habitat type"` of an animal species must be one of the three values: terrestrial, aquatic, or both.
+- The attribute `"food type"` must be one of the three values: carnivore, herbivore, or omnivore.
+- The `quantity of an animal species` must not be negative.
+- The `current number of animals` in an enclosure must be `less than or equal` to its `maximum capacity`.
+- When an `animal import` form is created, the `quantity of the animal species` must be `increased` by the quantity in the import form.
+- When an `animal export` form is created, the `quantity of the animal species` must be `decreased` by the quantity in the export form.
+- The `habitat type of the enclosure` must `match the habitat type` of the animal species housed in it.
+- The `group quantity must not be negative`.
+- The `current quantity` of animals in an enclosure must not be negative.
+- Animal species that are `prey` of other species (in the recursive `"eats" relationship`) **cannot be housed in the same enclosure** as their predator species.
+- The `"gender"` attribute of an individual must be one of three values: `"hermaphrodite", "male", or "female".`
+- The `"status"` attribute of an individual must be one of five values: `"dead", "for rent", "sold", "alive", or "rented".`
+- The `activity status` of an enclosure must be one of two values: `"in use"` or `"under maintenance".`
+
 ## 📌**Enhanced Entity-Relationship Diagram EERD and Mapping**
 ## 📌**Database Schema Design in MySQL** 
 ## 📌**Procedure, Trigger, and Function** 
