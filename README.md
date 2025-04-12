@@ -7,7 +7,7 @@
 - [Source code](#source-code)
 - [Data Requirements Description for the Zoo Management System](#data-requirements-description-for-the-zoo-management-system)
 - [Semantic Constraints](#semantic-constraints)
-- [Enhanced Entity-Relationship Diagram and Mapping](#enhanced-entity---relationship-diagram-eerd-and-mapping)
+- [Enhanced Entity Relationship Diagram EERD and Mapping](#enhanced-entity-relationship-diagram-eerd-and-mapping)
 - [Database Schema Design in MySQL](#database-schema-design-in-mysql)
 - [Source Code Structure](#source-code-structure)
 - [Implementation](#implementation)
@@ -235,7 +235,7 @@ Each animal species must have:
 - The `"status"` attribute of an individual must be one of five values: `"dead", "for rent", "sold", "alive", or "rented".`
 - The `activity status` of an enclosure must be one of two values: `"in use"` or `"under maintenance".`
 
-## 📌**Enhanced Entity-Relationship Diagram EERD and Mapping**
+## 📌**Enhanced Entity Relationship Diagram EERD and Mapping**
 ### **EERD Diagram**
 
 <p align="center"><img src="assets/eerd.png" alt="eerd" width="600"></p>
