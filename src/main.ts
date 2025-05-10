@@ -15,7 +15,7 @@ async function bootstrap() {
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
   });
-
+  console.log(process.env.FRONTEND_URL)
   // ✅ Swagger config
   const config = new DocumentBuilder()
     .setTitle('Animal Health Export App')
